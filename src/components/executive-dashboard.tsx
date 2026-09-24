@@ -289,7 +289,7 @@ export function ExecutiveDashboard() {
           <h1>EXECUTIVE DELIVERY VALUE DASHBOARD</h1>
           <p>Turning Team Delivery Metrics into Measurable Executive Insights</p>
         </div>
-        <label className="executive-period"><span className="calendar-symbol">▣</span><span><strong>DATE RANGE</strong><small>{currentPeriod.range}</small></span><select value={selectedPeriod} onChange={(event) => setSelectedPeriod(event.target.value as PeriodKey)} aria-label="Select dashboard date range"><option value="12">12 months</option><option value="6">6 months</option><option value="3">3 months</option></select></label>
+        <div className="executive-period"><span className="calendar-symbol">▣</span><span><strong>COMPARE PERIODS</strong><small>{currentPeriod.range} vs {currentPeriod.baselineRange}</small></span><div className="period-options" role="group" aria-label="Select comparison period">{(["12", "6", "3"] as PeriodKey[]).map((period) => <button key={period} type="button" className={selectedPeriod === period ? "active" : ""} onClick={() => setSelectedPeriod(period)} aria-pressed={selectedPeriod === period}>{periodSnapshots[period].periodName}</button>)}</div></div>
         <div className="key-takeaway"><span>★</span><span><strong>KEY TAKEAWAY</strong><small>Significant improvement across all key delivery<br />metrics driving measurable business value.</small></span></div>
       </header>
 
