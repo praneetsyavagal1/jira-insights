@@ -1,3 +1,7 @@
+"use client";
+
+import { useState } from "react";
+
 const topMetrics = [
   {
     label: "Total Estimated Value",
@@ -150,6 +154,62 @@ const valueDrivers = [
   ["Quality Cost Avoidance", "Critical defect value protected", "$4M", "purple"],
 ] as const;
 
+const periodSnapshots = {
+  "12": {
+    label: "12-MONTH PERIOD",
+    periodName: "12 Months",
+    range: "May 2024 – Apr 2025",
+    baselineRange: "May 2023 – Apr 2024",
+    total: "$16.31M",
+    driverValues: ["$6.8M", "$4.2M", "$1.3M", "$10K", "$4M"],
+    top: { "Total Estimated Value": "$16.31M", "Revenue Impact": "$6.8M", "Capacity Recovered": "$4.2M", "Productivity Recovered": "$1.3M", "Cost Avoidance": "$4M", "Unplanned Work Reduction": "$10K" },
+    flow: {
+      "Flow Velocity": { baseline: "95", after: "145", change: "+53%", direction: "up", points: "0,18 18,12 36,19 54,9 72,13 90,2 108,7 126,-3 144,2 162,-7 180,-2 198,-14" },
+      "Flow Time": { baseline: "240", after: "95", change: "-60%", direction: "down", points: "0,2 18,6 36,10 54,16 72,18 90,25 108,28 126,35 144,38 162,46 180,51 198,57" },
+      "Flow Efficiency": { baseline: "24%", after: "46%", change: "+92%", direction: "up", points: "0,29 18,23 36,20 54,19 72,13 90,17 108,10 126,12 144,5 162,2 180,-6 198,-13" },
+      "Blocked Time": { baseline: "15", after: "3", change: "-80%", direction: "down", points: "0,1 18,10 36,16 54,21 72,27 90,34 108,35 126,42 144,44 162,49 180,51 198,58" },
+      "Defects & Rework": { baseline: "7", after: "3", change: "-57%", direction: "down", points: "0,3 18,11 36,12 54,17 72,22 90,28 108,32 126,39 144,45 162,47 180,51 198,57" },
+      "Flow Predictability": { baseline: "5.8/10", after: "9.1/10", change: "+57%", direction: "up", points: "0,28 18,26 36,23 54,21 72,17 90,20 108,13 126,14 144,6 162,9 180,2 198,-5" },
+    },
+  },
+  "6": {
+    label: "6-MONTH PERIOD",
+    periodName: "6 Months",
+    range: "Nov 2024 – Apr 2025",
+    baselineRange: "May 2024 – Oct 2024",
+    total: "$8.31M",
+    driverValues: ["$3.4M", "$2.2M", "$0.7M", "$10K", "$2M"],
+    top: { "Total Estimated Value": "$8.31M", "Revenue Impact": "$3.4M", "Capacity Recovered": "$2.2M", "Productivity Recovered": "$0.7M", "Cost Avoidance": "$2M", "Unplanned Work Reduction": "$10K" },
+    flow: {
+      "Flow Velocity": { baseline: "82", after: "121", change: "+48%", direction: "up", points: "0,23 18,18 36,20 54,12 72,15 90,8 108,11 126,3 144,6 162,-1 180,2 198,-9" },
+      "Flow Time": { baseline: "198", after: "108", change: "-45%", direction: "down", points: "0,6 18,9 36,15 54,18 72,23 90,27 108,31 126,36 144,40 162,44 180,49 198,54" },
+      "Flow Efficiency": { baseline: "29%", after: "41%", change: "+41%", direction: "up", points: "0,29 18,25 36,22 54,23 72,17 90,20 108,14 126,16 144,10 162,8 180,2 198,-3" },
+      "Blocked Time": { baseline: "11", after: "4", change: "-64%", direction: "down", points: "0,4 18,12 36,17 54,23 72,27 90,32 108,37 126,41 144,45 162,48 180,51 198,55" },
+      "Defects & Rework": { baseline: "6", after: "3", change: "-50%", direction: "down", points: "0,5 18,11 36,15 54,20 72,25 90,29 108,34 126,38 144,43 162,46 180,50 198,55" },
+      "Flow Predictability": { baseline: "6.4/10", after: "8.7/10", change: "+36%", direction: "up", points: "0,27 18,25 36,23 54,20 72,22 90,16 108,15 126,11 144,8 162,10 180,3 198,-1" },
+    },
+  },
+  "3": {
+    label: "3-MONTH PERIOD",
+    periodName: "3 Months",
+    range: "Feb 2025 – Apr 2025",
+    baselineRange: "Nov 2024 – Jan 2025",
+    total: "$4.85M",
+    driverValues: ["$1.8M", "$1M", "$0.3M", "$10K", "$1.74M"],
+    top: { "Total Estimated Value": "$4.85M", "Revenue Impact": "$1.8M", "Capacity Recovered": "$1M", "Productivity Recovered": "$0.3M", "Cost Avoidance": "$1.74M", "Unplanned Work Reduction": "$10K" },
+    flow: {
+      "Flow Velocity": { baseline: "104", after: "137", change: "+32%", direction: "up", points: "0,22 18,17 36,19 54,12 72,14 90,8 108,10 126,3 144,5 162,0 180,1 198,-7" },
+      "Flow Time": { baseline: "142", after: "88", change: "-38%", direction: "down", points: "0,8 18,12 36,16 54,20 72,23 90,29 108,31 126,37 144,41 162,45 180,49 198,53" },
+      "Flow Efficiency": { baseline: "34%", after: "48%", change: "+41%", direction: "up", points: "0,27 18,24 36,22 54,20 72,16 90,18 108,12 126,13 144,8 162,5 180,1 198,-5" },
+      "Blocked Time": { baseline: "8", after: "3", change: "-63%", direction: "down", points: "0,5 18,12 36,19 54,23 72,29 90,34 108,38 126,42 144,46 162,49 180,52 198,56" },
+      "Defects & Rework": { baseline: "5", after: "2", change: "-60%", direction: "down", points: "0,7 18,12 36,17 54,22 72,26 90,30 108,35 126,39 144,43 162,47 180,51 198,55" },
+      "Flow Predictability": { baseline: "7.2/10", after: "9.2/10", change: "+28%", direction: "up", points: "0,24 18,22 36,20 54,17 72,19 90,13 108,12 126,8 144,6 162,8 180,2 198,-4" },
+    },
+  },
+} as const;
+
+type PeriodKey = keyof typeof periodSnapshots;
+
 function MetricIcon({ kind }: { kind: string }) {
   const common = { width: 29, height: 29, viewBox: "0 0 32 32", fill: "none" };
   if (kind === "money") return <svg {...common}><circle cx="16" cy="16" r="12" stroke="currentColor" strokeWidth="2" /><path d="M20.5 12.5c-.9-1-2.2-1.5-3.7-1.5-2.1 0-3.8 1-3.8 2.5 0 3.7 7.5 1.3 7.5 5 0 1.5-1.4 2.5-3.8 2.5-1.5 0-2.9-.6-3.8-1.7M16.5 8v16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></svg>;
@@ -168,14 +228,14 @@ function HoverDetail({ text }: { text: string }) {
   return <span className="metric-hover-detail" role="tooltip">{text}</span>;
 }
 
-function TopMetric({ metric }: { metric: (typeof topMetrics)[number] }) {
+function TopMetric({ metric, value, periodName }: { metric: (typeof topMetrics)[number]; value: string; periodName: string }) {
   return (
     <article className={`executive-top-metric ${metric.tone}`} tabIndex={0}>
       <div className="executive-icon"><MetricIcon kind={metric.icon} /></div>
       <div className="executive-top-copy">
         <span className="executive-metric-label">{metric.label}</span>
-        <strong>{metric.value}</strong>
-        <span>{metric.detail}</span>
+        <strong>{value}</strong>
+        <span>{metric.label === "Total Estimated Value" ? `Total Value Realized Over ${periodName}` : metric.detail}</span>
       </div>
       <InfoLink href={metric.href} />
       <HoverDetail text={metric.info} />
@@ -192,64 +252,68 @@ function MiniTrend({ points, tone }: { points: string; tone: string }) {
   );
 }
 
-function FlowMetricRow({ metric }: { metric: (typeof flowMetrics)[number] }) {
+function FlowMetricRow({ metric, snapshot }: { metric: (typeof flowMetrics)[number]; snapshot: { baseline: string; after: string; change: string; direction: "up" | "down"; points: string } }) {
+  const values = { ...metric, ...snapshot };
   return (
     <article className={`flow-metric-row ${metric.tone}`} tabIndex={0}>
       <div className="flow-metric-name">
         <span className="flow-metric-icon"><MetricIcon kind={metric.name === "Flow Velocity" ? "value" : metric.name === "Flow Time" ? "clock" : metric.name === "Flow Efficiency" ? "money" : metric.name === "Blocked Time" ? "shield" : metric.name === "Defects & Rework" ? "clipboard" : "team"} /></span>
         <span><strong>{metric.name}</strong><small>{metric.description}</small></span>
       </div>
-      <div className="flow-metric-number"><strong>{metric.baseline}</strong><small>{metric.baselineUnit}</small></div>
-      <div className="flow-metric-number"><strong>{metric.after}</strong><small>{metric.afterUnit}</small></div>
-      <div className="flow-metric-change"><strong>{metric.direction === "up" ? "▲" : "▼"} {metric.change}</strong></div>
-      <div className="flow-trend"><MiniTrend points={metric.points} tone={metric.tone} /></div>
+      <div className="flow-metric-number"><strong>{values.baseline}</strong><small>{metric.baselineUnit}</small></div>
+      <div className="flow-metric-number"><strong>{values.after}</strong><small>{metric.afterUnit}</small></div>
+      <div className="flow-metric-change"><strong>{values.direction === "up" ? "▲" : "▼"} {values.change}</strong></div>
+      <div className="flow-trend"><MiniTrend points={values.points} tone={metric.tone} /></div>
       <InfoLink href={metric.href} />
       <HoverDetail text={metric.info} />
     </article>
   );
 }
 
-function ValueDonut() {
+function ValueDonut({ total }: { total: string }) {
   return (
     <div className="value-donut" aria-label="Business value realized over twelve months">
-      <div className="value-donut-center"><strong>$16.31M</strong><span>TOTAL VALUE<br />REALIZED</span></div>
+      <div className="value-donut-center"><strong>{total}</strong><span>TOTAL VALUE<br />REALIZED</span></div>
     </div>
   );
 }
 
 export function ExecutiveDashboard() {
+  const [selectedPeriod, setSelectedPeriod] = useState<PeriodKey>("12");
+  const currentPeriod = periodSnapshots[selectedPeriod];
+
   return (
     <main className="executive-shell">
       <header className="executive-header">
         <div>
           <h1>EXECUTIVE DELIVERY VALUE DASHBOARD</h1>
-          <p>Turning SAFe Flow Metrics into Measurable Business Value</p>
+          <p>Turning Team Delivery Metrics into Measurable Executive Insights</p>
         </div>
-        <div className="executive-period"><span className="calendar-symbol">▣</span><span><strong>12-MONTH PERIOD</strong><small>May 2024 – Apr 2025</small></span></div>
+        <label className="executive-period"><span className="calendar-symbol">▣</span><span><strong>DATE RANGE</strong><small>{currentPeriod.range}</small></span><select value={selectedPeriod} onChange={(event) => setSelectedPeriod(event.target.value as PeriodKey)} aria-label="Select dashboard date range"><option value="12">12 months</option><option value="6">6 months</option><option value="3">3 months</option></select></label>
         <div className="key-takeaway"><span>★</span><span><strong>KEY TAKEAWAY</strong><small>Significant improvement across all key delivery<br />metrics driving measurable business value.</small></span></div>
       </header>
 
       <section className="executive-top-metrics" aria-label="Estimated business value metrics">
-        {topMetrics.map((metric) => <TopMetric key={metric.label} metric={metric} />)}
+        {topMetrics.map((metric) => <TopMetric key={metric.label} metric={metric} value={currentPeriod.top[metric.label as keyof typeof currentPeriod.top]} periodName={currentPeriod.periodName} />)}
       </section>
 
       <section className="executive-middle-grid">
         <div className="executive-panel flow-panel">
-          <h2>SAFe FLOW METRICS – 12 MONTH COMPARISON</h2>
-          <div className="flow-table-head"><span>METRIC</span><span>BASELINE<small>(May 2023 – Apr 2024)</small></span><span>AFTER 12 MONTHS<small>(May 2024 – Apr 2025)</small></span><span>CHANGE</span><span>TREND (MONTHLY)</span></div>
-          <div className="flow-table-body">{flowMetrics.map((metric) => <FlowMetricRow key={metric.name} metric={metric} />)}</div>
+          <h2>FLOW METRICS – PERIOD COMPARISON</h2>
+          <div className="flow-table-head"><span>METRIC</span><span>BASELINE<small>({currentPeriod.baselineRange})</small></span><span>SELECTED PERIOD<small>({currentPeriod.range})</small></span><span>CHANGE</span><span>TREND (MONTHLY)</span></div>
+          <div className="flow-table-body">{flowMetrics.map((metric) => <FlowMetricRow key={metric.name} metric={metric} snapshot={currentPeriod.flow[metric.name]} />)}</div>
         </div>
 
         <div className="executive-panel value-panel">
           <h2>BUSINESS VALUE REALIZED (12 MONTHS)</h2>
-          <div className="donut-and-legend"><ValueDonut /><div className="value-legend">{valueDrivers.map(([name, , value, tone]) => <div key={name}><i className={tone} /><strong>{name}</strong><b>{value}</b></div>)}</div></div>
-          <div className="driver-table"><div className="driver-table-head"><strong>VALUE BY DRIVER</strong><span>(Using Executive Value Formulas)</span><b>ESTIMATED VALUE</b></div>{valueDrivers.map(([name, description, value, tone]) => <div className="driver-row" key={name}><i className={tone}><MetricIcon kind={tone === "green" ? "money" : tone === "blue" ? "team" : tone === "teal" ? "clock" : tone === "orange" ? "clipboard" : "shield"} /></i><span><strong>{name}</strong><small>{description}</small></span><b>{value}</b></div>)}<div className="driver-total"><strong>TOTAL ESTIMATED BUSINESS VALUE</strong><b>$16.31M</b></div></div>
+          <div className="donut-and-legend"><ValueDonut total={currentPeriod.total} /><div className="value-legend">{valueDrivers.map(([name, , , tone], index) => <div key={name}><i className={tone} /><strong>{name}</strong><b>{currentPeriod.driverValues[index]}</b></div>)}</div></div>
+          <div className="driver-table"><div className="driver-table-head"><strong>VALUE BY DRIVER</strong><span>(Using Executive Value Formulas)</span><b>ESTIMATED VALUE</b></div>{valueDrivers.map(([name, description, , tone], index) => <div className="driver-row" key={name}><i className={tone}><MetricIcon kind={tone === "green" ? "money" : tone === "blue" ? "team" : tone === "teal" ? "clock" : tone === "orange" ? "clipboard" : "shield"} /></i><span><strong>{name}</strong><small>{description}</small></span><b>{currentPeriod.driverValues[index]}</b></div>)}<div className="driver-total"><strong>TOTAL ESTIMATED BUSINESS VALUE</strong><b>{currentPeriod.total}</b></div></div>
         </div>
       </section>
 
       <section className="executive-footer-panel">
-        <div><h3>KEY ASSUMPTIONS</h3><ul><li>3 ARTs, 18 Teams, ~450 Engineers</li><li>Fully loaded annual engineer cost: $150K</li><li>5 PIs per year</li></ul></div>
-        <div className="data-sources"><h3>DATA SOURCES</h3><div><span className="source-logo jira">◆</span> Jira Align / Jira <span className="source-logo azure">◀</span> Azure DevOps <span className="source-logo service">●</span> ServiceNow <span className="source-logo power">▮</span> Power BI</div></div>
+        <div><h3>KEY ASSUMPTIONS</h3><ul><li>Evaluated across multiple teams</li><li>Fully Loaded Annual Engineer Cost: $150K</li><li>Time Horizon: 4 Fiscal Quarters</li></ul></div>
+        <div className="data-sources"><h3>DATA SOURCES</h3><div><span className="source-logo jira">◆</span> Jira <span className="source-logo azure">◀</span> Azure DevOps <span className="source-logo service">●</span> ServiceNow</div></div>
         <div><h3>NOTES</h3><p>All metrics are median (unless noted). Predictability is measured on a 1–10 scale. Business value estimates are directional and based on industry benchmarks and standard assumptions.</p></div>
       </section>
     </main>
