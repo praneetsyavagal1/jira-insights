@@ -1,7 +1,7 @@
 const topMetrics = [
   {
     label: "Total Estimated Value",
-    value: "$16.3M",
+    value: "$14.21M",
     detail: "Total Value Realized Over 12 Months",
     info: "The value lift is consistent across speed, quality, and predictability: smaller batches moved through the system faster, AI-assisted delivery added capacity, and fewer interruptions left more time for planned work.",
     tone: "navy",
@@ -46,8 +46,8 @@ const topMetrics = [
   },
   {
     label: "Unplanned Work Reduction",
-    value: "$2.1M",
-    detail: "From Lower Unplanned Workload",
+    value: "$10K",
+    detail: "Late Scope Deferred",
     info: "Product Management reduced unplanned-work risk by removing DASH-21 from FixVersion 1.2.0. It arrived late on November 2, 2026, carried only $10,000 of business value, and was downgraded to Medium, while the earlier Critical DASH-20—defined for the October 1 final phase with $500,000 of value—remained the focus.",
     tone: "pink",
     icon: "clipboard",
@@ -146,7 +146,7 @@ const valueDrivers = [
   ["Earlier Revenue Realization", "Faster delivery of capabilities to market", "$6.8M", "green"],
   ["Engineering Capacity Recovered", "Additional capacity from higher velocity", "$4.2M", "blue"],
   ["Productivity Recovery", "Reduced blocked time and wait time", "$1.3M", "teal"],
-  ["Reduced Unplanned Work", "Lower percentage of unplanned work", "$2.1M", "orange"],
+  ["Unplanned Scope Deferred", "Late, low-value scope removed from release", "$10K", "orange"],
   ["Quality Cost Avoidance", "Fewer defects and rework", "$1.9M", "purple"],
 ] as const;
 
@@ -212,7 +212,7 @@ function FlowMetricRow({ metric }: { metric: (typeof flowMetrics)[number] }) {
 function ValueDonut() {
   return (
     <div className="value-donut" aria-label="Business value realized over twelve months">
-      <div className="value-donut-center"><strong>$16.3M</strong><span>TOTAL VALUE<br />REALIZED</span></div>
+      <div className="value-donut-center"><strong>$14.21M</strong><span>TOTAL VALUE<br />REALIZED</span></div>
     </div>
   );
 }
@@ -243,7 +243,7 @@ export function ExecutiveDashboard() {
         <div className="executive-panel value-panel">
           <h2>BUSINESS VALUE REALIZED (12 MONTHS)</h2>
           <div className="donut-and-legend"><ValueDonut /><div className="value-legend">{valueDrivers.map(([name, , value, tone]) => <div key={name}><i className={tone} /><strong>{name}</strong><b>{value}</b></div>)}</div></div>
-          <div className="driver-table"><div className="driver-table-head"><strong>VALUE BY DRIVER</strong><span>(Using Executive Value Formulas)</span><b>ESTIMATED VALUE</b></div>{valueDrivers.map(([name, description, value, tone]) => <div className="driver-row" key={name}><i className={tone}><MetricIcon kind={tone === "green" ? "money" : tone === "blue" ? "team" : tone === "teal" ? "clock" : tone === "orange" ? "clipboard" : "shield"} /></i><span><strong>{name}</strong><small>{description}</small></span><b>{value}</b></div>)}<div className="driver-total"><strong>TOTAL ESTIMATED BUSINESS VALUE</strong><b>$16.3M</b></div></div>
+          <div className="driver-table"><div className="driver-table-head"><strong>VALUE BY DRIVER</strong><span>(Using Executive Value Formulas)</span><b>ESTIMATED VALUE</b></div>{valueDrivers.map(([name, description, value, tone]) => <div className="driver-row" key={name}><i className={tone}><MetricIcon kind={tone === "green" ? "money" : tone === "blue" ? "team" : tone === "teal" ? "clock" : tone === "orange" ? "clipboard" : "shield"} /></i><span><strong>{name}</strong><small>{description}</small></span><b>{value}</b></div>)}<div className="driver-total"><strong>TOTAL ESTIMATED BUSINESS VALUE</strong><b>$14.21M</b></div></div>
         </div>
       </section>
 
