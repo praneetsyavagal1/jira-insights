@@ -1,7 +1,7 @@
 const topMetrics = [
   {
     label: "Total Estimated Value",
-    value: "$14.21M",
+    value: "$16.31M",
     detail: "Total Value Realized Over 12 Months",
     info: "The value lift is consistent across speed, quality, and predictability: smaller batches moved through the system faster, AI-assisted delivery added capacity, and fewer interruptions left more time for planned work.",
     tone: "navy",
@@ -37,8 +37,8 @@ const topMetrics = [
   },
   {
     label: "Cost Avoidance",
-    value: "$1.9M",
-    detail: "From Quality Improvements",
+    value: "$4M",
+    detail: "Customer Value Protected",
     info: "The avoided-cost case is concentrated in DASH-18: a Critical production defect affected 800 customers and is being remediated by DASH-17. At the epic's $5,000 business-value assumption, resolving it protects about $4M (800 × $5,000); DASH-19 is a false positive and adds no business impact.",
     tone: "orange",
     icon: "shield",
@@ -147,7 +147,7 @@ const valueDrivers = [
   ["Engineering Capacity Recovered", "Additional capacity from higher velocity", "$4.2M", "blue"],
   ["Productivity Recovery", "Reduced blocked time and wait time", "$1.3M", "teal"],
   ["Unplanned Scope Deferred", "Late, low-value scope removed from release", "$10K", "orange"],
-  ["Quality Cost Avoidance", "Fewer defects and rework", "$1.9M", "purple"],
+  ["Quality Cost Avoidance", "Critical defect value protected", "$4M", "purple"],
 ] as const;
 
 function MetricIcon({ kind }: { kind: string }) {
@@ -212,7 +212,7 @@ function FlowMetricRow({ metric }: { metric: (typeof flowMetrics)[number] }) {
 function ValueDonut() {
   return (
     <div className="value-donut" aria-label="Business value realized over twelve months">
-      <div className="value-donut-center"><strong>$14.21M</strong><span>TOTAL VALUE<br />REALIZED</span></div>
+      <div className="value-donut-center"><strong>$16.31M</strong><span>TOTAL VALUE<br />REALIZED</span></div>
     </div>
   );
 }
@@ -243,7 +243,7 @@ export function ExecutiveDashboard() {
         <div className="executive-panel value-panel">
           <h2>BUSINESS VALUE REALIZED (12 MONTHS)</h2>
           <div className="donut-and-legend"><ValueDonut /><div className="value-legend">{valueDrivers.map(([name, , value, tone]) => <div key={name}><i className={tone} /><strong>{name}</strong><b>{value}</b></div>)}</div></div>
-          <div className="driver-table"><div className="driver-table-head"><strong>VALUE BY DRIVER</strong><span>(Using Executive Value Formulas)</span><b>ESTIMATED VALUE</b></div>{valueDrivers.map(([name, description, value, tone]) => <div className="driver-row" key={name}><i className={tone}><MetricIcon kind={tone === "green" ? "money" : tone === "blue" ? "team" : tone === "teal" ? "clock" : tone === "orange" ? "clipboard" : "shield"} /></i><span><strong>{name}</strong><small>{description}</small></span><b>{value}</b></div>)}<div className="driver-total"><strong>TOTAL ESTIMATED BUSINESS VALUE</strong><b>$14.21M</b></div></div>
+          <div className="driver-table"><div className="driver-table-head"><strong>VALUE BY DRIVER</strong><span>(Using Executive Value Formulas)</span><b>ESTIMATED VALUE</b></div>{valueDrivers.map(([name, description, value, tone]) => <div className="driver-row" key={name}><i className={tone}><MetricIcon kind={tone === "green" ? "money" : tone === "blue" ? "team" : tone === "teal" ? "clock" : tone === "orange" ? "clipboard" : "shield"} /></i><span><strong>{name}</strong><small>{description}</small></span><b>{value}</b></div>)}<div className="driver-total"><strong>TOTAL ESTIMATED BUSINESS VALUE</strong><b>$16.31M</b></div></div>
         </div>
       </section>
 
