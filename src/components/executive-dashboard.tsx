@@ -155,9 +155,9 @@ const valueDrivers = [
 ] as const;
 
 const periodSnapshots = {
-  "12": {
-    label: "12-MONTH PERIOD",
-    periodName: "12 Months",
+  "2025": {
+    label: "FY2025 · 12-MONTH PERIOD",
+    periodName: "FY2025",
     range: "May 2024 – Apr 2025",
     baselineRange: "May 2023 – Apr 2024",
     total: "$16.31M",
@@ -172,16 +172,16 @@ const periodSnapshots = {
       "Flow Predictability": { baseline: "5.8/10", after: "9.1/10", change: "+57%", direction: "up", points: "0,28 18,26 36,23 54,21 72,17 90,20 108,13 126,14 144,6 162,9 180,2 198,-5" },
     },
   },
-  "6": {
-    label: "6-MONTH PERIOD",
-    periodName: "6 Months",
-    range: "Nov 2024 – Apr 2025",
-    baselineRange: "May 2024 – Oct 2024",
-    total: "$8.31M",
-    driverValues: ["$3.4M", "$2.2M", "$0.7M", "$10K", "$2M"],
-    top: { "Total Estimated Value": "$8.31M", "Revenue Impact": "$3.4M", "Capacity Recovered": "$2.2M", "Productivity Recovered": "$0.7M", "Cost Avoidance": "$2M", "Unplanned Work Reduction": "$10K" },
+  "2024": {
+    label: "FY2024 · 12-MONTH PERIOD",
+    periodName: "FY2024",
+    range: "May 2023 – Apr 2024",
+    baselineRange: "May 2022 – Apr 2023",
+    total: "$12.31M",
+    driverValues: ["$5.1M", "$3.1M", "$1M", "$10K", "$3.1M"],
+    top: { "Total Estimated Value": "$12.31M", "Revenue Impact": "$5.1M", "Capacity Recovered": "$3.1M", "Productivity Recovered": "$1M", "Cost Avoidance": "$3.1M", "Unplanned Work Reduction": "$10K" },
     flow: {
-      "Flow Velocity": { baseline: "82", after: "121", change: "+48%", direction: "up", points: "0,23 18,18 36,20 54,12 72,15 90,8 108,11 126,3 144,6 162,-1 180,2 198,-9" },
+      "Flow Velocity": { baseline: "32", after: "40", change: "+25%", direction: "up", points: "0,23 18,18 36,20 54,12 72,15 90,8 108,11 126,3 144,6 162,-1 180,2 198,-9" },
       "Flow Time": { baseline: "198", after: "108", change: "-45%", direction: "down", points: "0,6 18,9 36,15 54,18 72,23 90,27 108,31 126,36 144,40 162,44 180,49 198,54" },
       "Flow Efficiency": { baseline: "29%", after: "41%", change: "+41%", direction: "up", points: "0,29 18,25 36,22 54,23 72,17 90,20 108,14 126,16 144,10 162,8 180,2 198,-3" },
       "Blocked Time": { baseline: "11", after: "4", change: "-64%", direction: "down", points: "0,4 18,12 36,17 54,23 72,27 90,32 108,37 126,41 144,45 162,48 180,51 198,55" },
@@ -189,16 +189,16 @@ const periodSnapshots = {
       "Flow Predictability": { baseline: "6.4/10", after: "8.7/10", change: "+36%", direction: "up", points: "0,27 18,25 36,23 54,20 72,22 90,16 108,15 126,11 144,8 162,10 180,3 198,-1" },
     },
   },
-  "3": {
-    label: "3-MONTH PERIOD",
-    periodName: "3 Months",
-    range: "Feb 2025 – Apr 2025",
-    baselineRange: "Nov 2024 – Jan 2025",
-    total: "$4.85M",
-    driverValues: ["$1.8M", "$1M", "$0.3M", "$10K", "$1.74M"],
-    top: { "Total Estimated Value": "$4.85M", "Revenue Impact": "$1.8M", "Capacity Recovered": "$1M", "Productivity Recovered": "$0.3M", "Cost Avoidance": "$1.74M", "Unplanned Work Reduction": "$10K" },
+  "2023": {
+    label: "FY2023 · 12-MONTH PERIOD",
+    periodName: "FY2023",
+    range: "May 2022 – Apr 2023",
+    baselineRange: "May 2021 – Apr 2022",
+    total: "$9.41M",
+    driverValues: ["$3.9M", "$2.4M", "$0.8M", "$10K", "$2.3M"],
+    top: { "Total Estimated Value": "$9.41M", "Revenue Impact": "$3.9M", "Capacity Recovered": "$2.4M", "Productivity Recovered": "$0.8M", "Cost Avoidance": "$2.3M", "Unplanned Work Reduction": "$10K" },
     flow: {
-      "Flow Velocity": { baseline: "104", after: "137", change: "+32%", direction: "up", points: "0,22 18,17 36,19 54,12 72,14 90,8 108,10 126,3 144,5 162,0 180,1 198,-7" },
+      "Flow Velocity": { baseline: "26", after: "32", change: "+23%", direction: "up", points: "0,22 18,17 36,19 54,12 72,14 90,8 108,10 126,3 144,5 162,0 180,1 198,-7" },
       "Flow Time": { baseline: "142", after: "88", change: "-38%", direction: "down", points: "0,8 18,12 36,16 54,20 72,23 90,29 108,31 126,37 144,41 162,45 180,49 198,53" },
       "Flow Efficiency": { baseline: "34%", after: "48%", change: "+41%", direction: "up", points: "0,27 18,24 36,22 54,20 72,16 90,18 108,12 126,13 144,8 162,5 180,1 198,-5" },
       "Blocked Time": { baseline: "8", after: "3", change: "-63%", direction: "down", points: "0,5 18,12 36,19 54,23 72,29 90,34 108,38 126,42 144,46 162,49 180,52 198,56" },
@@ -279,7 +279,7 @@ function ValueDonut({ total }: { total: string }) {
 }
 
 export function ExecutiveDashboard() {
-  const [selectedPeriod, setSelectedPeriod] = useState<PeriodKey>("12");
+  const [selectedPeriod, setSelectedPeriod] = useState<PeriodKey>("2025");
   const currentPeriod = periodSnapshots[selectedPeriod];
 
   return (
@@ -289,7 +289,7 @@ export function ExecutiveDashboard() {
           <h1>EXECUTIVE DELIVERY VALUE DASHBOARD</h1>
           <p>Turning Team Delivery Metrics into Measurable Executive Insights</p>
         </div>
-        <div className="executive-period"><span className="calendar-symbol">▣</span><span><strong>COMPARE PERIODS</strong><small>{currentPeriod.range} vs {currentPeriod.baselineRange}</small></span><div className="period-options" role="group" aria-label="Select comparison period">{(["12", "6", "3"] as PeriodKey[]).map((period) => <button key={period} type="button" className={selectedPeriod === period ? "active" : ""} onClick={() => setSelectedPeriod(period)} aria-pressed={selectedPeriod === period}>{periodSnapshots[period].periodName}</button>)}</div></div>
+        <div className="executive-period"><span className="calendar-symbol">▣</span><span><strong>ANNUAL COMPARISON</strong><small>{currentPeriod.range} vs {currentPeriod.baselineRange}</small></span><div className="period-options" role="group" aria-label="Select fiscal year">{(["2025", "2024", "2023"] as PeriodKey[]).map((period) => <button key={period} type="button" className={selectedPeriod === period ? "active" : ""} onClick={() => setSelectedPeriod(period)} aria-pressed={selectedPeriod === period}>{periodSnapshots[period].periodName}</button>)}</div></div>
         <div className="key-takeaway"><span>★</span><span><strong>KEY TAKEAWAY</strong><small>Significant improvement across all key delivery<br />metrics driving measurable business value.</small></span></div>
       </header>
 
