@@ -12,9 +12,40 @@ type Scenario = {
   evidence: Array<{ key: string; value: string; detail: string; href: string }>;
   actionTitle: string;
   actionBody: string;
+  actions: string[];
 };
 
 const scenarios: Record<string, Scenario> = {
+  velocity: {
+    eyebrow: "SCENARIO INSIGHT · DELIVERY CAPACITY",
+    title: "Flow Velocity",
+    subtitle: "How the team increased completed work from the Sprint 1 baseline to Sprint 7.",
+    accent: "purple",
+    conclusion: "The team delivered 40% more story points in Sprint 7, with AI-assisted delivery contributing to a measurable increase in throughput.",
+    jiraBoard: "https://proactionnppoc.ent.cgi.com/jira/secure/RapidBoard.jspa?rapidView=4174&projectKey=DASH&view=planning.nodetail&epics=visible&issueLimit=100",
+    metrics: [
+      { label: "Sprint 1 baseline", value: "40 pts", note: "Completed story points" },
+      { label: "Sprint 7 delivery", value: "56 pts", note: "Completed story points" },
+      { label: "Improvement", value: "+40%", note: "Versus Sprint 1 baseline" },
+    ],
+    insights: [
+      { title: "The baseline is explicit", body: "Sprint 1 established a baseline of 40 completed story points. That gives leadership a concrete reference point for evaluating whether later productivity improvements are meaningful." },
+      { title: "Later delivery exceeded the baseline", body: "Sprint 7 delivered 56 story points, which is 16 additional points or 40% more than the baseline sprint." },
+      { title: "AI usage is a contributing signal", body: "DASH-8 and DASH-14 recorded GitHub Copilot in Jira's AI Tool field. The evidence suggests AI-assisted implementation and reusable patterns may have helped the team complete more work, but does not prove causation by itself." },
+    ],
+    evidence: [
+      { key: "Sprint 1", value: "40 points", detail: "Baseline completed story points from the sprint report", href: "https://proactionnppoc.ent.cgi.com/jira/secure/RapidBoard.jspa?rapidView=4174&projectKey=DASH" },
+      { key: "Sprint 7", value: "56 points", detail: "Later sprint delivery; +40% over baseline", href: "https://proactionnppoc.ent.cgi.com/jira/secure/RapidBoard.jspa?rapidView=4174&projectKey=DASH" },
+      { key: "DASH-8 / DASH-14", value: "GitHub Copilot", detail: "AI Tool field recorded on comparable delivered stories", href: "https://proactionnppoc.ent.cgi.com/jira/browse/DASH-8" },
+    ],
+    actionTitle: "Recommended operating rule",
+    actionBody: "Treat the 40-point baseline as a control point, then scale practices that improve throughput only when quality and predictability remain stable.",
+    actions: [
+      "Create a lightweight AI-assisted delivery playbook from the patterns used on DASH-8 and DASH-14.",
+      "Track story points, defects, blocked time, and cycle time together so higher throughput is not rewarded at the expense of quality.",
+      "Repeat the Sprint 1 versus Sprint 7 comparison every quarter and report the incremental capacity in points and business value.",
+    ],
+  },
   unplanned: {
     eyebrow: "SCENARIO INSIGHT · FLOW GOVERNANCE",
     title: "Managing Unplanned Work",
@@ -38,6 +69,11 @@ const scenarios: Record<string, Scenario> = {
     ],
     actionTitle: "Recommended operating rule",
     actionBody: "Require every late-scope request to show its business value, target date, and the committed item it would displace. Keep the request visible, but do not let it enter the release without an explicit product decision.",
+    actions: [
+      "Add a business-value and target-date gate for every scope request arriving after release planning.",
+      "Require Product Management to name the committed item that would be displaced before accepting late scope.",
+      "Review deferred scope at the next planning event so removal from the release becomes an explicit decision rather than backlog neglect.",
+    ],
   },
   defects: {
     eyebrow: "SCENARIO INSIGHT · QUALITY ECONOMICS",
@@ -64,6 +100,11 @@ const scenarios: Record<string, Scenario> = {
     ],
     actionTitle: "Recommended operating rule",
     actionBody: "Prioritize defects using customer exposure × business value × severity, then link the corrective story to the defect. This makes the cost of delay visible and keeps false positives from distorting quality priorities.",
+    actions: [
+      "Rank production defects using affected customers, severity, and business value before assigning remediation capacity.",
+      "Require every Critical defect to have a linked corrective story, owner, target release, and value-at-risk estimate.",
+      "Separate false positives from actionable defects during triage so engineering effort is focused on customer-impacting risk.",
+    ],
   },
 };
 
@@ -71,7 +112,7 @@ function ArrowIcon() {
   return <span aria-hidden="true">↗</span>;
 }
 
-export function ScenarioPage({ kind }: { kind: "unplanned" | "defects" }) {
+export function ScenarioPage({ kind }: { kind: "velocity" | "unplanned" | "defects" }) {
   const scenario = scenarios[kind];
 
   return (
@@ -110,7 +151,7 @@ export function ScenarioPage({ kind }: { kind: "unplanned" | "defects" }) {
         </div>
       </section>
 
-      <section className="scenario-action"><div><span className="scenario-eyebrow">TURNING INSIGHT INTO ACTION</span><h2>{scenario.actionTitle}</h2></div><p>{scenario.actionBody}</p></section>
+      <section className="scenario-action"><div><span className="scenario-eyebrow">TURNING INSIGHT INTO ACTION</span><h2>{scenario.actionTitle}</h2></div><div><p>{scenario.actionBody}</p><ul className="scenario-action-list">{scenario.actions.map((action) => <li key={action}>{action}</li>)}</ul></div></section>
       <footer className="scenario-footer">Source: DASH Jira board · Scenario values are directional and based on the supplied POC assumptions.</footer>
     </main>
   );

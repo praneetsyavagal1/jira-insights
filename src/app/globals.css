@@ -1578,6 +1578,7 @@ footer a {
 .scenario-action { display: grid; grid-template-columns: .8fr 1.2fr; gap: 30px; align-items: center; margin-top: 18px; padding: 27px; border-radius: 7px; color: white; background: #0c3466; }
 .scenario-action h2 { margin: 9px 0 0; color: white; font-size: 22px; }
 .scenario-action p { margin: 0; color: #dce9f7; font-size: 15px; line-height: 1.6; }
+.scenario-action-list { display: grid; gap: 8px; margin: 13px 0 0; padding-left: 19px; color: #dce9f7; font-size: 13px; line-height: 1.5; }
 .scenario-footer { max-width: 1220px; margin: 25px auto 0; color: #7a8b9d; font-size: 11px; }
 
 @media (max-width: 800px) {

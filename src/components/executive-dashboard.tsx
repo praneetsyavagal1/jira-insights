@@ -71,7 +71,7 @@ const flowMetrics = [
     direction: "up",
     tone: "blue",
     info: "Sprint 1 established a 40-point baseline. By Sprint 7, the team delivered 56 points—40% more—while DASH-8 and DASH-14 recorded GitHub Copilot in Jira's AI Tool field. The result suggests AI-assisted implementation and reusable delivery patterns helped the team complete more work per sprint.",
-    href: "/insights?metric=flow-velocity",
+    href: "/insights/flow-velocity",
     points: "0,18 18,12 36,19 54,9 72,13 90,2 108,7 126,-3 144,2 162,-7 180,-2 198,-14",
   },
   {
