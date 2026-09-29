@@ -1,5 +1,5 @@
-import { ExecutiveDashboard } from "@/components/executive-dashboard";
+import { HoneycombDashboard } from "@/components/honeycomb-dashboard";
 
 export default function Home() {
-  return <ExecutiveDashboard />;
+  return <HoneycombDashboard />;
 }
