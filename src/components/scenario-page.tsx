@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 
 type Scenario = {
@@ -112,15 +114,15 @@ function ArrowIcon() {
   return <span aria-hidden="true">↗</span>;
 }
 
-export function ScenarioPage({ kind }: { kind: "velocity" | "unplanned" | "defects" }) {
+export function ScenarioPage({ kind, onClose }: { kind: "velocity" | "unplanned" | "defects"; onClose?: () => void }) {
   const scenario = scenarios[kind];
 
   return (
     <main className={`scenario-shell ${scenario.accent}`}>
-      <nav className="scenario-nav">
+      {onClose ? <button className="scenario-close-button" type="button" onClick={onClose} aria-label="Close metric details">×</button> : <nav className="scenario-nav">
         <Link href="/">← Executive dashboard</Link>
         <Link href="/insights">Live Jira insights</Link>
-      </nav>
+      </nav>}
 
       <header className="scenario-hero">
         <div>
@@ -152,7 +154,11 @@ export function ScenarioPage({ kind }: { kind: "velocity" | "unplanned" | "defec
       </section>
 
       <section className="scenario-action"><div><span className="scenario-eyebrow">TURNING INSIGHT INTO ACTION</span><h2>{scenario.actionTitle}</h2></div><div><p>{scenario.actionBody}</p><ul className="scenario-action-list">{scenario.actions.map((action) => <li key={action}>{action}</li>)}</ul></div></section>
-      <footer className="scenario-footer">Source: DASH Jira board · Scenario values are directional and based on the supplied POC assumptions.</footer>
+      {!onClose && <footer className="scenario-footer">Source: DASH Jira board · Scenario values are directional and based on the supplied POC assumptions.</footer>}
     </main>
   );
+}
+
+export function ScenarioModal({ kind, onClose }: { kind: "velocity" | "unplanned" | "defects"; onClose: () => void }) {
+  return <div className="scenario-modal-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}><div className="scenario-modal-frame" role="dialog" aria-modal="true" aria-label="Metric insight details"><ScenarioPage kind={kind} onClose={onClose} /></div></div>;
 }

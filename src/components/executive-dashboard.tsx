@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { ScenarioModal } from "@/components/scenario-page";
 
 const topMetrics = [
   {
@@ -220,15 +221,15 @@ function MetricIcon({ kind }: { kind: string }) {
   return <svg {...common}><path d="M5 24V11h6v13M13 24V6h6v18M21 24v-9h6v9" stroke="currentColor" strokeWidth="2" /><path d="M5 7l6-3 5 3 9-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>;
 }
 
-function InfoLink({ href }: { href: string }) {
-  return <a className="executive-info-link" href={href} aria-label="Open live metric insight">i</a>;
+function InfoLink({ onClick }: { onClick: () => void }) {
+  return <button className="executive-info-link" type="button" onClick={onClick} aria-label="Open metric insight details">i</button>;
 }
 
 function HoverDetail({ text }: { text: string }) {
   return <span className="metric-hover-detail" role="tooltip">{text}</span>;
 }
 
-function TopMetric({ metric, value, periodName }: { metric: (typeof topMetrics)[number]; value: string; periodName: string }) {
+function TopMetric({ metric, value, periodName, onOpen }: { metric: (typeof topMetrics)[number]; value: string; periodName: string; onOpen: () => void }) {
   return (
     <article className={`executive-top-metric ${metric.tone}`} tabIndex={0}>
       <div className="executive-icon"><MetricIcon kind={metric.icon} /></div>
@@ -237,7 +238,7 @@ function TopMetric({ metric, value, periodName }: { metric: (typeof topMetrics)[
         <strong>{value}</strong>
         <span>{metric.label === "Total Estimated Value" ? `Total Value Realized Over ${periodName}` : metric.detail}</span>
       </div>
-      <InfoLink href={metric.href} />
+      <InfoLink onClick={onOpen} />
       <HoverDetail text={metric.info} />
     </article>
   );
@@ -252,7 +253,7 @@ function MiniTrend({ points, tone }: { points: string; tone: string }) {
   );
 }
 
-function FlowMetricRow({ metric, snapshot }: { metric: (typeof flowMetrics)[number]; snapshot: { baseline: string; after: string; change: string; direction: "up" | "down"; points: string } }) {
+function FlowMetricRow({ metric, snapshot, onOpen }: { metric: (typeof flowMetrics)[number]; snapshot: { baseline: string; after: string; change: string; direction: "up" | "down"; points: string }; onOpen: () => void }) {
   const values = { ...metric, ...snapshot };
   return (
     <article className={`flow-metric-row ${metric.tone}`} tabIndex={0}>
@@ -262,9 +263,9 @@ function FlowMetricRow({ metric, snapshot }: { metric: (typeof flowMetrics)[numb
       </div>
       <div className="flow-metric-number"><strong>{values.baseline}</strong><small>{metric.baselineUnit}</small></div>
       <div className="flow-metric-number"><strong>{values.after}</strong><small>{metric.afterUnit}</small></div>
-      <div className="flow-metric-change"><strong>{values.direction === "up" ? "▲" : "▼"} {values.change}</strong></div>
+      <div className={`flow-metric-change ${values.change.startsWith("-") ? "negative" : ""}`}><strong>{values.direction === "up" ? "▲" : "▼"} {values.change}</strong></div>
       <div className="flow-trend"><MiniTrend points={values.points} tone={metric.tone} /></div>
-      <InfoLink href={metric.href} />
+      <InfoLink onClick={onOpen} />
       <HoverDetail text={metric.info} />
     </article>
   );
@@ -278,9 +279,27 @@ function ValueDonut({ total }: { total: string }) {
   );
 }
 
+type ScenarioKind = "velocity" | "unplanned" | "defects";
+type ActiveMetric = { scenario: ScenarioKind } | { title: string; value: string; info: string };
+
+function GenericMetricModal({ metric, onClose }: { metric: Extract<ActiveMetric, { title: string }>; onClose: () => void }) {
+  return <div className="metric-modal-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}><div className="metric-modal" role="dialog" aria-modal="true" aria-label={`${metric.title} insight`}><button className="scenario-close-button" type="button" onClick={onClose} aria-label="Close metric details">×</button><span className="scenario-eyebrow">METRIC INSIGHT</span><h2>{metric.title}</h2><strong className="metric-modal-value">{metric.value}</strong><p>{metric.info}</p><div className="metric-modal-note">This insight is based on the selected annual comparison period.</div></div></div>;
+}
+
 export function ExecutiveDashboard() {
   const [selectedPeriod, setSelectedPeriod] = useState<PeriodKey>("2025");
+  const [activeMetric, setActiveMetric] = useState<ActiveMetric | null>(null);
   const currentPeriod = periodSnapshots[selectedPeriod];
+
+  const openMetric = (label: string, value: string, info: string, href: string) => {
+    const scenarioByHref: Record<string, ScenarioKind> = {
+      "/insights/flow-velocity": "velocity",
+      "/insights/unplanned-work": "unplanned",
+      "/insights/cost-avoidance": "defects",
+    };
+    const scenario = scenarioByHref[href];
+    setActiveMetric(scenario ? { scenario } : { title: label, value, info });
+  };
 
   return (
     <main className="executive-shell">
@@ -294,14 +313,14 @@ export function ExecutiveDashboard() {
       </header>
 
       <section className="executive-top-metrics" aria-label="Estimated business value metrics">
-        {topMetrics.map((metric) => <TopMetric key={metric.label} metric={metric} value={currentPeriod.top[metric.label as keyof typeof currentPeriod.top]} periodName={currentPeriod.periodName} />)}
+        {topMetrics.map((metric) => <TopMetric key={metric.label} metric={metric} value={currentPeriod.top[metric.label as keyof typeof currentPeriod.top]} periodName={currentPeriod.periodName} onOpen={() => openMetric(metric.label, currentPeriod.top[metric.label as keyof typeof currentPeriod.top], metric.info, metric.href)} />)}
       </section>
 
       <section className="executive-middle-grid">
         <div className="executive-panel flow-panel">
           <h2>FLOW METRICS – PERIOD COMPARISON</h2>
           <div className="flow-table-head"><span>METRIC</span><span>BASELINE<small>({currentPeriod.baselineRange})</small></span><span>SELECTED PERIOD<small>({currentPeriod.range})</small></span><span>CHANGE</span><span>TREND (MONTHLY)</span></div>
-          <div className="flow-table-body">{flowMetrics.map((metric) => <FlowMetricRow key={metric.name} metric={metric} snapshot={currentPeriod.flow[metric.name]} />)}</div>
+          <div className="flow-table-body">{flowMetrics.map((metric) => <FlowMetricRow key={metric.name} metric={metric} snapshot={currentPeriod.flow[metric.name]} onOpen={() => openMetric(metric.name, currentPeriod.flow[metric.name].after, metric.info, metric.href)} />)}</div>
         </div>
 
         <div className="executive-panel value-panel">
@@ -316,6 +335,7 @@ export function ExecutiveDashboard() {
         <div className="data-sources"><h3>DATA SOURCES</h3><div><span className="source-logo jira">◆</span> Jira <span className="source-logo azure">◀</span> Azure DevOps <span className="source-logo service">●</span> ServiceNow</div></div>
         <div><h3>NOTES</h3><p>All metrics are median (unless noted). Predictability is measured on a 1–10 scale. Business value estimates are directional and based on industry benchmarks and standard assumptions.</p></div>
       </section>
+      {activeMetric && ("scenario" in activeMetric ? <ScenarioModal kind={activeMetric.scenario} onClose={() => setActiveMetric(null)} /> : <GenericMetricModal metric={activeMetric} onClose={() => setActiveMetric(null)} />)}
     </main>
   );
 }
