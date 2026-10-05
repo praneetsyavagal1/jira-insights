@@ -1,0 +1,1751 @@
+<!DOCTYPE html>
+<!-- saved from url=(0070)file:///C:/Users/steven.prigg/Downloads/RBO_360_View_Final_V1_4_2.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Retail Bank Operations — 360° View</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;background:#F0F0F4;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:28px 20px 44px;-webkit-font-smoothing:antialiased}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#888;margin-bottom:5px;text-align:center}
+h1{font-size:clamp(20px,3vw,32px);font-weight:700;color:#1A1A2E;text-align:center;margin-bottom:4px}
+.hint{font-size:12px;color:#999;text-align:center;margin-bottom:14px}
+.legend{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-bottom:20px;padding:9px 16px;background:#fff;border-radius:10px;box-shadow:0 1px 6px rgba(0,0,0,.07)}
+.leg{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;color:#444;font-weight:500}
+.leg-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+.stage{width:100%;max-width:1180px;display:flex;align-items:flex-start;gap:0;position:relative}
+.comb-wrap{flex:0 0 auto;width:540px;transition:width .4s cubic-bezier(.2,.8,.2,1)}
+.stage.open .comb-wrap{width:400px}
+svg.hexmap{width:100%;height:auto;display:block;overflow:visible}
+.hex-g{cursor:pointer;transform-box:fill-box;transform-origin:center;
+  transition:transform .3s cubic-bezier(.2,.8,.2,1),opacity .3s ease,filter .3s ease}
+.hex-g:hover{transform:scale(1.04)}
+.hex-g.active{transform:scale(1.20)}
+.hex-g.active polygon.base{stroke:rgba(255,255,255,.8)!important;stroke-width:3.5!important}
+.hex-g.dimmed{opacity:0.6;filter:brightness(1.4) saturate(0.5)}
+polygon.base{stroke:rgba(255,255,255,.2);stroke-width:1.6;transition:filter .2s,stroke .2s}
+.hex-label{font-family:'Inter',sans-serif;font-weight:700;fill:#fff;text-anchor:middle;pointer-events:none}
+#tlRing polygon.ring-fill{transition:filter .2s}
+#tlRing:hover polygon.ring-fill{filter:brightness(1.1)}
+#tlRing.active polygon.ring-fill{filter:brightness(1.15)}
+.detail{flex:1 1 0;min-width:0;opacity:0;transform:translateX(28px);pointer-events:none;transition:opacity .34s ease,transform .34s cubic-bezier(.2,.8,.2,1);padding-left:24px}
+.stage.open .detail{opacity:1;transform:translateX(0);pointer-events:auto}
+.detail-inner{background:#fff;border-radius:18px;box-shadow:0 20px 50px -16px rgba(20,16,50,.28);padding:24px 24px 30px;max-height:88vh;overflow-y:auto}
+.detail-inner::-webkit-scrollbar{width:4px}
+.detail-inner::-webkit-scrollbar-thumb{background:#ddd;border-radius:4px}
+.back-btn{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#666;background:#F5F4FB;border:none;border-radius:999px;padding:6px 13px 6px 9px;cursor:pointer;margin-bottom:16px;transition:background .15s}
+.back-btn:hover{background:#EBE8F5;color:#1A1A2E}
+.back-btn svg{width:13px;height:13px}
+.pov-badge{display:inline-flex;font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:3px 10px;border-radius:999px;margin-bottom:9px}
+.pov-red{background:#FDEAED;color:#9B1225}.pov-purple{background:#EDE6F8;color:#4A2A8A}.pov-blue{background:#D8EEFA;color:#1A4C7C}.pov-grey{background:#EBEBF0;color:#3A3A48}
+.detail h2{font-size:20px;font-weight:700;color:#1A1A2E;line-height:1.2;margin-bottom:14px}
+.section{border-radius:11px;padding:13px 15px 15px;margin-bottom:10px}
+.section.overview{background:#F0EEF8}.section.process{background:#FDF0F5}.section.auto{background:#E8F4FC}.section.trends{background:#FEF5E8}.section.goals{background:#E8F5F0}
+.section.kpf{background:#E8F5F0}
+.sec-head{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;margin-bottom:8px}
+.section.overview .sec-head{color:#4A2A8A}.section.process .sec-head{color:#9B1A4A}.section.auto .sec-head{color:#1A4C8C}.section.trends .sec-head{color:#8C5F17}.section.goals .sec-head{color:#0F6E61}
+.section.kpf .sec-head{color:#0F6E61}
+.section p{font-size:13px;line-height:1.55;color:#2B2640}
+.section ul{margin:0;padding:0 0 0 15px;display:flex;flex-direction:column;gap:6px}
+.section li{font-size:13px;line-height:1.44;color:#2B2640}
+.role-list{list-style:none;display:flex;flex-direction:column;gap:7px;margin-bottom:0}
+.role-list li{font-size:13px;line-height:1.5;padding-left:16px;position:relative;color:#1A1A2E}
+.role-list li::before{content:"";position:absolute;left:0;top:7px;width:6px;height:6px;border-radius:50%;background:#6E51CE}
+footer{margin-top:20px;font-size:11px;color:#AAA;text-align:center}
+@media(max-width:780px){.stage{flex-direction:column}.comb-wrap,.stage.open .comb-wrap{width:100%}.detail{padding-left:0;padding-top:14px;transform:translateY(12px)}.stage.open .detail{transform:translateY(0)}.detail-inner{max-height:55vh}}
+
+.tl-section{margin-bottom:12px;border-radius:10px;overflow:hidden}
+.tl-sh{font-size:11.5px;font-weight:700;padding:8px 12px;color:#fff;display:flex;align-items:center;gap:6px}
+.tl-sb{padding:11px 13px 13px;font-size:12px;line-height:1.5;color:#2B2640}
+.tl-purple-h{background:#5B2D8E}.tl-purple-b{background:#F3EFF9}
+.tl-red-h{background:#C8102E}.tl-red-b{background:#FEF0F0}
+.tl-blue-h{background:#1A5C8C}.tl-blue-b{background:#EDF4FA}
+.tl-grey-h{background:#4A4A58}.tl-grey-b{background:#F2F2F4}
+.tl-green-h{background:#0F6E61}.tl-green-b{background:#E8F5F0}
+.mrow{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+.mbox{flex:1;min-width:72px;text-align:center;background:#fff;border-radius:7px;padding:7px 5px;border:1px solid rgba(0,0,0,.09)}
+.mval{font-size:17px;font-weight:700;line-height:1.1}
+.mlab{font-size:9.5px;color:#666;margin-top:2px;line-height:1.3}
+.rv{color:#C8102E}.pv{color:#5B2D8E}.bv{color:#1A5C8C}.gv{color:#0F6E61}
+.tlt{width:100%;border-collapse:collapse;font-size:11px;margin-top:6px}
+.tlt th{background:#5B2D8E;color:#fff;padding:5px 7px;text-align:left;font-weight:600}
+.tlt td{padding:5px 7px;border-bottom:1px solid #eee;vertical-align:top}
+.tlt tr:last-child td{border-bottom:none}
+.tlt tr:nth-child(even) td{background:#F8F6FF}
+.tlt2 th{background:#1A5C8C}
+.tlt3 th{background:#4A4A58}
+.tlt3 tr:nth-child(even) td{background:#F4F4F6}
+</style>
+<script src="./RBO_360_View_FINAL V1.4_files/chart.umd.min.js.download" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+<div class="eyebrow">CGI · PNC Retail Bank Operations</div>
+<h1>A 360° View</h1>
+<p class="hint">Click any section to explore</p>
+<div class="legend">
+  <span class="leg"><i class="leg-dot" style="background:linear-gradient(135deg,#C8102E,#9B1225)"></i>Automation-Rich Functions</span>
+  <span class="leg"><i class="leg-dot" style="background:linear-gradient(135deg,#5B2D8E,#3D1E62)"></i>Opportune for Process Optimization</span>
+  <span class="leg"><i class="leg-dot" style="background:linear-gradient(135deg,#1A5C8C,#0E3D5E)"></i>Focal Points for Cost Take-Out</span>
+  <span class="leg"><i class="leg-dot" style="background:linear-gradient(135deg,#4A4A58,#2E2E38)"></i>Care Center &amp; Cross-Cutting</span>
+</div>
+<div class="stage" id="stage">
+<div class="comb-wrap" id="combWrap">
+<svg class="hexmap" viewBox="-580 -560 1160 1150" role="img">
+  <title>Retail Bank Operations 360 View</title>
+  <defs>
+    <lineargradient id="gTL" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#B01040"></stop><stop offset="50%" stop-color="#C2185B"></stop><stop offset="100%" stop-color="#5B2D8E"></stop></lineargradient>
+    <lineargradient id="gRed" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#C8102E"></stop><stop offset="1" stop-color="#9B1225"></stop></lineargradient>
+    <lineargradient id="gPurple" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5B2D8E"></stop><stop offset="1" stop-color="#3D1E62"></stop></lineargradient>
+    <lineargradient id="gBlue" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1A5C8C"></stop><stop offset="1" stop-color="#0E3D5E"></stop></lineargradient>
+    <lineargradient id="gGrey" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4A4A58"></stop><stop offset="1" stop-color="#2E2E38"></stop></lineargradient>
+    <!-- Ring mask: shows outer hex, cuts out inner hex -->
+    <mask id="ringMask">
+      <polygon points="530.0,0.0 265.0,459.0 -265.0,459.0 -530.0,0.0 -265.0,-459.0 265.0,-459.0" fill="white"></polygon>
+      <polygon points="430.0,0.0 215.0,372.4 -215.0,372.4 -430.0,0.0 -215.0,-372.4 215.0,-372.4" fill="black"></polygon>
+    </mask>
+    <filter id="hexSh" x="-15%" y="-15%" width="130%" height="130%"><fedropshadow dx="0" dy="3" stdDeviation="6" flood-color="rgba(0,0,0,0.3)"></fedropshadow></filter>
+    <filter id="ringSh" x="-6%" y="-6%" width="112%" height="112%"><fedropshadow dx="0" dy="6" stdDeviation="14" flood-color="rgba(0,0,0,0.28)"></fedropshadow></filter>
+    <!-- Icons centered at origin -->
+    <g id="ico-bulb"><path d="M0-9a6.5 6.5 0 0 1 4 11.5c-.5.4-.8 1-.8 1.6v.5h-6.4v-.5c0-.6-.3-1.2-.8-1.6A6.5 6.5 0 0 1 0-9z" fill="none" stroke="#fff" stroke-width="1.6"></path><line x1="-3" y1="6" x2="3" y2="6" stroke="#fff" stroke-width="1.6"></line><line x1="-2" y1="9" x2="2" y2="9" stroke="#fff" stroke-width="1.5"></line></g>
+    <g id="ico-hand"><circle cx="0" cy="-3" r="3" fill="none" stroke="#fff" stroke-width="1.5"></circle><circle cx="8" cy="-2" r="2.5" fill="none" stroke="#fff" stroke-width="1.5"></circle><path d="M-6 7c.4-3 2.2-4.6 5.3-4.6s4.8 1.6 5.3 4.6" fill="none" stroke="#fff" stroke-width="1.5"></path></g>
+    <g id="ico-id"><rect x="-9" y="-6" width="18" height="12" rx="2" fill="none" stroke="#fff" stroke-width="1.5"></rect><circle cx="-4.5" cy="0" r="2" fill="none" stroke="#fff" stroke-width="1.3"></circle><line x1="1" y1="-2" x2="8" y2="-2" stroke="#fff" stroke-width="1.2"></line><line x1="1" y1="2" x2="8" y2="2" stroke="#fff" stroke-width="1.2"></line></g>
+    <g id="ico-lock"><rect x="-7" y="-2" width="14" height="11" rx="2" fill="none" stroke="#fff" stroke-width="1.5"></rect><path d="M-4-2V-5a4 4 0 0 1 8 0v3" fill="none" stroke="#fff" stroke-width="1.5"></path><circle cx="0" cy="3.5" r="1.5" fill="none" stroke="#fff" stroke-width="1.3"></circle></g>
+    <g id="ico-coin"><circle cx="0" cy="0" r="8" fill="none" stroke="#fff" stroke-width="1.5"></circle><path d="M0-5v10M-2.5-2.5c.1-1 1.2-1.8 2.5-1.8 1.7 0 2.8.9 2.8 2s-4.2 1-4.2 2.8 1.1 2.8 2.5 2.8 2.4-.8 2.5-1.8" fill="none" stroke="#fff" stroke-width="1.3"></path></g>
+    <g id="ico-refresh"><path d="M-7 0a7 7 0 0 1 11.5-5.3M7 0a7 7 0 0 1-11.5 5.3" fill="none" stroke="#fff" stroke-width="1.5"></path><path d="M4.5-8.5v4h-4M-4.5 8.5v-4h4" stroke="#fff" stroke-width="1.5" stroke-linecap="round"></path></g>
+    <g id="ico-scale"><line x1="0" y1="-8" x2="0" y2="8" stroke="#fff" stroke-width="1.5"></line><line x1="-8" y1="-4" x2="8" y2="-4" stroke="#fff" stroke-width="1.5"></line><path d="M-8-4l-2.2 4.5a2.4 2.4 0 0 0 4.8 0z" fill="none" stroke="#fff" stroke-width="1.3"></path><path d="M8-4l-2.2 4.5a2.4 2.4 0 0 0 4.8 0z" fill="none" stroke="#fff" stroke-width="1.3"></path><line x1="-4" y1="8" x2="4" y2="8" stroke="#fff" stroke-width="1.5"></line></g>
+    <g id="ico-headset"><path d="M-8 0v-1a8 8 0 0 1 16 0v1" fill="none" stroke="#fff" stroke-width="1.5"></path><rect x="-10" y="0" width="4.5" height="6" rx="1.5" fill="none" stroke="#fff" stroke-width="1.4"></rect><rect x="5.5" y="0" width="4.5" height="6" rx="1.5" fill="none" stroke="#fff" stroke-width="1.4"></rect></g>
+    <g id="ico-cal"><rect x="-8" y="-6" width="16" height="14" rx="1.8" fill="none" stroke="#fff" stroke-width="1.5"></rect><line x1="-8" y1="-1.5" x2="8" y2="-1.5" stroke="#fff" stroke-width="1.2"></line><line x1="-3.5" y1="-9" x2="-3.5" y2="-4" stroke="#fff" stroke-width="1.5"></line><line x1="3.5" y1="-9" x2="3.5" y2="-4" stroke="#fff" stroke-width="1.5"></line></g>
+    <g id="ico-slide"><rect x="-8" y="-6" width="16" height="12" rx="1.8" fill="none" stroke="#fff" stroke-width="1.5"></rect><line x1="-5" y1="-1.5" x2="5" y2="-1.5" stroke="#fff" stroke-width="1.3"></line><line x1="-5" y1="2.5" x2="2" y2="2.5" stroke="#fff" stroke-width="1.3"></line></g>
+    <g id="ico-people"><circle cx="-3.5" cy="-5" r="3" fill="none" stroke="#fff" stroke-width="1.5"></circle><circle cx="5" cy="-3.5" r="2.3" fill="none" stroke="#fff" stroke-width="1.4"></circle><path d="M-9 7c.5-3.5 2.4-5.2 6-5.2s5.5 1.7 6 5.2" fill="none" stroke="#fff" stroke-width="1.5"></path></g>
+    <g id="ico-chip"><circle cx="0" cy="-6" r="2" fill="none" stroke="#fff" stroke-width="1.4"></circle><circle cx="-6" cy="4.5" r="2" fill="none" stroke="#fff" stroke-width="1.4"></circle><circle cx="6" cy="4.5" r="2" fill="none" stroke="#fff" stroke-width="1.4"></circle><circle cx="0" cy="1" r="2.3" fill="none" stroke="#fff" stroke-width="1.4"></circle><line x1="0" y1="-4" x2="0" y2="-1.3" stroke="#fff" stroke-width="1.3"></line><line x1="-1.8" y1="2.2" x2="-4.3" y2="3.5" stroke="#fff" stroke-width="1.3"></line><line x1="1.8" y1="2.2" x2="4.3" y2="3.5" stroke="#fff" stroke-width="1.3"></line></g>
+  </defs>
+
+  <!-- ═══ TL RING: outer R=420, inner cutout R=300, ring ~120px ═══ -->
+  <g id="tlRing" style="filter:url(#ringSh);cursor:pointer" role="button" tabindex="0">
+    <!-- Visible ring (masked) -->
+    <polygon class="ring-fill" fill="url(#gTL)" mask="url(#ringMask)" points="530.0,0.0 265.0,459.0 -265.0,459.0 -530.0,0.0 -265.0,-459.0 265.0,-459.0"></polygon>
+    <!-- Full outer hex catches clicks on ring area -->
+    <polygon fill="transparent" points="530.0,0.0 265.0,459.0 -265.0,459.0 -530.0,0.0 -265.0,-459.0 265.0,-459.0"></polygon>
+    <!-- Inner hex blocks clicks from reaching TL ring inside cluster area -->
+    <polygon fill="transparent" style="pointer-events:all;cursor:default" points="430.0,0.0 215.0,372.4 -215.0,372.4 -430.0,0.0 -215.0,-372.4 215.0,-372.4"></polygon>
+  </g>
+
+  <!-- TL label at BOTTOM of ring -->
+  <g style="pointer-events:none">
+    <use href="#ico-bulb" transform="translate(0,388) scale(1.8)"></use>
+    <text font-family="Inter,sans-serif" font-weight="700" font-size="19" fill="#fff" text-anchor="middle" x="0" y="428">CGI's Thought Leadership</text>
+  </g>
+
+
+    <!-- PNC + CGI logos at TOP of ring — centered in band y=-459 to -372 -->
+  <g style="pointer-events:none">
+    <text font-family="Inter,sans-serif" font-weight="700" font-size="32" fill="#FF6600" text-anchor="middle" x="-44" y="-406">PNC</text>
+    <circle cx="0" cy="-413" r="4" fill="rgba(255,255,255,0.65)"></circle>
+    <text font-family="Inter,sans-serif" font-weight="700" font-size="32" fill="#5B2D8E" text-anchor="middle" x="44" y="-406">CGI</text>
+    <text font-family="Inter,sans-serif" font-weight="400" font-size="14" fill="rgba(255,255,255,0.85)" text-anchor="middle" x="2" y="-384">Retail Bank Operations</text>
+  </g>
+
+  <!-- ═══ 11 INNER HEXES — tessellating 3-4-4, flat-top, s=74 ═══
+       dx=128.1, dy=111.0
+       Row 0 (y=-111): x=-128.1, 0, 128.1
+       Row 1 (y=0):    x=-192.2, -64.1, 64.1, 192.2
+       Row 2 (y=111):  x=-192.2, -64.1, 64.1, 192.2
+  ═══════════════════════════════════════════════════════════════ -->
+
+  <!-- ROW 0 -->
+  <g class="hex-g" id="hex-lendingservicing" data-key="lendingservicing" style="filter:url(#hexSh)" tabindex="0" role="button">
+    <polygon class="base" fill="url(#gRed)" points="-69.5,-142.5 -117.0,-60.2 -212.0,-60.2 -259.5,-142.5 -212.0,-224.8 -117.0,-224.8"></polygon>
+    <use href="#ico-hand" transform="translate(-164.5,-170.5) scale(1.35)"></use>
+    <text class="hex-label" x="-164.5" y="-138.5" font-size="17">Lending</text>
+    <text class="hex-label" x="-164.5" y="-118.5" font-size="17">Servicing</text>
+  </g>
+
+  <g class="hex-g" id="hex-lendingaccounts" data-key="lendingaccounts" style="filter:url(#hexSh)" tabindex="0" role="button">
+    <polygon class="base" fill="url(#gPurple)" points="95.0,-142.5 47.5,-60.2 -47.5,-60.2 -95.0,-142.5 -47.5,-224.8 47.5,-224.8"></polygon>
+    <use href="#ico-id" transform="translate(0.0,-170.5) scale(1.35)"></use>
+    <text class="hex-label" x="0.0" y="-138.5" font-size="16">Lending Account</text>
+    <text class="hex-label" x="0.0" y="-118.5" font-size="16">Services</text>
+  </g>
+
+  <g class="hex-g" id="hex-collateral" data-key="collateral" style="filter:url(#hexSh)" tabindex="0" role="button">
+    <polygon class="base" fill="url(#gRed)" points="259.5,-142.5 212.0,-60.2 117.0,-60.2 69.5,-142.5 117.0,-224.8 212.0,-224.8"></polygon>
+    <use href="#ico-lock" transform="translate(164.5,-170.5) scale(1.35)"></use>
+    <text class="hex-label" x="164.5" y="-138.5" font-size="16">Collateral Mgmt</text>
+    <text class="hex-label" x="164.5" y="-118.5" font-size="16">&amp; Research</text>
+  </g>
+
+  <!-- ROW 1 -->
+  <g class="hex-g" id="hex-adjustments" data-key="adjustments" style="filter:url(#hexSh)" tabindex="0" role="button">
+    <polygon class="base" fill="url(#gPurple)" points="-151.8,0.0 -199.3,82.3 -294.3,82.3 -341.8,0.0 -294.3,-82.3 -199.3,-82.3"></polygon>
+    <use href="#ico-slide" transform="translate(-246.8,-28.0) scale(1.35)"></use>
+    <text class="hex-label" x="-246.8" y="11.0" font-size="18">Adjustments</text>
+  </g>
+
+  <g class="hex-g" id="hex-monetary" data-key="monetary" style="filter:url(#hexSh)" tabindex="0" role="button">
+    <polygon class="base" fill="url(#gPurple)" points="12.7,0.0 -34.8,82.3 -129.8,82.3 -177.3,0.0 -129.8,-82.3 -34.8,-82.3"></polygon>
+    <use href="#ico-coin" transform="translate(-82.3,-28.0) scale(1.35)"></use>
+    <text class="hex-label" x="-82.3" y="4.0" font-size="17">Monetary</text>
+    <text class="hex-label" x="-82.3" y="24.0" font-size="17">Operations</text>
+  </g>
+
+  <g class="hex-g" id="hex-dayops" data-key="dayops" style="filter:url(#hexSh)" tabindex="0" role="button">
+    <polygon class="base" fill="url(#gBlue)" points="177.3,0.0 129.8,82.3 34.8,82.3 -12.7,0.0 34.8,-82.3 129.8,-82.3"></polygon>
+    <use href="#ico-cal" transform="translate(82.3,-28.0) scale(1.35)"></use>
+    <text class="hex-label" x="82.3" y="4.0" font-size="17">Day 1 / Day 2</text>
+    <text class="hex-label" x="82.3" y="24.0" font-size="17">Operations</text>
+  </g>
+
+  <g class="hex-g" id="hex-dito" data-key="dito" style="filter:url(#hexSh)" tabindex="0" role="button">
+    <polygon class="base" fill="url(#gRed)" points="341.8,0.0 294.3,82.3 199.3,82.3 151.8,0.0 199.3,-82.3 294.3,-82.3"></polygon>
+    <use href="#ico-refresh" transform="translate(246.8,-28.0) scale(1.35)"></use>
+    <text class="hex-label" x="246.8" y="-12.0" font-size="14">Recovery/Default</text>
+    <text class="hex-label" x="246.8" y="6.0" font-size="14">Investor/Transfer</text>
+    <text class="hex-label" x="246.8" y="24.0" font-size="14">Ops (DITO)</text>
+  </g>
+
+  <!-- ROW 2 -->
+  <g class="hex-g" id="hex-reconcilement" data-key="reconcilement" style="filter:url(#hexSh)" tabindex="0" role="button">
+    <polygon class="base" fill="url(#gBlue)" points="-151.8,142.5 -199.3,224.8 -294.3,224.8 -341.8,142.5 -294.3,60.2 -199.3,60.2"></polygon>
+    <use href="#ico-scale" transform="translate(-246.8,114.5) scale(1.35)"></use>
+    <text class="hex-label" x="-246.8" y="146.5" font-size="16">Branch / Central</text>
+    <text class="hex-label" x="-246.8" y="166.5" font-size="16">Reconcilement</text>
+  </g>
+
+  <g class="hex-g" id="hex-cxi" data-key="cxi" style="filter:url(#hexSh)" tabindex="0" role="button">
+    <polygon class="base" fill="url(#gRed)" points="12.7,142.5 -34.8,224.8 -129.8,224.8 -177.3,142.5 -129.8,60.2 -34.8,60.2"></polygon>
+    <use href="#ico-headset" transform="translate(-82.3,114.5) scale(1.35)"></use>
+    <text class="hex-label" x="-82.3" y="146.5" font-size="17">CXI Deep Dive</text>
+    <text class="hex-label" x="-82.3" y="166.5" font-size="17">(Care Center)</text>
+  </g>
+
+  <g class="hex-g" id="hex-talent" data-key="talent" style="filter:url(#hexSh)" tabindex="0" role="button">
+    <polygon class="base" fill="url(#gGrey)" points="177.3,142.5 129.8,224.8 34.8,224.8 -12.7,142.5 34.8,60.2 129.8,60.2"></polygon>
+    <use href="#ico-people" transform="translate(82.3,114.5) scale(1.35)"></use>
+    <text class="hex-label" x="82.3" y="146.5" font-size="16">Talent Acquisition</text>
+    <text class="hex-label" x="82.3" y="166.5" font-size="16">Deep Dive</text>
+  </g>
+
+  
+
+<g class="hex-g" id="hex-toolstech" data-key="toolstech" style="filter:url(#hexSh)" tabindex="0" role="button">
+    <polygon class="base" fill="url(#gGrey)" points="341.8,142.5 294.3,224.8 199.3,224.8 151.8,142.5 199.3,60.2 294.3,60.2"></polygon>
+    <use href="#ico-chip" transform="translate(246.8,114.5) scale(1.35)"></use>
+    <text class="hex-label" x="246.8" y="146.5" font-size="16">Tools &amp; Tech</text>
+    <text class="hex-label" x="246.8" y="166.5" font-size="16">Recommendations</text>
+  </g></svg>
+</div>
+
+<div class="detail" id="detail">
+  <div class="detail-inner" id="detailInner">
+    <button class="back-btn" id="backBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"></path></svg>
+      Back to map
+    </button>
+    <h2 id="detailTitle">Tools &amp; Technology (Care Center)</h2>
+    <div class="section trends" id="secTrends" style="display: none;"><div class="sec-head"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l6-6 4 4 8-9"></path></svg>Industry trends</div><ul id="detailTrends"></ul></div>
+    <div class="section overview"><div class="sec-head"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 11v6"></path><circle cx="12" cy="7.5" r="1" fill="currentColor"></circle></svg>Why it matters</div><p id="detailOverview"></p></div>
+    <div class="section kpf" id="secKPF">
+      <div class="sec-head">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22c-4-3-7-6.4-7-11a7 7 0 0 1 14 0c0 4.6-3 8-7 11z"></path><circle cx="12" cy="11" r="2.5"></circle></svg>
+        Key Process Functions
+      </div>
+      <ul class="role-list" id="detailRole"></ul>
+    </div>
+    <div class="section process" id="secProcess" style="display: none;"><div class="sec-head"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="12" r="3"></circle><path d="M9 7l6 4M9 17l6-4"></path></svg>Opportunities for Process Optimization</div><ul id="detailProcess"></ul></div>
+    <div class="section auto" id="secAuto" style="display: none;"><div class="sec-head"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L4 14h6l-1 8 9-12h-6z"></path></svg>How and Where Automation Can Help</div><ul id="detailAuto"></ul></div>
+  </div>
+</div>
+</div>
+<footer>CGI Point of View — Retail Bank Operations</footer>
+
+<script>
+const POV_MAP={red:{label:'Automation-Rich Functions',cls:'pov-red'},purple:{label:'Process Optimization',cls:'pov-purple'},blue:{label:'Cost Take-Out',cls:'pov-blue'},grey:{label:'Care Center & Cross-Cutting',cls:'pov-grey'}};
+const DATA = {
+  thoughtleadership:{name:"CGI's Thought Leadership",pov:'grey',
+    overview:"CGI's AI capabilities for Care Centers translate emerging contact center AI into applied, implementable capability — from automatic case summarization and sentiment analysis through real-time agent coaching, conversation mining, and features already deployed for existing clients.",
+    role:[
+      'Automatic Case Summarization: Instantly generate structured case summaries and classifications post-call — reduces handle time, improves data quality, frees agents for the next customer. Enable Agent Copilot on Genesys Cloud for a selected group of agents. Supported languages: English, Spanish, French, Italian, Dutch, German, Portuguese (Brazil & Portugal), Swedish, Swiss German, Arabic, Korean, Japanese, Hindi.',
+      'Sentiment Analysis at Scale: Operationalize sentiment scoring across all interactions to surface dissatisfaction trends, trigger escalation workflows, and measure CX health continuously. Uses out-of-the-box Genesys Cloud AI sentiment analysis — AI-powered tool that automatically analyzes customer speech or text to detect emotional tone (positive, negative, neutral) in real time.',
+      'Automated QA at Scale / AI Scoring: Move beyond sampling by automatically scoring 100% of interactions against quality frameworks and expand Auditor functionality to align with BPO partners at a behavior level. What Genesys delivers: AI-powered scoring via Virtual Supervisor; eliminates traditional QA sampling → full population coverage; uses evaluation forms + scoring rules aligned to quality framework; applies consistent criteria → removes evaluator bias.',
+      'Real-Time Agent Coaching: Beyond next-best-action: live de-escalation techniques, suggested phraseology, and in-the-moment guidance to drive CX quality and first-call resolution. Real-time escalation for Supervisor intervention. Agent Assist / Real-Time Speech & Text Analytics: live transcription (voice & digital), keyword/topic detection, automated prompts, next-best-action suggestions. Example: Customer says "I want to cancel" → system triggers retention script; compliance keyword missing → real-time alert to agent.',
+      'Conversation Mining: Understanding the "black box" of calls that never convert to cases. Genesys Cloud delivers: automatic transcription (voice + digital), topic detection & clustering, sentiment analysis (customer + agent), silence/interruptions/overtalk detection → turns calls into structured, searchable data. Self-Service Optimization: identify repetitive low-value contacts → feed IVR improvements, chatbot automation, knowledge base updates.'
+    ],
+    process:[
+      'Features Deployed for Existing Clients — Part 1/p.20):',
+      'Call Summary Insights (Including multilingual, FR, SP): Agents struggle to capture key points during calls → Automated post-call pipeline via Amazon Connect Contact Lens → ~135k minutes saved per month, increased data accuracy, no human errors',
+      'Agent Evaluation using GenAI: Manual evaluation leads to delays, inconsistency, limited coverage → Automated QA engine with Performance Evaluation forms → 90% coverage, consistency in scoring, real-time/on-demand feedback',
+      'GenAI Chatbot: Unable to provide personalized & interactive self-service → Amazon Bedrock Agent + Amazon Lex → New self-service channel, reduced response time by 24hrs, multiple concurrent chats',
+      'OTP Based Authentication: Distinguishing fraud and actual calls cumbersome → OTP based authentication over call via DTMF → Reduction of risks, ~8.2k minutes saved per month',
+      'Callback Service: Long hold time leads to dissatisfaction → Call back option via Amazon Connect Queued Callback → Reduction of call waiting time by 5min, more customers served, efficiently managed agent workload',
+      'Features Deployed for Existing Clients — Part 2/p.21):',
+      'Call Prioritization: Unable to redirect VIP calls to experienced agents → VIP users configured to be prioritized in queue → 70% increase in customer satisfaction, reduction of call waiting time',
+      'User Experience Testing: Customer calls received and caused interruptions during real testing → Dedicated separate test line mirroring production → Proactive issue identification and resolution, no end-user impact',
+      'Agent Workspace: Agents juggle between multiple apps while handling a customer → Single personalized view across Chat and Phone channels (Amazon Agent Workspace) → Increased customer satisfaction, 2–3 minutes saved per call, no human errors',
+      'Agent Assist (Gen AI based): Slow manual knowledge searching leads to long hold times → Real-time generative co-pilot integrated into workspace (Amazon Q + Amazon Bedrock) → Real-time next-best-actions, FCR improved by 15–25%, improved CSAT'
+    ],
+    auto:[
+      'Amazon Connect Contact Lens: Automated post-call summarization pipeline — ~135K minutes/month efficiency gain; multilingual support (FR, SP)',
+      'Amazon Bedrock Agent + Amazon Lex: GenAI chatbot delivering 24/7 self-service with human-like interaction; 35–45% deflection of repetitive Tier-1 queries',
+      'Performance Evaluation Forms with GenAI: Automated QA engine achieving 90% scoring coverage; real-time and on-demand feedback; consistency in scoring eliminates evaluator bias',
+      'Amazon Connect Queued Callback: Reduces call waiting time by 5 minutes; efficiently manages agent workload; eliminates dissatisfaction from long hold times',
+      'Amazon Q + Amazon Bedrock (Agent Assist): Real-time generative co-pilot in agent workspace — next-best-actions, instant KB answers; FCR improved by 15–25%',
+      'Branded Calling (Neustar + Amazon Lambda + Amazon Connect): 25–40% increase in call answer rates; branded logo on outbound calls; protects brand reputation from spoofing',
+      'DR Sync (Amazon Lambda + Step Functions + Event Bridge): Interval-based sync between Amazon Connect instances — up to 70% reduction in manual effort; near-zero downtime; zero configuration drift'
+    ],
+    trends:[
+      'AI is becoming the operational layer connecting automation, employee experience, workflow orchestration, and continuous service optimization — no longer a point solution but the connective tissue of the contact center',
+      '100% QA interaction coverage is becoming the industry standard — automated scoring via Virtual Supervisor/GenAI replaces the statistical sampling model across all interaction types',
+      'Conversation mining is unlocking the "black box" of unstructured call data — topic clustering, sentiment analysis, and overtalk detection turn raw call volume into actionable self-service and process improvement signals',
+      'Real-time agent coaching (live transcription, keyword detection, next-best-action) is displacing post-call feedback as the primary quality intervention mechanism',
+      'Proactive, AI-triggered outbound capabilities (branded calling, callback, OTP authentication) are emerging as structural efficiency strategies — recovering answer rates, reducing fraud risk, and eliminating avoidable hold time'
+    ]},
+  lendingservicing:{
+    name:'Lending Servicing', pov:'red',
+    overview:'A Lending Services Group that manages escrow administration, lien release, repurchase management, investor reporting, and related servicing functions is a critical component of a bank\'s operating model because it safeguards the bank\'s financial interests, protects regulatory compliance, preserves customer trust, and ensures the accurate administration of loans throughout their lifecycle.',
+    role:[
+      'Loan Review — end-to-end loan & document tracking from closing through delivery; bridges Empower to MSP boarding. 3,500+ scenarios supported in production.',
+      'Lien Release — automated lien release requests from the MSP payoff feed; private-investor workflow handling. 100% county recording SLA compliance.',
+      'E-Recording — electronic recording package prep & submission; CDC / Simplifile integration. 40% cycle-time reduction via automation.',
+      'Repurchase — case management with configurable approval thresholds and routing. $500K+ approval-threshold governance in production.',
+      'Escrow — escrow exception workflow from the MSP mass-analysis cycle; bulk-clearing for high-volume states. 20K+ peak monthly exception volume handled.',
+      'Investor Reporting — SSR / investor reporting support with system-generated extracts. Zero missed regulatory recording deadlines.'
+    ],
+    process:[
+      'Exception Management Automation (Escrow & Servicing Operations) — Challenge: high-volume escrow exception handling for tax, insurance, and escrow analysis discrepancies during mass-analysis cycles. Value: 30–50% reduction in manual touchpoints, faster exception resolution, improved regulatory compliance and customer experience, increased capacity during peak escrow analysis periods',
+      'End-to-End Digital Lien Release Processing — Challenge: coordinating lien releases with county recorders, investors, and customers across varying jurisdictional requirements and rejection handling. Value: reduced turnaround time from payoff to release, lower operational costs, fewer recording defects and customer complaints, improved compliance with recording deadlines',
+      'Repurchase Case Intelligence & Workflow Optimization — Challenge: low-volume but high-stakes intake, documentation gathering, investor communication, and outcome tracking. Opportunity: centralize repurchase case management. Value: faster response times to investor demands, reduced repurchase losses, better governance and executive visibility, earlier identification of systemic quality issues',
+      'Investor Reporting & Reconciliation Transformation — Challenge: reporting, remittance, and reconciliation across principal, interest, escrow, payoffs, delinquencies, and other loan events. Opportunity: establish a unified data and reporting platform; introduce dashboard-based performance monitoring and exception reporting'
+    ],
+    auto:[
+      'Automated lien release creation from MSP daily payoff feed — no manual intervention required',
+      'Bulk-clearing engine for VEA mass-analysis exceptions in high-volume states (20K+ per cycle)',
+      'E-Recording electronic submission pipeline via Simplifile and CDC with auto-confirmation matching',
+      'SSR reporting with system-generated extracts — zero manual report preparation'
+    ],
+    trends:[
+      'The mortgage servicing software market is projected to grow from ~$5.6B in 2025 to $7.65–8.2B by 2029–2030, an ~8% CAGR driven by AI-driven servicing analytics adoption (The Business Research Company, 2026)',
+      'Lenders gaining ground in 2025–2026 are converging on "hybrid intelligence" — combining automation and analytics with retained human expertise for judgment-heavy servicing events rather than full end-to-end automation',
+      'Rate volatility and elevated servicing complexity are increasing reliance on dynamic, cash-flow-based MSR valuation models, with servicing economics influencing pricing and hedging decisions earlier in the loan lifecycle',
+      'Portfolio and platform modernization is increasingly executed as phased ETL migrations rather than "big bang" cutovers, allowing servicers to move books of business to modern platforms without disrupting relationships',
+      'RPA/AI deployment across loan servicing workflows is associated with 60–70% faster processing and ~45% error reduction in document- and decision-heavy banking processes (Automely, 2026)'
+    ],goals:[]
+  },
+  lendingaccounts:{
+    name:'Lending Account Services', pov:'purple',
+    overview:'Account services keep loan records accurate and responsive throughout the life of the loan. Reliable account services reduce servicing errors, complaints, and compliance risk while enabling smooth handoffs from origination to servicing.',
+    role:['Support account maintenance: address changes, payment plan updates, lien releases','Process new-account setup and boarding for originated loans','Respond to servicing inquiries from customers, branches, and internal partners'],
+    process:[
+      'Digital Customer Request Intake & Case Management — Challenge: requests arrive through multiple channels (contact centers, mail, email, branches, servicing portals), creating fragmented workflows and inconsistent tracking. Opportunity: centralized omnichannel intake, digital document submission, automated case creation and routing, unified servicing dashboard. Value: faster request resolution, improved SLA adherence, reduced manual handoffs, enhanced customer experience',
+      'Loan Payoff Processing Transformation — Challenge: payoff processing relies on manual calculations, spreadsheet-based workflows, quote generation, lien release coordination, and exception handling. Opportunity: real-time payoff quote generation, automated payoff validation, straight-through payoff processing, automated payoff-to-lien-release integration. Value: reduced payoff errors, faster fulfillment, reduced operational cost, improved customer satisfaction at loan closure',
+      'Intelligent Research & Exception Resolution — Challenge: servicing teams spend substantial effort researching billing disputes, NOEs, RFIs, payment discrepancies, and account maintenance requests. Opportunity: AI-assisted account research, automated document retrieval, knowledge-enabled servicing workflows, rules-based exception categorization and resolution. Value: shorter investigation cycles, increased employee productivity, greater response consistency, lower regulatory risk',
+      'Proactive Customer Communication & Compliance Monitoring — Challenge: many servicing organizations remain reactive, communicating only when customers reach out. Opportunity: automated status notifications, self-service loan servicing portal, digital payoff tracking, automated regulatory deadline monitoring, real-time SLA reporting and exception alerts. Value: lower call center volumes, improved borrower satisfaction, reduced regulatory findings, increased operational transparency'
+    ],
+    auto:['Rules-based automation for routine account maintenance requests','Automated data validation checks at loan boarding','AI-assisted case triage to route inquiries faster','Digital self-service for common account service requests'],
+    trends:[
+      'Rising demand for straight-through processing of routine account maintenance so that only genuine exceptions reach a human agent',
+      'Banks deploying RPA/AI on account-maintenance workflows report 79% experiencing time savings, 69% higher productivity, and 61% cost reductions from automation of high-volume, rules-based work (Q3Edge, 2026)',
+      'Increasing origination-channel diversity is creating more inconsistent boarding data, surfacing later as servicing defects — pushing teams to demand stronger validation checks at boarding rather than downstream cleanup',
+      'Where intelligent automation is applied to account servicing, institutions report efficiency improvements of ~15 percentage points over legacy RPA, attributed to IA\'s ability to resolve exceptions rules-only bots must escalate (Backbase, 2026)',
+      'Customer preference is shifting decisively toward digital self-service for common account service requests'
+    ],
+    goals:['Automate routine maintenance through rules-based workflows','Improve data validation at loan boarding','Expand digital self-service for common requests','Use AI-assisted case management to triage and route inquiries faster']
+  },
+  collateral:{
+    name:'Collateral Management & Research', pov:'red',
+    overview:'Collateral is what stands behind the bank\'s credit risk. Without accurate valuation and lien perfection, the bank cannot reliably recover losses in default. This function protects the bank\'s financial position and its ability to lend responsibly.',
+    role:['Track, value, and perfect collateral securing consumer and commercial loans','Conduct lien and title research to resolve collateral documentation gaps','Monitor collateral for insurance, valuation, and compliance requirements'],
+    process:[
+      'Digital Collateral Intake & Document Custody Automation — Challenge: collateral files arrive from multiple sources (closing agents, title companies, legal firms, custodians, borrowers, internal loan operations); manual handling creates delays, missing documentation, and research activity. Opportunity: automated document ingestion, digital collateral vault, automated exception flagging for missing documents, real-time custody tracking. Value: reduced document loss risk, faster collateral boarding, improved audit readiness, reduced manual processing effort',
+      'Collateral Exception Management & Resolution Automation — Challenge: managing missing collateral, defective documentation, recording issues, title discrepancies, notary defects, and custodial exceptions requires extensive research and multi-party coordination. Opportunity: intelligent routing workflows, automated root-cause identification, exception prioritization by risk exposure, guided resolution workflows. Value: reduced exception aging, improved SLA compliance, faster issue resolution, reduced operational risk',
+      'Collateral Perfection & Risk Monitoring Modernization — Challenge: liens must remain perfected and collateral records accurate throughout the life of the loan; missing filings or expired perfection requirements expose the institution to legal and financial losses. Opportunity: centralized collateral inventory management, automated perfection monitoring, expiration and renewal alerts, portfolio-level collateral risk dashboards, automated compliance controls. Value: reduced legal exposure, improved first-lien position protection, proactive risk management, stronger regulatory compliance',
+      'Research, Customer Response & Third-Party Coordination Transformation — Challenge: collateral research teams spend considerable effort interacting with custodians, title companies, attorneys, investors, county recorders, and customers to resolve inquiries and defects. Opportunity: automated document retrieval, standardized correspondence generation, integrated case management portal, third-party collaboration workflow. Value: faster inquiry resolution, improved customer response times, reduced manual research effort, better visibility into outstanding actions'
+    ],
+    auto:['Automated valuation models (AVMs) to reduce manual appraisal review','OCR and AI-assisted title and lien document processing','Automated monitoring alerts for insurance lapses or valuation triggers','Centralized data repositories with API-driven collateral visibility'],
+    trends:[
+      '47% of HELOC and home equity loan originations in 2024 were subject to an AVM rather than a traditional appraisal — the highest adoption rate on record and more than double the 2019–2020 share (Mortgage Bankers Association, 2025)',
+      'AVM usage on home equity products increased by 20 percentage points year-over-year in 2024, with adoption expected to exceed 50% of alternative valuation products by late 2026 (Homesage.ai, 2026)',
+      'CFPB automated-valuation-model quality-control standards became effective October 2025, requiring lenders to validate AVM outputs are accurate and free of demographic bias',
+      'Sophisticated institutions are converging on hybrid valuation strategies — AVMs for standard collateral, physical inspection reserved for unique properties, thin markets, or higher-risk transactions',
+      'Rising expectation for centralized, API-driven collateral data repositories providing real-time visibility into valuation, lien status, and insurance coverage across risk and portfolio teams'
+    ],
+    goals:['Deploy automated valuation and monitoring tools','Digitize title and lien research workflows','Build centralized collateral data repositories','Use analytics to proactively flag collateral documentation risk']
+  },
+  adjustments:{
+    name:'Adjustments', pov:'purple',
+    overview:'The Adjustments Team serves as the bank\'s financial correction and exception management function. Its primary goal is to ensure transactions are posted accurately, customer balances are correct, and operational errors are resolved quickly and compliantly.',
+    role:[
+      'Customer Request Receipt — centralize case intake with common data attributes; digitize requests and reduce paper/physical documents',
+      'Research & Investigation — reduce unnecessary investigation; centralize data required for research with clear data definitions',
+      'Action Determination — standardize decision trees and business rules for consistent outcomes; reduce supervisor approvals via risk-based routing',
+      'Process Adjustment — reduce unwarranted data entry; cross-train agents to process low-complexity adjustments',
+      'Notify Customer via Channels — enable alerting via digital channels or front-line staff; streamline communication strategies',
+      'Case Closure & Quality Assurance — build a knowledge repository to analyze root-cause trends and feed automation rules'
+    ],
+    process:[
+      'Customer-Initiated Account Correction Intake & Routing — Challenge: high volumes of customer-initiated account corrections (fee reversals, ATM disputes, posting adjustments) require manual review and routing. Opportunity: AI-enabled request intake, classification, and routing. Value: 20–40% reduction in handling effort and faster processing turnaround',
+      'Research & Case Assembly Automation — Challenge: analysts spend significant time collecting transaction evidence and researching customer requests. Opportunity: automated research and case assembly. Value: 30–50% reduction in investigation cycle times',
+      'Low-Risk Adjustment Auto-Resolution — Challenge: low-risk adjustments still require manual decisioning and approvals. Opportunity: rules-based straight-through processing. Value: 40–70% auto-resolution rates',
+      'Proactive Case Status Communication — Challenge: customers frequently call for status updates. Opportunity: automated case notifications and self-service tracking. Value: 15–25% reduction in inbound servicing calls'
+    ],
+    auto:[
+      'Workflow/Case Management Solutions — automated routing and case tracking end-to-end',
+      'Data Centralization & Document AI — digitization and AI-assisted document intake and classification',
+      'Machine Learning & Deterministic BRE — rules engine for consistent action determination; ML to flag likely error triggers before they reach the queue'
+    ],
+    trends:[
+      '68% of financial institutions implementing RPA on exception-heavy back-office processes report a 30% productivity increase within the first year (SynapseIndia RPA Trends in Banking, 2026)',
+      'Banks applying RPA/AI to exception and adjustment workflows report error reductions of roughly 45%, reinforcing the case for machine-assisted action determination (Automely, 2026)',
+      'Institutions are moving past first-generation RPA toward intelligent automation (IA) — IA can interpret missing or ambiguous case data and request it automatically, a capability rules-only bots lack',
+      'Growing regulatory and audit pressure to standardize decisioning through documented business rules engines (BRE) and decision trees, replacing tribal-knowledge judgment calls with defensible, repeatable action determination',
+      'Script-based RPA maintenance consumes 30–50% of the original implementation cost annually, pushing teams to migrate toward AI-native platforms (Kognitos, 2026)'
+    ],goals:[]
+  },
+  monetary:{
+    name:'Monetary Operations', pov:'purple',
+    overview:'Monetary Operations moves the bank\'s money safely and accurately across every payment rail. Its importance has grown as customers expect instant, always-on payments and fraud threats evolve alongside faster rails.',
+    role:['Process wire transfers, ACH, and other high-value payment transactions','Manage cash letter, clearing, and settlement across payment rails','Monitor for payment errors, fraud, and exception items'],
+    process:[
+      'Centralized Intake & Workflow Orchestration — Challenge: financial correction requests arrive through inconsistent channels, often involving emails and spreadsheets. Opportunity: centralized intake and workflow orchestration. Value: 25–35% productivity improvement',
+      'Unified Transaction Analysis Workspace — Challenge: analysts must gather information across multiple servicing and payment systems. Opportunity: unified transaction analysis workspace. Value: 20–40% reduction in research effort',
+      'Automated Decisioning & Calculation Engines — Challenge: manual calculations create error risk in corrections, adjustments, and refunds. Opportunity: automated decisioning and calculation engines. Value: 50–80% reduction in processing errors',
+      'Defect Analytics & Root-Cause Management — Challenge: recurring servicing defects create avoidable write-offs and monetary losses. Opportunity: defect analytics and root-cause management. Value: 10–20% reduction in operational losses'
+    ],
+    auto:['AI-driven fraud detection and scoring across all payment channels','Automated exception and repair processing for common payment errors','Straight-through processing for low-risk, high-volume payment types','Unified dashboards that automatically reconcile activity across rails'],
+    trends:[
+      'FedNow reached 1,725 banks and credit unions — 19.7% of U.S. financial institutions — by Q1 2026, processing 2.73 million transactions worth $271.25 billion per quarter (Federal Reserve Bank of Richmond, 2026)',
+      'The RTP network processes ~128 million transactions worth ~$480 billion per quarter with technical reach to institutions holding ~90% of U.S. demand deposit accounts (Federal Reserve Bank of Richmond, 2026)',
+      '58% of U.S. financial institutions supporting instant payments run both RTP and FedNow — multi-rail operational support has become the baseline requirement, not the exception (PYMNTS / The Clearing House)',
+      'Customer and business expectations for 24/7/365 payment availability are pushing monetary operations away from batch-oriented settlement windows toward continuous exception monitoring and repair',
+      'As settlement moves to near-instant finality, fraud monitoring is shifting from post-transaction review to AI-driven, pre-settlement scoring across all rails simultaneously'
+    ],
+    goals:['Modernize payment infrastructure to support real-time rails','Deploy AI-driven fraud monitoring across all channels','Automate exception and repair processing','Build unified payment operations dashboards across all rails']
+  },
+  dito:{
+    name:'Recovery / Default / Investor / Transfer Ops', pov:'red',
+    overview:'DITO governs what happens when loans go wrong or change hands — recovery, default management, investor reporting, and servicing transfers. How these processes are handled directly affects the bank\'s losses, regulatory standing, and investor relationships.',
+    role:['Manage delinquent and defaulted loan accounts through recovery and collections','Support investor reporting and loan transfer / servicing-release activities','Coordinate default-related workflows including foreclosure, repossession, and charge-off'],
+    process:[
+      'Automated Onboarding & Investor Validation — Challenge: investor loan boarding and setup activities require substantial manual validation. Opportunity: automated onboarding and investor validation. Value: 30–50% reduction in onboarding effort',
+      'Digital Recovery & Foreclosure Management — Challenge: recovery and default case management relies on fragmented workflows. Opportunity: digital recovery and foreclosure management platforms. Value: 20–40% faster case resolution',
+      'Automated Reconciliation & Exception Management — Challenge: cash, investor, and balance reconciliations are labor-intensive. Opportunity: automated reconciliation and exception management. Value: 50–70% reduction in reconciliation effort',
+      'Workflow-Driven Transfer Management — Challenge: loan transfers and servicing transfers introduce operational risk and defects. Opportunity: workflow-driven transfer management and automated validations. Value: 25–50% reduction in transfer-related exceptions',
+      'Automated Reporting Validations & Quality Controls — Challenge: investor reporting corrections and rejects require ongoing remediation. Opportunity: automated reporting validations and quality controls. Value: 30–50% reduction in reporting defects'
+    ],
+    auto:['Predictive analytics to prioritize and personalize recovery strategies','Automated investor reporting to reduce manual reconciliation','Standardized, automated data packages for servicing transfers','Automated compliance checkpoints embedded into default workflows'],
+    trends:[
+      'Recovery and collections functions are moving from static, rules-based prioritization toward dynamic, analytics-driven risk scoring that personalizes contact strategy by borrower rather than treating all delinquent accounts uniformly',
+      'Servicing transfer volume and complexity are rising, increasing pressure for standardized, automated data packages between transferring and receiving servicers to reduce inconsistent handoffs that create downstream errors',
+      'The mortgage servicing software market underpinning investor reporting and transfer infrastructure is projected to grow at ~8% CAGR, from ~$5.6B in 2025 toward $7.65–8.2B by 2029–2030 (The Business Research Company, 2026)',
+      'Banking processes with high manual-reconciliation content show ~45% error-rate reductions when RPA/AI is applied — a benchmark cited to justify automating investor reporting reconciliation within DITO (Automely, 2026)',
+      'Regulatory emphasis on borrower protections during default, foreclosure, and servicing transfer continues to increase, requiring compliance checkpoints built directly into workflows rather than after-the-fact quality review'
+    ],
+    goals:['Use predictive analytics to personalize recovery strategies','Automate investor reporting to reduce manual reconciliation','Streamline transfer processes with standardized data packages','Build compliance checkpoints into default workflows']
+  },
+  reconcilement:{
+    name:'Branch / Central Reconcilement', pov:'blue',
+    overview:'Reconcilement ensures every dollar the bank believes it has actually exists and is properly accounted for. It\'s foundational to financial integrity — without it, the bank cannot certify its books, satisfy auditors, or catch fraud before it grows.',
+    role:['Balance branch cash, vault, and teller drawers against general ledger positions daily','Investigate and clear outstanding reconcilement items and aged suspense balances','Provide centralized oversight of GL reconcilement across deposit, loan, and clearing accounts'],
+    process:[
+      'AI-Driven Reconciliation Matching Engines — Challenge: high volumes of transactions require manual matching across systems. Opportunity: AI-driven reconciliation matching engines. Value: 60–90% auto-match rates',
+      'Exception-Based Reconciliation Processing — Challenge: analysts spend time reviewing low-risk reconciling items. Opportunity: exception-based reconciliation processing. Value: 30–50% productivity improvement',
+      'Enterprise Reconciliation Platform & Standardized Workflows — Challenge: reconciliation processes differ across business units. Opportunity: enterprise reconciliation platform and standardized workflows. Value: 20–30% operating cost reduction',
+      'Predictive Break Analytics & Early Warning Detection — Challenge: issues are often discovered after balances break. Opportunity: predictive break analytics and early warning detection. Value: 15–25% reduction in recurring breaks'
+    ],
+    auto:['Automated matching engines to replace manual ticking','Machine learning to auto-suggest matches for difficult break types','Workflow tools to auto-route aged items with SLA tracking','Dashboards that auto-flag anomalous break patterns'],
+    trends:[
+      '41% of finance teams cite bank reconciliation automation as an active AI deployment — ahead of budgeting/forecasting AI at 33% — making it one of the most mature AI use cases in financial operations (Gartner 2025 CFO Survey)',
+      'Organizations automating bank reconciliation have cut average month-end close time by 57%, from 8.2 days to 3.5 days — reconciliation cited as the single largest pre-automation source of close delay',
+      'Automated reconciliation platforms achieve 85–90% auto-match rates on day one, climbing to 97–99% within three to six months as matching rules mature (BlackLine, 2026)',
+      'Banks are consolidating branch-level reconcilement into centralized hub teams — standardized data formats and match rules are a prerequisite before automation can scale',
+      'As branch cash volumes decline, reconcilement focus is shifting from vault/teller drawer balancing toward digital and ACH-related breaks, changing the skill mix and tooling required'
+    ],
+    goals:['Implement automated GL-to-subledger matching','Establish a single central reconcilement utility','Use anomaly detection to surface likely breaks before month-end','Reduce aged item inventory through automation and workflow triage']
+  },
+  cxi:{name:'CXI Deep Dive (Care Center)',pov:'red',
+    overview:'',role:[],process:[],auto:[],trends:[]},
+  dayops:{
+    name:'Day 1 / Day 2 Operations', pov:'blue',
+    overview:'Day 1/Day 2 operations are the engine that turns each day\'s transactions into accurate, available account data by the next business day. Delays here cascade into every downstream function, from customer statements to regulatory reporting.',
+    role:['Execute end-of-day and next-day processing across core banking platforms','Validate overnight batch results, exception reports, and system interface reconciliations','Ensure downstream systems reflect accurate, timely data'],
+    process:[
+      'Automated Compliance & Validation Controls — Challenge: regulatory transaction reviews require extensive manual validation and correction activities. Opportunity: automated compliance and validation controls. Value: 50–75% reduction in manual review effort',
+      'RPA for Data Gathering & Validation — Challenge: employees navigate multiple applications to validate transaction information. Opportunity: Robotic Process Automation (RPA) for data gathering and validation. Value: 60–80% reduction in touch time',
+      'Risk-Based Exception Routing — Challenge: large exception queues receive limited prioritization. Opportunity: risk-based workflow routing and exception scoring. Value: 20–40% faster resolution cycles',
+      'Automated Reporting & Compliance Monitoring — Challenge: reporting and compliance monitoring remain highly manual. Opportunity: automated dashboards and reporting controls. Value: 50–70% reduction in management reporting effort'
+    ],
+    auto:['Automated batch monitoring with predictive alerts before failures occur','Self-healing scripts for common, well-understood exceptions','Automated reconciliation of batch outputs against control totals','Orchestration tools to sequence and parallelize jobs'],
+    trends:[
+      'Banks are actively migrating toward continuous, near-real-time processing models to shrink or eliminate the traditional Day 1/Day 2 gap rather than optimizing overnight batch windows',
+      'FedNow reached 1,725 banks and credit unions — 19.7% of U.S. financial institutions — by Q1 2026, processing $271.25 billion per quarter, accelerating the case for real-time operations (Federal Reserve Bank of Richmond, 2026)',
+      'Growing interdependency across core, payments, and downstream reporting systems is pushing institutions toward predictive batch monitoring and self-healing scripts that flag anomalies before failures cascade',
+      'Institutions applying RPA/automation across banking operations report time savings in 79% of cases and productivity gains in 69% — benchmarks cited to justify Day 1/Day 2 automation investment (Q3Edge, 2026)',
+      'Legacy batch windows are increasingly viewed as a structural constraint rather than a fixed operating assumption, as customers expect account data to reflect activity with little to no lag'
+    ],
+    goals:['Migrate toward continuous processing to shrink the Day 1/Day 2 gap','Introduce predictive monitoring to flag anomalies before they cascade','Automate exception triage and routing','Build resiliency playbooks for faster recovery']
+  },
+  talent:{name:'Talent Acquisition Deep Dive - Care Center',pov:'grey',
+    overview:'',role:[],process:[],auto:[],trends:[]},
+  toolstech:{name:'Tools & Technology (Care Center)',pov:'grey',
+    overview:'',role:[],process:[],auto:[],trends:[]},
+};
+
+const stage=document.getElementById('stage');
+const backBtn=document.getElementById('backBtn');
+const dTitle=document.getElementById('detailTitle');
+const dOverview=document.getElementById('detailOverview');
+const dRole=document.getElementById('detailRole');
+const dProcess=document.getElementById('detailProcess');
+const dAuto=document.getElementById('detailAuto');
+const dTrends=document.getElementById('detailTrends');
+const secProcess=document.getElementById('secProcess');
+const secAuto=document.getElementById('secAuto');
+const secTrends=document.getElementById('secTrends');
+const detailInner=document.getElementById('detailInner');
+const tlRing=document.getElementById('tlRing');
+let activeKey=null;
+function fillList(el,items){el.innerHTML='';(items||[]).forEach(t=>{const li=document.createElement('li');li.textContent=t;el.appendChild(li);});}
+function buildLSTrends(){
+  return `<div style="font-family:var(--font-sans)">
+  <p style="font-size:11px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px">Industry trends — Lending Servicing</p>
+
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:12px;padding:16px;margin-bottom:10px">
+    <p style="font-size:12px;font-weight:500;color:var(--text-primary);margin-bottom:12px">Mortgage servicing software market</p>
+    <div style="position:relative;width:100%;height:160px"><canvas id="lsChart" role="img" aria-label="Line chart showing mortgage servicing software market growing from 5.6B in 2025 to projected 7.65 to 8.2B in 2030">$5.6B (2025) projected to $7.65–8.2B (2030) at ~8% CAGR.</canvas></div>
+  </div>
+
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:12px;padding:16px;margin-bottom:10px">
+    <p style="font-size:12px;font-weight:500;color:var(--text-primary);margin-bottom:12px">AI impact on loan servicing (Automely, 2026)</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div style="background:var(--surface-2);border-radius:8px;padding:14px;text-align:center">
+        <div style="font-size:22px;font-weight:500;color:#2a78d6;line-height:1.1;white-space:nowrap">60–70%</div>
+        <div style="font-size:11px;color:var(--text-secondary);margin-top:4px">faster processing</div>
+      </div>
+      <div style="background:var(--surface-2);border-radius:8px;padding:14px;text-align:center">
+        <div style="font-size:28px;font-weight:500;color:#1baf7a;line-height:1.1">~45%</div>
+        <div style="font-size:11px;color:var(--text-secondary);margin-top:4px">error reduction</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:12px;padding:16px">
+    <p style="font-size:12px;font-weight:500;color:var(--text-primary);margin-bottom:12px">Where 2025–26 leaders are positioning: hybrid intelligence</p>
+    <div style="text-align:center;margin-bottom:10px">
+      <span style="display:inline-block;background:var(--surface-2);border:0.5px solid var(--border);border-radius:6px;padding:4px 8px;font-size:10px;color:var(--text-secondary);white-space:nowrap">~60% auto · 40% human for judgment</span>
+    </div>
+    <div style="position:relative;padding-bottom:22px">
+      <div style="height:8px;border-radius:4px;background:linear-gradient(to right,#2a78d6,#e1e0d9);margin-bottom:5px"></div>
+      <div style="position:absolute;left:62%;top:-3px;width:14px;height:14px;border-radius:50%;background:#2a78d6;border:2px solid var(--surface-1)"></div>
+      <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text-muted)">
+        <span>Full automation</span><span>Full human expertise</span>
+      </div>
+    </div>
+    <p style="font-size:11px;color:var(--text-secondary);margin-top:4px">Retained human expertise for: MSR valuation, foreclosure, complex modifications. Automated: payment application, reporting, reconciliation.</p>
+  </div>
+  </div>`;
+}
+
+function initLSChart(){
+  const el=document.getElementById('lsChart');
+  if(!el||el._init)return;
+  if(typeof Chart==='undefined'){el.parentNode.innerHTML='<p style="font-size:11px;color:#666">Chart library unavailable.</p>';return;}
+  el._init=true;
+  new Chart(el,{
+    type:'line',
+    data:{
+      labels:['2025','2026','2027','2028','2029','2030'],
+      datasets:[
+        {label:'Market size ($B)',data:[5.6,6.1,6.6,7.1,7.4,7.65],borderColor:'#2a78d6',backgroundColor:'rgba(42,120,214,0.12)',pointBackgroundColor:'#2a78d6',pointBorderColor:'#fff',pointBorderWidth:1.5,pointRadius:4,pointHoverRadius:5,borderWidth:2.5,tension:0.35,fill:true,order:2},
+        {label:'Upper estimate',data:[null,null,null,null,7.4,8.2],borderColor:'#2a78d6',borderDash:[5,4],borderWidth:2,pointRadius:[0,0,0,0,0,4],pointBackgroundColor:'#2a78d6',pointBorderColor:'#fff',pointBorderWidth:1.5,fill:false,order:1,spanGaps:true}
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false},
+        tooltip:{callbacks:{label:ctx=>ctx.datasetIndex===1?'Upper estimate: $8.2B':'$'+ctx.parsed.y.toFixed(1)+'B'}}
+      },
+      scales:{
+        x:{grid:{display:false},ticks:{color:'#898781',font:{size:10}},border:{color:'#e1e0d9'}},
+        y:{min:0,max:9,grid:{color:'#e1e0d9'},ticks:{color:'#898781',font:{size:10},callback:v=>'$'+v+'B'},border:{color:'#e1e0d9'}}
+      }
+    }
+  });
+}
+
+function buildLSProcess(){
+  return `<div style="font-family:var(--font-sans)">
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">
+    <p style="font-size:12px;font-weight:600;color:var(--text-primary);margin:0 0 8px">Exception management automation (escrow &amp; servicing operations)</p>
+    <div style="border-left:3px solid #C8102E;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#C8102E;margin:0 0 3px">Challenge</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">High-volume escrow exception handling for tax, insurance, and escrow analysis discrepancies during mass-analysis cycles.</p>
+    </div>
+    <div style="border-left:3px solid #0F6E61;border-radius:0;padding:2px 0 2px 10px">
+      <p style="font-size:11px;font-weight:600;color:#0F6E61;margin:0 0 3px">Value</p>
+      <ul style="margin:0;padding-left:14px;font-size:12px;color:var(--text-secondary);line-height:1.6">
+        <li>30–50% reduction in manual touchpoints</li>
+        <li>Faster exception resolution</li>
+        <li>Improved regulatory compliance and customer experience</li>
+        <li>Increased capacity during peak escrow analysis periods</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">
+    <p style="font-size:12px;font-weight:600;color:var(--text-primary);margin:0 0 8px">End-to-end digital lien release processing</p>
+    <div style="border-left:3px solid #C8102E;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#C8102E;margin:0 0 3px">Challenge</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Coordinating lien releases with county recorders, investors, and customers across varying jurisdictional requirements and rejection handling.</p>
+    </div>
+    <div style="border-left:3px solid #0F6E61;border-radius:0;padding:2px 0 2px 10px">
+      <p style="font-size:11px;font-weight:600;color:#0F6E61;margin:0 0 3px">Value</p>
+      <ul style="margin:0;padding-left:14px;font-size:12px;color:var(--text-secondary);line-height:1.6">
+        <li>Reduced turnaround time from payoff to release</li>
+        <li>Lower operational costs</li>
+        <li>Fewer recording defects and customer complaints</li>
+        <li>Improved compliance with recording deadlines</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">
+    <p style="font-size:12px;font-weight:600;color:var(--text-primary);margin:0 0 8px">Repurchase case intelligence &amp; workflow optimization</p>
+    <div style="border-left:3px solid #C8102E;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#C8102E;margin:0 0 3px">Challenge</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Low-volume but high-stakes intake, documentation gathering, investor communication, and outcome tracking.</p>
+    </div>
+    <div style="border-left:3px solid #1A5C8C;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#1A5C8C;margin:0 0 3px">Opportunity</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Centralize repurchase case management.</p>
+    </div>
+    <div style="border-left:3px solid #0F6E61;border-radius:0;padding:2px 0 2px 10px">
+      <p style="font-size:11px;font-weight:600;color:#0F6E61;margin:0 0 3px">Value</p>
+      <ul style="margin:0;padding-left:14px;font-size:12px;color:var(--text-secondary);line-height:1.6">
+        <li>Faster response times to investor demands</li>
+        <li>Reduced repurchase losses</li>
+        <li>Better governance and executive visibility</li>
+        <li>Earlier identification of systemic quality issues</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:12px;padding:14px">
+    <p style="font-size:12px;font-weight:600;color:var(--text-primary);margin:0 0 8px">Investor reporting &amp; reconciliation transformation</p>
+    <div style="border-left:3px solid #C8102E;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#C8102E;margin:0 0 3px">Challenge</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Reporting, remittance, and reconciliation across principal, interest, escrow, payoffs, delinquencies, and other loan events.</p>
+    </div>
+    <div style="border-left:3px solid #1A5C8C;border-radius:0;padding:2px 0 2px 10px">
+      <p style="font-size:11px;font-weight:600;color:#1A5C8C;margin:0 0 3px">Opportunity</p>
+      <ul style="margin:0;padding-left:14px;font-size:12px;color:var(--text-secondary);line-height:1.6">
+        <li>Establish a unified data and reporting platform</li>
+        <li>Introduce dashboard-based performance monitoring and exception reporting</li>
+      </ul>
+    </div>
+  </div>
+  </div>`;
+}
+
+function buildLAProcess(){
+  return `<div style="font-family:var(--font-sans)">
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">
+    <p style="font-size:12px;font-weight:600;color:var(--text-primary);margin:0 0 8px">Digital customer request intake &amp; case management</p>
+    <div style="border-left:3px solid #C8102E;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#C8102E;margin:0 0 3px">Challenge</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Customer requests arrive through multiple channels — contact centers, mail, email, branches, and servicing portals — creating fragmented workflows and inconsistent tracking. Internal process reviews highlight the need to centralize customer intake and document capture into a single case structure.</p>
+    </div>
+    <div style="border-left:3px solid #1A5C8C;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#1A5C8C;margin:0 0 3px">Opportunity</p>
+      <ul style="margin:0;padding-left:14px;font-size:12px;color:var(--text-secondary);line-height:1.6">
+        <li>Centralized omnichannel intake platform</li>
+        <li>Digital document submission and validation</li>
+        <li>Automated case creation and routing</li>
+        <li>Unified customer servicing dashboard</li>
+      </ul>
+    </div>
+    <div style="border-left:3px solid #0F6E61;border-radius:0;padding:2px 0 2px 10px">
+      <p style="font-size:11px;font-weight:600;color:#0F6E61;margin:0 0 3px">Value</p>
+      <ul style="margin:0;padding-left:14px;font-size:12px;color:var(--text-secondary);line-height:1.6">
+        <li>Faster request resolution</li>
+        <li>Improved SLA adherence</li>
+        <li>Reduced manual handoffs</li>
+        <li>Enhanced customer experience</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">
+    <p style="font-size:12px;font-weight:600;color:var(--text-primary);margin:0 0 8px">Loan payoff processing transformation</p>
+    <div style="border-left:3px solid #C8102E;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#C8102E;margin:0 0 3px">Challenge</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Payoff processing frequently requires manual calculations, spreadsheet-based workflows, payoff quote generation, lien release coordination, and exception handling. Internal materials specifically identify opportunities to introduce real-time payoff calculators and reduce manual calculations.</p>
+    </div>
+    <div style="border-left:3px solid #1A5C8C;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#1A5C8C;margin:0 0 3px">Opportunity</p>
+      <ul style="margin:0;padding-left:14px;font-size:12px;color:var(--text-secondary);line-height:1.6">
+        <li>Real-time payoff quote generation</li>
+        <li>Automated payoff validation</li>
+        <li>Straight-through payoff processing</li>
+        <li>Automated payoff-to-lien-release workflow integration</li>
+      </ul>
+    </div>
+    <div style="border-left:3px solid #0F6E61;border-radius:0;padding:2px 0 2px 10px">
+      <p style="font-size:11px;font-weight:600;color:#0F6E61;margin:0 0 3px">Value</p>
+      <ul style="margin:0;padding-left:14px;font-size:12px;color:var(--text-secondary);line-height:1.6">
+        <li>Reduced payoff errors</li>
+        <li>Faster payoff fulfillment</li>
+        <li>Reduced operational cost</li>
+        <li>Improved customer satisfaction at loan closure</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">
+    <p style="font-size:12px;font-weight:600;color:var(--text-primary);margin:0 0 8px">Intelligent research &amp; exception resolution</p>
+    <div style="border-left:3px solid #C8102E;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#C8102E;margin:0 0 3px">Challenge</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Servicing teams spend substantial effort researching billing disputes, NOEs, RFIs, payment discrepancies, and account maintenance requests. Internal workshops identified opportunities to streamline research activities and reduce unnecessary manual investigation effort.</p>
+    </div>
+    <div style="border-left:3px solid #1A5C8C;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#1A5C8C;margin:0 0 3px">Opportunity</p>
+      <ul style="margin:0;padding-left:14px;font-size:12px;color:var(--text-secondary);line-height:1.6">
+        <li>AI-assisted account research</li>
+        <li>Automated document retrieval</li>
+        <li>Knowledge-enabled servicing workflows</li>
+        <li>Rules-based exception categorization and resolution</li>
+      </ul>
+    </div>
+    <div style="border-left:3px solid #0F6E61;border-radius:0;padding:2px 0 2px 10px">
+      <p style="font-size:11px;font-weight:600;color:#0F6E61;margin:0 0 3px">Value</p>
+      <ul style="margin:0;padding-left:14px;font-size:12px;color:var(--text-secondary);line-height:1.6">
+        <li>Shorter investigation cycles</li>
+        <li>Increased employee productivity</li>
+        <li>Greater response consistency</li>
+        <li>Lower regulatory risk</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:12px;padding:14px">
+    <p style="font-size:12px;font-weight:600;color:var(--text-primary);margin:0 0 8px">Proactive customer communication &amp; compliance monitoring</p>
+    <div style="border-left:3px solid #C8102E;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#C8102E;margin:0 0 3px">Challenge</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Many servicing organizations remain reactive, communicating only when customers contact the bank. Internal recommendations highlight moving toward proactive customer responses, consolidated case tracking, and automated compliance reporting.</p>
+    </div>
+    <div style="border-left:3px solid #1A5C8C;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#1A5C8C;margin:0 0 3px">Opportunity</p>
+      <ul style="margin:0;padding-left:14px;font-size:12px;color:var(--text-secondary);line-height:1.6">
+        <li>Automated status notifications</li>
+        <li>Self-service loan servicing portal</li>
+        <li>Digital payoff tracking</li>
+        <li>Automated regulatory deadline monitoring</li>
+        <li>Real-time SLA reporting and exception alerts</li>
+      </ul>
+    </div>
+    <div style="border-left:3px solid #0F6E61;border-radius:0;padding:2px 0 2px 10px">
+      <p style="font-size:11px;font-weight:600;color:#0F6E61;margin:0 0 3px">Value</p>
+      <ul style="margin:0;padding-left:14px;font-size:12px;color:var(--text-secondary);line-height:1.6">
+        <li>Lower call center volumes</li>
+        <li>Improved borrower satisfaction</li>
+        <li>Reduced regulatory findings</li>
+        <li>Increased operational transparency</li>
+      </ul>
+    </div>
+  </div>
+  </div>`;
+}
+
+function buildColProcess(){
+  return `<div style="font-family:var(--font-sans)">
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">
+    <p style="font-size:12px;font-weight:600;color:var(--text-primary);margin:0 0 8px">Digital collateral intake &amp; document custody automation</p>
+    <div style="border-left:3px solid #C8102E;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#C8102E;margin:0 0 3px">Challenge</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Collateral files arrive from multiple sources — closing agents, title companies, legal firms, custodians, borrowers, and internal loan operations. Manual document handling creates delays, missing documentation, and research activity. Enterprise materials reference document custody requests, file retrieval, and supporting-document investigations as key operational activities.</p>
+    </div>
+    <div style="border-left:3px solid #1A5C8C;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#1A5C8C;margin:0 0 3px">Opportunity</p>
+      <ul style="margin:0;padding-left:14px;font-size:12px;color:var(--text-secondary);line-height:1.6">
+        <li>Automated document ingestion</li>
+        <li>Digital collateral vault</li>
+        <li>Automated exception flagging for missing documents</li>
+        <li>Real-time custody tracking</li>
+      </ul>
+    </div>
+    <div style="border-left:3px solid #0F6E61;border-radius:0;padding:2px 0 2px 10px">
+      <p style="font-size:11px;font-weight:600;color:#0F6E61;margin:0 0 3px">Value</p>
+      <ul style="margin:0;padding-left:14px;font-size:12px;color:var(--text-secondary);line-height:1.6">
+        <li>Reduced document loss risk</li>
+        <li>Faster collateral boarding</li>
+        <li>Improved audit readiness</li>
+        <li>Reduced manual processing effort</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">
+    <p style="font-size:12px;font-weight:600;color:var(--text-primary);margin:0 0 8px">Collateral exception management &amp; resolution automation</p>
+    <div style="border-left:3px solid #C8102E;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#C8102E;margin:0 0 3px">Challenge</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Collateral operations frequently manage missing collateral, defective documentation, recording issues, title discrepancies, notary defects, and custodial exceptions. Existing workflows require extensive research and coordination between multiple parties. Enterprise materials describe exception investigation, scenario-based resolution, and third-party correspondence management as significant operational activities.</p>
+    </div>
+    <div style="border-left:3px solid #1A5C8C;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#1A5C8C;margin:0 0 3px">Opportunity</p>
+      <ul style="margin:0;padding-left:14px;font-size:12px;color:var(--text-secondary);line-height:1.6">
+        <li>Intelligent routing workflows</li>
+        <li>Automated root-cause identification</li>
+        <li>Exception prioritization by risk exposure</li>
+        <li>Guided resolution workflows</li>
+      </ul>
+    </div>
+    <div style="border-left:3px solid #0F6E61;border-radius:0;padding:2px 0 2px 10px">
+      <p style="font-size:11px;font-weight:600;color:#0F6E61;margin:0 0 3px">Value</p>
+      <ul style="margin:0;padding-left:14px;font-size:12px;color:var(--text-secondary);line-height:1.6">
+        <li>Reduced exception aging</li>
+        <li>Improved SLA compliance</li>
+        <li>Faster issue resolution</li>
+        <li>Reduced operational risk</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">
+    <p style="font-size:12px;font-weight:600;color:var(--text-primary);margin:0 0 8px">Collateral perfection &amp; risk monitoring modernization</p>
+    <div style="border-left:3px solid #C8102E;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#C8102E;margin:0 0 3px">Challenge</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Banks must continuously ensure that liens remain perfected and that collateral records remain accurate throughout the life of the loan. Missing filings or expired perfection requirements expose the institution to legal and financial losses.</p>
+    </div>
+    <div style="border-left:3px solid #1A5C8C;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#1A5C8C;margin:0 0 3px">Opportunity</p>
+      <ul style="margin:0;padding-left:14px;font-size:12px;color:var(--text-secondary);line-height:1.6">
+        <li>Centralized collateral inventory management</li>
+        <li>Automated perfection monitoring</li>
+        <li>Expiration and renewal alerts</li>
+        <li>Portfolio-level collateral risk dashboards</li>
+        <li>Automated compliance controls</li>
+      </ul>
+    </div>
+    <div style="border-left:3px solid #0F6E61;border-radius:0;padding:2px 0 2px 10px">
+      <p style="font-size:11px;font-weight:600;color:#0F6E61;margin:0 0 3px">Value</p>
+      <ul style="margin:0;padding-left:14px;font-size:12px;color:var(--text-secondary);line-height:1.6">
+        <li>Reduced legal exposure</li>
+        <li>Improved first-lien position protection</li>
+        <li>Proactive risk management</li>
+        <li>Stronger regulatory compliance</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:12px;padding:14px">
+    <p style="font-size:12px;font-weight:600;color:var(--text-primary);margin:0 0 8px">Research, customer response &amp; third-party coordination transformation</p>
+    <div style="border-left:3px solid #C8102E;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#C8102E;margin:0 0 3px">Challenge</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Collateral research teams spend considerable effort interacting with custodians, title companies, attorneys, investors, county recorders, and customers to resolve collateral inquiries and defects. Enterprise materials highlight extensive external correspondence and tracking requirements.</p>
+    </div>
+    <div style="border-left:3px solid #1A5C8C;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#1A5C8C;margin:0 0 3px">Opportunity</p>
+      <ul style="margin:0;padding-left:14px;font-size:12px;color:var(--text-secondary);line-height:1.6">
+        <li>Automated document retrieval</li>
+        <li>Standardized correspondence generation</li>
+        <li>Integrated case management portal</li>
+        <li>Third-party collaboration workflow</li>
+      </ul>
+    </div>
+    <div style="border-left:3px solid #0F6E61;border-radius:0;padding:2px 0 2px 10px">
+      <p style="font-size:11px;font-weight:600;color:#0F6E61;margin:0 0 3px">Value</p>
+      <ul style="margin:0;padding-left:14px;font-size:12px;color:var(--text-secondary);line-height:1.6">
+        <li>Faster inquiry resolution</li>
+        <li>Improved customer response times</li>
+        <li>Reduced manual research effort</li>
+        <li>Better visibility into outstanding actions</li>
+      </ul>
+    </div>
+  </div>
+  </div>`;
+}
+
+function buildAdjProcess(){
+  return `<div style="font-family:var(--font-sans)">
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">
+    <p style="font-size:12px;font-weight:600;color:var(--text-primary);margin:0 0 8px">Customer-initiated account correction intake &amp; routing</p>
+    <div style="border-left:3px solid #C8102E;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#C8102E;margin:0 0 3px">Challenge</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">High volumes of customer-initiated account corrections — fee reversals, ATM disputes, posting adjustments — require manual review and routing.</p>
+    </div>
+    <div style="border-left:3px solid #1A5C8C;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#1A5C8C;margin:0 0 3px">Opportunity</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">AI-enabled request intake, classification, and routing.</p>
+    </div>
+    <div style="border-left:3px solid #0F6E61;border-radius:0;padding:2px 0 2px 10px">
+      <p style="font-size:11px;font-weight:600;color:#0F6E61;margin:0 0 3px">Value</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">20–40% reduction in handling effort and faster processing turnaround.</p>
+    </div>
+  </div>
+
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">
+    <p style="font-size:12px;font-weight:600;color:var(--text-primary);margin:0 0 8px">Research &amp; case assembly automation</p>
+    <div style="border-left:3px solid #C8102E;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#C8102E;margin:0 0 3px">Challenge</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Analysts spend significant time collecting transaction evidence and researching customer requests.</p>
+    </div>
+    <div style="border-left:3px solid #1A5C8C;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#1A5C8C;margin:0 0 3px">Opportunity</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Automated research and case assembly.</p>
+    </div>
+    <div style="border-left:3px solid #0F6E61;border-radius:0;padding:2px 0 2px 10px">
+      <p style="font-size:11px;font-weight:600;color:#0F6E61;margin:0 0 3px">Value</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">30–50% reduction in investigation cycle times.</p>
+    </div>
+  </div>
+
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">
+    <p style="font-size:12px;font-weight:600;color:var(--text-primary);margin:0 0 8px">Low-risk adjustment auto-resolution</p>
+    <div style="border-left:3px solid #C8102E;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#C8102E;margin:0 0 3px">Challenge</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Low-risk adjustments still require manual decisioning and approvals.</p>
+    </div>
+    <div style="border-left:3px solid #1A5C8C;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#1A5C8C;margin:0 0 3px">Opportunity</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Rules-based straight-through processing.</p>
+    </div>
+    <div style="border-left:3px solid #0F6E61;border-radius:0;padding:2px 0 2px 10px">
+      <p style="font-size:11px;font-weight:600;color:#0F6E61;margin:0 0 3px">Value</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">40–70% auto-resolution rates.</p>
+    </div>
+  </div>
+
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:12px;padding:14px">
+    <p style="font-size:12px;font-weight:600;color:var(--text-primary);margin:0 0 8px">Proactive case status communication</p>
+    <div style="border-left:3px solid #C8102E;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#C8102E;margin:0 0 3px">Challenge</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Customers frequently call for status updates.</p>
+    </div>
+    <div style="border-left:3px solid #1A5C8C;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#1A5C8C;margin:0 0 3px">Opportunity</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Automated case notifications and self-service tracking.</p>
+    </div>
+    <div style="border-left:3px solid #0F6E61;border-radius:0;padding:2px 0 2px 10px">
+      <p style="font-size:11px;font-weight:600;color:#0F6E61;margin:0 0 3px">Value</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">15–25% reduction in inbound servicing calls.</p>
+    </div>
+  </div>
+  </div>`;
+}
+
+function buildMonProcess(){
+  return `<div style="font-family:var(--font-sans)">
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">
+    <p style="font-size:12px;font-weight:600;color:var(--text-primary);margin:0 0 8px">Centralized intake &amp; workflow orchestration</p>
+    <div style="border-left:3px solid #C8102E;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#C8102E;margin:0 0 3px">Challenge</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Financial correction requests arrive through inconsistent channels, often involving emails and spreadsheets.</p>
+    </div>
+    <div style="border-left:3px solid #1A5C8C;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#1A5C8C;margin:0 0 3px">Opportunity</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Centralized intake and workflow orchestration.</p>
+    </div>
+    <div style="border-left:3px solid #0F6E61;border-radius:0;padding:2px 0 2px 10px">
+      <p style="font-size:11px;font-weight:600;color:#0F6E61;margin:0 0 3px">Value</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">25–35% productivity improvement.</p>
+    </div>
+  </div>
+
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">
+    <p style="font-size:12px;font-weight:600;color:var(--text-primary);margin:0 0 8px">Unified transaction analysis workspace</p>
+    <div style="border-left:3px solid #C8102E;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#C8102E;margin:0 0 3px">Challenge</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Analysts must gather information across multiple servicing and payment systems.</p>
+    </div>
+    <div style="border-left:3px solid #1A5C8C;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#1A5C8C;margin:0 0 3px">Opportunity</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Unified transaction analysis workspace.</p>
+    </div>
+    <div style="border-left:3px solid #0F6E61;border-radius:0;padding:2px 0 2px 10px">
+      <p style="font-size:11px;font-weight:600;color:#0F6E61;margin:0 0 3px">Value</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">20–40% reduction in research effort.</p>
+    </div>
+  </div>
+
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">
+    <p style="font-size:12px;font-weight:600;color:var(--text-primary);margin:0 0 8px">Automated decisioning &amp; calculation engines</p>
+    <div style="border-left:3px solid #C8102E;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#C8102E;margin:0 0 3px">Challenge</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Manual calculations create error risk in corrections, adjustments, and refunds.</p>
+    </div>
+    <div style="border-left:3px solid #1A5C8C;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#1A5C8C;margin:0 0 3px">Opportunity</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Automated decisioning and calculation engines.</p>
+    </div>
+    <div style="border-left:3px solid #0F6E61;border-radius:0;padding:2px 0 2px 10px">
+      <p style="font-size:11px;font-weight:600;color:#0F6E61;margin:0 0 3px">Value</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">50–80% reduction in processing errors.</p>
+    </div>
+  </div>
+
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:12px;padding:14px">
+    <p style="font-size:12px;font-weight:600;color:var(--text-primary);margin:0 0 8px">Defect analytics &amp; root-cause management</p>
+    <div style="border-left:3px solid #C8102E;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#C8102E;margin:0 0 3px">Challenge</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Recurring servicing defects create avoidable write-offs and monetary losses.</p>
+    </div>
+    <div style="border-left:3px solid #1A5C8C;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#1A5C8C;margin:0 0 3px">Opportunity</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Defect analytics and root-cause management.</p>
+    </div>
+    <div style="border-left:3px solid #0F6E61;border-radius:0;padding:2px 0 2px 10px">
+      <p style="font-size:11px;font-weight:600;color:#0F6E61;margin:0 0 3px">Value</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">10–20% reduction in operational losses.</p>
+    </div>
+  </div>
+  </div>`;
+}
+
+function buildDayProcess(){
+  return `<div style="font-family:var(--font-sans)">
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">
+    <p style="font-size:12px;font-weight:600;color:var(--text-primary);margin:0 0 8px">Automated compliance &amp; validation controls</p>
+    <div style="border-left:3px solid #C8102E;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#C8102E;margin:0 0 3px">Challenge</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Regulatory transaction reviews require extensive manual validation and correction activities.</p>
+    </div>
+    <div style="border-left:3px solid #1A5C8C;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#1A5C8C;margin:0 0 3px">Opportunity</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Automated compliance and validation controls.</p>
+    </div>
+    <div style="border-left:3px solid #0F6E61;border-radius:0;padding:2px 0 2px 10px">
+      <p style="font-size:11px;font-weight:600;color:#0F6E61;margin:0 0 3px">Value</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">50–75% reduction in manual review effort.</p>
+    </div>
+  </div>
+
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">
+    <p style="font-size:12px;font-weight:600;color:var(--text-primary);margin:0 0 8px">RPA for data gathering &amp; validation</p>
+    <div style="border-left:3px solid #C8102E;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#C8102E;margin:0 0 3px">Challenge</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Employees navigate multiple applications to validate transaction information.</p>
+    </div>
+    <div style="border-left:3px solid #1A5C8C;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#1A5C8C;margin:0 0 3px">Opportunity</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Robotic Process Automation (RPA) for data gathering and validation.</p>
+    </div>
+    <div style="border-left:3px solid #0F6E61;border-radius:0;padding:2px 0 2px 10px">
+      <p style="font-size:11px;font-weight:600;color:#0F6E61;margin:0 0 3px">Value</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">60–80% reduction in touch time.</p>
+    </div>
+  </div>
+
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">
+    <p style="font-size:12px;font-weight:600;color:var(--text-primary);margin:0 0 8px">Risk-based exception routing</p>
+    <div style="border-left:3px solid #C8102E;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#C8102E;margin:0 0 3px">Challenge</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Large exception queues receive limited prioritization.</p>
+    </div>
+    <div style="border-left:3px solid #1A5C8C;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#1A5C8C;margin:0 0 3px">Opportunity</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Risk-based workflow routing and exception scoring.</p>
+    </div>
+    <div style="border-left:3px solid #0F6E61;border-radius:0;padding:2px 0 2px 10px">
+      <p style="font-size:11px;font-weight:600;color:#0F6E61;margin:0 0 3px">Value</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">20–40% faster resolution cycles.</p>
+    </div>
+  </div>
+
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">
+    <p style="font-size:12px;font-weight:600;color:var(--text-primary);margin:0 0 8px">Automated reporting &amp; compliance monitoring</p>
+    <div style="border-left:3px solid #C8102E;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#C8102E;margin:0 0 3px">Challenge</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Reporting and compliance monitoring remain highly manual.</p>
+    </div>
+    <div style="border-left:3px solid #1A5C8C;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#1A5C8C;margin:0 0 3px">Opportunity</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Automated dashboards and reporting controls.</p>
+    </div>
+    <div style="border-left:3px solid #0F6E61;border-radius:0;padding:2px 0 2px 10px">
+      <p style="font-size:11px;font-weight:600;color:#0F6E61;margin:0 0 3px">Value</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">50–70% reduction in management reporting effort.</p>
+    </div>
+  </div>
+
+  <div style="background:rgba(27,175,122,0.08);border:0.5px solid #1baf7a;border-radius:12px;padding:14px">
+    <p style="font-size:11px;font-weight:600;color:#0F6E61;margin:0 0 4px">Proof point — existing automation</p>
+    <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Internal CTR Day 1/Day 2 automation reduced transaction review times from approximately <strong style="color:var(--text-primary)">15–20 minutes</strong> to <strong style="color:var(--text-primary)">2–4 minutes</strong> per transaction.</p>
+  </div>
+  </div>`;
+}
+
+function buildDITOProcess(){
+  return `<div style="font-family:var(--font-sans)">
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">
+    <p style="font-size:12px;font-weight:600;color:var(--text-primary);margin:0 0 8px">Automated onboarding &amp; investor validation</p>
+    <div style="border-left:3px solid #C8102E;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#C8102E;margin:0 0 3px">Challenge</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Investor loan boarding and setup activities require substantial manual validation.</p>
+    </div>
+    <div style="border-left:3px solid #1A5C8C;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#1A5C8C;margin:0 0 3px">Opportunity</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Automated onboarding and investor validation.</p>
+    </div>
+    <div style="border-left:3px solid #0F6E61;border-radius:0;padding:2px 0 2px 10px">
+      <p style="font-size:11px;font-weight:600;color:#0F6E61;margin:0 0 3px">Value</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">30–50% reduction in onboarding effort.</p>
+    </div>
+  </div>
+
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">
+    <p style="font-size:12px;font-weight:600;color:var(--text-primary);margin:0 0 8px">Digital recovery &amp; foreclosure management</p>
+    <div style="border-left:3px solid #C8102E;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#C8102E;margin:0 0 3px">Challenge</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Recovery and default case management relies on fragmented workflows.</p>
+    </div>
+    <div style="border-left:3px solid #1A5C8C;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#1A5C8C;margin:0 0 3px">Opportunity</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Digital recovery and foreclosure management platforms.</p>
+    </div>
+    <div style="border-left:3px solid #0F6E61;border-radius:0;padding:2px 0 2px 10px">
+      <p style="font-size:11px;font-weight:600;color:#0F6E61;margin:0 0 3px">Value</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">20–40% faster case resolution.</p>
+    </div>
+  </div>
+
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">
+    <p style="font-size:12px;font-weight:600;color:var(--text-primary);margin:0 0 8px">Automated reconciliation &amp; exception management</p>
+    <div style="border-left:3px solid #C8102E;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#C8102E;margin:0 0 3px">Challenge</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Cash, investor, and balance reconciliations are labor-intensive.</p>
+    </div>
+    <div style="border-left:3px solid #1A5C8C;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#1A5C8C;margin:0 0 3px">Opportunity</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Automated reconciliation and exception management.</p>
+    </div>
+    <div style="border-left:3px solid #0F6E61;border-radius:0;padding:2px 0 2px 10px">
+      <p style="font-size:11px;font-weight:600;color:#0F6E61;margin:0 0 3px">Value</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">50–70% reduction in reconciliation effort.</p>
+    </div>
+  </div>
+
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">
+    <p style="font-size:12px;font-weight:600;color:var(--text-primary);margin:0 0 8px">Workflow-driven transfer management</p>
+    <div style="border-left:3px solid #C8102E;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#C8102E;margin:0 0 3px">Challenge</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Loan transfers and servicing transfers introduce operational risk and defects.</p>
+    </div>
+    <div style="border-left:3px solid #1A5C8C;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#1A5C8C;margin:0 0 3px">Opportunity</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Workflow-driven transfer management and automated validations.</p>
+    </div>
+    <div style="border-left:3px solid #0F6E61;border-radius:0;padding:2px 0 2px 10px">
+      <p style="font-size:11px;font-weight:600;color:#0F6E61;margin:0 0 3px">Value</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">25–50% reduction in transfer-related exceptions.</p>
+    </div>
+  </div>
+
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:12px;padding:14px">
+    <p style="font-size:12px;font-weight:600;color:var(--text-primary);margin:0 0 8px">Automated reporting validations &amp; quality controls</p>
+    <div style="border-left:3px solid #C8102E;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#C8102E;margin:0 0 3px">Challenge</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Investor reporting corrections and rejects require ongoing remediation.</p>
+    </div>
+    <div style="border-left:3px solid #1A5C8C;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#1A5C8C;margin:0 0 3px">Opportunity</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Automated reporting validations and quality controls.</p>
+    </div>
+    <div style="border-left:3px solid #0F6E61;border-radius:0;padding:2px 0 2px 10px">
+      <p style="font-size:11px;font-weight:600;color:#0F6E61;margin:0 0 3px">Value</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">30–50% reduction in reporting defects.</p>
+    </div>
+  </div>
+  </div>`;
+}
+
+function buildRecProcess(){
+  return `<div style="font-family:var(--font-sans)">
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">
+    <p style="font-size:12px;font-weight:600;color:var(--text-primary);margin:0 0 8px">AI-driven reconciliation matching engines</p>
+    <div style="border-left:3px solid #C8102E;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#C8102E;margin:0 0 3px">Challenge</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">High volumes of transactions require manual matching across systems.</p>
+    </div>
+    <div style="border-left:3px solid #1A5C8C;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#1A5C8C;margin:0 0 3px">Opportunity</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">AI-driven reconciliation matching engines.</p>
+    </div>
+    <div style="border-left:3px solid #0F6E61;border-radius:0;padding:2px 0 2px 10px">
+      <p style="font-size:11px;font-weight:600;color:#0F6E61;margin:0 0 3px">Value</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">60–90% auto-match rates.</p>
+    </div>
+  </div>
+
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">
+    <p style="font-size:12px;font-weight:600;color:var(--text-primary);margin:0 0 8px">Exception-based reconciliation processing</p>
+    <div style="border-left:3px solid #C8102E;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#C8102E;margin:0 0 3px">Challenge</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Analysts spend time reviewing low-risk reconciling items.</p>
+    </div>
+    <div style="border-left:3px solid #1A5C8C;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#1A5C8C;margin:0 0 3px">Opportunity</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Exception-based reconciliation processing.</p>
+    </div>
+    <div style="border-left:3px solid #0F6E61;border-radius:0;padding:2px 0 2px 10px">
+      <p style="font-size:11px;font-weight:600;color:#0F6E61;margin:0 0 3px">Value</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">30–50% productivity improvement.</p>
+    </div>
+  </div>
+
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">
+    <p style="font-size:12px;font-weight:600;color:var(--text-primary);margin:0 0 8px">Enterprise reconciliation platform &amp; standardized workflows</p>
+    <div style="border-left:3px solid #C8102E;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#C8102E;margin:0 0 3px">Challenge</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Reconciliation processes differ across business units.</p>
+    </div>
+    <div style="border-left:3px solid #1A5C8C;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#1A5C8C;margin:0 0 3px">Opportunity</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Enterprise reconciliation platform and standardized workflows.</p>
+    </div>
+    <div style="border-left:3px solid #0F6E61;border-radius:0;padding:2px 0 2px 10px">
+      <p style="font-size:11px;font-weight:600;color:#0F6E61;margin:0 0 3px">Value</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">20–30% operating cost reduction.</p>
+    </div>
+  </div>
+
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:12px;padding:14px">
+    <p style="font-size:12px;font-weight:600;color:var(--text-primary);margin:0 0 8px">Predictive break analytics &amp; early warning detection</p>
+    <div style="border-left:3px solid #C8102E;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#C8102E;margin:0 0 3px">Challenge</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Issues are often discovered after balances break.</p>
+    </div>
+    <div style="border-left:3px solid #1A5C8C;border-radius:0;padding:2px 0 10px 10px;margin-bottom:8px">
+      <p style="font-size:11px;font-weight:600;color:#1A5C8C;margin:0 0 3px">Opportunity</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">Predictive break analytics and early warning detection.</p>
+    </div>
+    <div style="border-left:3px solid #0F6E61;border-radius:0;padding:2px 0 2px 10px">
+      <p style="font-size:11px;font-weight:600;color:#0F6E61;margin:0 0 3px">Value</p>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0">15–25% reduction in recurring breaks.</p>
+    </div>
+  </div>
+  </div>`;
+}
+
+function buildLSAuto(){
+  const items=['Automated lien release creation from MSP daily payoff feed — no manual intervention required','Bulk-clearing engine for VEA mass-analysis exceptions in high-volume states (20K+ per cycle)','E-Recording electronic submission pipeline via Simplifile and CDC with auto-confirmation matching','SSR reporting with system-generated extracts — zero manual report preparation'];
+  const lis=items.map(t=>`<li>${t}</li>`).join('');
+  return `<ul>${lis}</ul>
+  <div style="margin-top:14px;padding:14px;background:rgba(26,76,140,0.08);border-radius:10px;text-align:center">
+    <p style="font-size:15px;font-weight:700;color:#1A4C8C;line-height:1.4;margin:0">Automation can yield up to <span style="font-size:17px">90%</span> operational efficiency gains</p>
+  </div>`;
+}
+
+function buildLAAuto(){
+  const items=['Rules-based automation for routine account maintenance requests','Automated data validation checks at loan boarding','AI-assisted case triage to route inquiries faster','Digital self-service for common account service requests'];
+  const lis=items.map(t=>`<li>${t}</li>`).join('');
+  return `<ul>${lis}</ul>
+  <div style="margin-top:14px;padding:14px;background:rgba(26,76,140,0.08);border-radius:10px;text-align:center">
+    <p style="font-size:15px;font-weight:700;color:#1A4C8C;line-height:1.4;margin:0">Automation can achieve over <span style="font-size:17px">95%</span> straight-through processing with just <span style="font-size:17px">5%</span> human-in-the-loop</p>
+  </div>`;
+}
+
+function buildColAuto(){
+  const items=['Automated valuation models (AVMs) to reduce manual appraisal review','OCR and AI-assisted title and lien document processing','Automated monitoring alerts for insurance lapses or valuation triggers','Centralized data repositories with API-driven collateral visibility'];
+  const lis=items.map(t=>`<li>${t}</li>`).join('');
+  return `<ul>${lis}</ul>
+  <div style="margin-top:14px;padding:14px;background:rgba(26,76,140,0.08);border-radius:10px;text-align:center">
+    <p style="font-size:15px;font-weight:700;color:#1A4C8C;line-height:1.4;margin:0">Automation can achieve over <span style="font-size:17px">95%</span> straight-through processing with just <span style="font-size:17px">5%</span> human-in-the-loop</p>
+  </div>`;
+}
+
+function buildAdjAuto(){
+  const items=['Workflow/Case Management Solutions — automated routing and case tracking end-to-end','Data Centralization & Document AI — digitization and AI-assisted document intake and classification','Machine Learning & Deterministic BRE — rules engine for consistent action determination; ML to flag likely error triggers before they reach the queue'];
+  const lis=items.map(t=>`<li>${t}</li>`).join('');
+  return `<ul>${lis}</ul>
+  <div style="margin-top:14px;padding:14px;background:rgba(26,76,140,0.08);border-radius:10px;text-align:center">
+    <p style="font-size:15px;font-weight:700;color:#1A4C8C;line-height:1.4;margin:0">Automation in this process can max out to <span style="font-size:17px">50–60%</span>, as automation solutions here rely on workflow and case management-based approaches</p>
+  </div>`;
+}
+
+function buildDayAuto(){
+  const items=['Automated batch monitoring with predictive alerts before failures occur','Self-healing scripts for common, well-understood exceptions','Automated reconciliation of batch outputs against control totals','Orchestration tools to sequence and parallelize jobs'];
+  const lis=items.map(t=>`<li>${t}</li>`).join('');
+  return `<ul>${lis}</ul>
+  <div style="margin-top:14px;padding:14px;background:rgba(26,76,140,0.08);border-radius:10px;text-align:center">
+    <p style="font-size:15px;font-weight:700;color:#1A4C8C;line-height:1.4;margin:0">Automation rates for this process may not reach the highs seen elsewhere, but it can meaningfully enhance data processing and improve customer experience</p>
+  </div>`;
+}
+
+function buildDITOAuto(){
+  const items=['Predictive analytics to prioritize and personalize recovery strategies','Automated investor reporting to reduce manual reconciliation','Standardized, automated data packages for servicing transfers','Automated compliance checkpoints embedded into default workflows'];
+  const lis=items.map(t=>`<li>${t}</li>`).join('');
+  return `<ul>${lis}</ul>
+  <div style="margin-top:14px;padding:14px;background:rgba(26,76,140,0.08);border-radius:10px;text-align:center">
+    <p style="font-size:15px;font-weight:700;color:#1A4C8C;line-height:1.4;margin:0">Efficiency gains through automation can exceed <span style="font-size:17px">90%</span></p>
+  </div>`;
+}
+
+function buildRecAuto(){
+  const items=['Automated matching engines to replace manual ticking','Machine learning to auto-suggest matches for difficult break types','Workflow tools to auto-route aged items with SLA tracking','Dashboards that auto-flag anomalous break patterns'];
+  const lis=items.map(t=>`<li>${t}</li>`).join('');
+  return `<ul>${lis}</ul>
+  <div style="margin-top:14px;padding:14px;background:rgba(26,76,140,0.08);border-radius:10px;text-align:center">
+    <p style="font-size:15px;font-weight:700;color:#1A4C8C;line-height:1.4;margin:0">Automation revolves around transaction auto-matching and can alleviate <span style="font-size:17px">50%</span> of manual churn and claims processing</p>
+  </div>`;
+}
+
+function buildAdjTrends(){return `
+<p style="font-size:11px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Industry trends — Adjustments</p>
+<div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:8px;padding:12px;margin-bottom:8px">
+  <p style="font-size:11px;font-weight:500;color:var(--text-primary);margin-bottom:2px">Adjustment exception intensity by deposit channel</p>
+  <p style="font-size:9.5px;color:var(--text-muted);margin-bottom:8px;font-style:italic">Directional pattern based on channel mechanics below — not a measured benchmark</p>
+  <div style="display:flex;flex-direction:column;gap:6px">
+    <div style="display:flex;align-items:center;gap:8px;font-size:10px">
+      <span style="width:44px;color:var(--text-secondary);text-align:right">Teller</span>
+      <div style="flex:1;background:#e1e0d9;border-radius:3px;height:16px;overflow:hidden"><div style="width:25%;height:16px;background:#1baf7a;border-radius:3px"></div></div>
+      <span style="width:30px;color:var(--text-muted);font-size:9px">Low</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;font-size:10px">
+      <span style="width:44px;color:var(--text-secondary);text-align:right">ATM</span>
+      <div style="flex:1;background:#e1e0d9;border-radius:3px;height:16px;overflow:hidden"><div style="width:60%;height:16px;background:#eda100;border-radius:3px"></div></div>
+      <span style="width:30px;color:var(--text-muted);font-size:9px">Med</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;font-size:10px">
+      <span style="width:44px;color:var(--text-secondary);text-align:right">Mobile</span>
+      <div style="flex:1;background:#e1e0d9;border-radius:3px;height:16px;overflow:hidden"><div style="width:100%;height:16px;background:#e34948;border-radius:3px"></div></div>
+      <span style="width:30px;color:var(--text-muted);font-size:9px">High</span>
+    </div>
+  </div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+  <div style="background:rgba(27,175,122,0.08);border:0.5px solid #1baf7a;border-radius:8px;padding:10px">
+    <p style="font-size:11px;font-weight:600;color:#1baf7a;margin:0 0 4px">Teller</p>
+    <p style="font-size:9.5px;color:var(--text-secondary);line-height:1.4;margin:0">Real-time human verification at the point of transaction catches most errors before they post</p>
+  </div>
+  <div style="background:rgba(237,161,0,0.08);border:0.5px solid #eda100;border-radius:8px;padding:10px">
+    <p style="font-size:11px;font-weight:600;color:#eda100;margin:0 0 4px">ATM</p>
+    <p style="font-size:9.5px;color:var(--text-secondary);line-height:1.4;margin:0">Automated capture with no human check-in-the-moment; envelope-free deposits raise mis-keyed or miscounted amounts</p>
+  </div>
+  <div style="background:rgba(227,73,72,0.08);border:0.5px solid #e34948;border-radius:8px;padding:10px">
+    <p style="font-size:11px;font-weight:600;color:#e34948;margin:0 0 4px">Mobile</p>
+    <p style="font-size:9.5px;color:var(--text-secondary);line-height:1.4;margin:0">Variable image quality, endorsement errors, and duplicate-deposit risk drive the highest exception referral rate</p>
+  </div>
+</div>`;}
+function buildRecTrends(){return `
+<p style="font-size:11px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Industry trends — Branch/Central Reconcilement</p>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:8px;padding:12px;text-align:center">
+    <div style="font-size:22px;font-weight:500;color:#2a78d6;line-height:1">$4.2B</div>
+    <div style="font-size:9.5px;color:var(--text-secondary);margin-top:3px">projected reconciliation software market by 2031 — 14.8% CAGR, up from $1.6B in 2024</div>
+  </div>
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:8px;padding:12px;text-align:center">
+    <div style="font-size:22px;font-weight:500;color:#1baf7a;line-height:1">90%+</div>
+    <div style="font-size:9.5px;color:var(--text-secondary);margin-top:3px">auto-match rate from leading AI-powered platforms, with ~95% automated journal posting and a ~50% productivity lift</div>
+  </div>
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:8px;padding:12px;text-align:center">
+    <div style="font-size:22px;font-weight:500;color:#eb6834;line-height:1">68%</div>
+    <div style="font-size:9.5px;color:var(--text-secondary);margin-top:3px">of teams using continuous AI reconciliation caught a material discrepancy manual review missed — 41% within the first 90 days</div>
+  </div>
+</div>`;}
+function buildDayTrends(){return `
+<p style="font-size:11px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Industry trends — Day 1/Day 2 Operations</p>
+<div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:8px;padding:12px;margin-bottom:8px">
+  <p style="font-size:11px;color:var(--text-secondary);line-height:1.5;margin:0">Banks are migrating toward <strong style="color:var(--text-primary)">continuous, real-time processing models</strong> to shrink or eliminate the Day 1/Day 2 gap outright — rather than simply optimizing overnight batch windows.</p>
+</div>
+<div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:8px;padding:12px;margin-bottom:8px">
+  <p style="font-size:11px;font-weight:500;color:var(--text-primary);margin-bottom:2px">Core modernization market growth vs. sidecar-approach adoption</p>
+  <p style="font-size:9.5px;color:var(--text-muted);margin-bottom:8px;font-style:italic">Market.us, 2026 (market size) · IDC, cited in Legacy Leap, 2026 (sidecar adoption)</p>
+  <div style="display:flex;gap:14px;margin-bottom:6px;font-size:9.5px;color:var(--text-secondary)">
+    <span style="display:flex;align-items:center;gap:4px"><span style="width:9px;height:9px;border-radius:2px;background:#2a78d6;display:inline-block"></span>Market size ($B)</span>
+    <span style="display:flex;align-items:center;gap:4px"><span style="width:9px;height:9px;border-radius:2px;background:#eb6834;display:inline-block"></span>Sidecar adoption (%)</span>
+  </div>
+  <div style="position:relative;width:100%;height:150px"><canvas id="dayChart" role="img" aria-label="Line chart comparing core banking modernization market size growth from 1.9 billion dollars in 2025 to 16.8 billion by 2035, against sidecar modernization approach adoption rising from 40 percent in 2026 to about 75 percent by 2028">Market size: $1.9B (2025) to $16.8B (2035), roughly 24% CAGR. Sidecar adoption: 40% (2026) rising to 70-80% (2028).</canvas></div>
+</div>
+<div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:8px;padding:12px;text-align:center;margin-bottom:8px">
+  <div style="font-size:22px;font-weight:500;color:#6250d6;line-height:1">~70%</div>
+  <div style="font-size:10px;color:var(--text-secondary);margin-top:3px">of banking professionals now see agentic AI as a game-changer — shifting from AI-enabled to AI-executed operations</div>
+</div>
+<p style="font-size:9.5px;color:var(--text-muted);margin-top:8px;font-style:italic">Note: OCC's risk-based examination framework (effective January 1, 2026) treats active core/batch transformation as an elevated operational risk event, requiring documented governance and tested rollback capability.</p>`;}
+function initDayChart(){
+  const el=document.getElementById('dayChart');
+  if(!el||el._init)return;
+  if(typeof Chart==='undefined'){el.parentNode.innerHTML='<p style="font-size:11px;color:#666">Chart library unavailable.</p>';return;}
+  el._init=true;
+  new Chart(el,{
+    type:'line',
+    data:{
+      labels:['2025','2026','2028','2035'],
+      datasets:[
+        {label:'Market size ($B)',data:[1.9,2.4,null,16.8],borderColor:'#2a78d6',backgroundColor:'rgba(42,120,214,0.1)',pointBackgroundColor:'#2a78d6',pointBorderColor:'#fff',pointBorderWidth:1.5,pointRadius:4,borderWidth:2.5,tension:0.3,fill:false,spanGaps:true,yAxisID:'y'},
+        {label:'Sidecar adoption (%)',data:[null,40,75,null],borderColor:'#eb6834',backgroundColor:'rgba(235,104,52,0.1)',pointBackgroundColor:'#eb6834',pointBorderColor:'#fff',pointBorderWidth:1.5,pointRadius:4,borderWidth:2.5,borderDash:[5,4],tension:0.3,fill:false,spanGaps:true,yAxisID:'y1'}
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false},
+        tooltip:{callbacks:{label:ctx=>ctx.dataset.yAxisID==='y1'?ctx.parsed.y+'% sidecar adoption':'$'+ctx.parsed.y+'B market size'}}
+      },
+      scales:{
+        x:{grid:{display:false},ticks:{color:'#898781',font:{size:10}},border:{color:'#e1e0d9'}},
+        y:{position:'left',min:0,max:18,grid:{color:'#e1e0d9'},ticks:{color:'#2a78d6',font:{size:9},callback:v=>'$'+v+'B'},border:{color:'#e1e0d9'}},
+        y1:{position:'right',min:0,max:100,grid:{display:false},ticks:{color:'#eb6834',font:{size:9},callback:v=>v+'%'},border:{display:false}}
+      }
+    }
+  });
+}
+function buildLATrends(){return `
+<p style="font-size:11px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Industry trends — Lending Account Services</p>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px">
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:12px;padding:12px 10px;text-align:center">
+    <svg width="100%" viewBox="0 0 160 95" style="display:block;margin:0 auto">
+      <path d="M15,85 A65,65 0 0 1 145,85" fill="none" stroke="#e1e0d9" stroke-width="14" stroke-linecap="round"/>
+      <path d="M15,85 A65,65 0 0 1 131.36,45.16" fill="none" stroke="#2a78d6" stroke-width="14" stroke-linecap="round"/>
+      <text x="80" y="80" text-anchor="middle" font-size="26" font-weight="700" fill="#1A1A2E">79%</text>
+    </svg>
+    <hr style="border:none;border-top:0.5px solid var(--border);margin:2px 0 8px">
+    <p style="font-size:10px;color:var(--text-secondary);line-height:1.4;margin:0">Institutions report <b>time savings</b> from AI on account maintenance</p>
+  </div>
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:12px;padding:12px 10px;text-align:center">
+    <svg width="100%" viewBox="0 0 160 95" style="display:block;margin:0 auto">
+      <path d="M15,85 A65,65 0 0 1 145,85" fill="none" stroke="#e1e0d9" stroke-width="14" stroke-linecap="round"/>
+      <path d="M15,85 A65,65 0 0 1 116.54,31.24" fill="none" stroke="#1baf7a" stroke-width="14" stroke-linecap="round"/>
+      <text x="80" y="80" text-anchor="middle" font-size="26" font-weight="700" fill="#1A1A2E">69%</text>
+    </svg>
+    <hr style="border:none;border-top:0.5px solid var(--border);margin:2px 0 8px">
+    <p style="font-size:10px;color:var(--text-secondary);line-height:1.4;margin:0">Institutions report <b>higher productivity</b> from automating high-volume, rules-based work</p>
+  </div>
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:12px;padding:12px 10px;text-align:center;display:flex;flex-direction:column;justify-content:center">
+    <div style="display:flex;align-items:center;justify-content:center;gap:5px;margin-top:20px">
+      <span style="color:#1baf7a;font-size:16px;line-height:1">▲</span>
+      <span style="font-size:26px;font-weight:700;color:var(--text-primary)">+15pp</span>
+    </div>
+    <hr style="border:none;border-top:0.5px solid var(--border);margin:16px 0 8px">
+    <p style="font-size:10px;color:var(--text-secondary);line-height:1.4;margin:0">Efficiency improvement from <b>intelligent automation</b> over legacy RPA — resolves exceptions bots must escalate</p>
+  </div>
+</div>
+<div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:8px;padding:12px">
+  <p style="font-size:11px;font-weight:500;color:var(--text-primary);margin-bottom:6px">Key drivers</p>
+  <div style="display:flex;flex-direction:column;gap:5px;font-size:11px;color:var(--text-secondary)">
+    <div style="display:flex;gap:8px"><span style="color:#2a78d6;font-weight:500">→</span><span>Rising demand for straight-through processing — only genuine exceptions reach a human agent</span></div>
+    <div style="display:flex;gap:8px"><span style="color:#2a78d6;font-weight:500">→</span><span>Boarding data quality issues from multiple origination channels surface later as servicing defects</span></div>
+    <div style="display:flex;gap:8px"><span style="color:#2a78d6;font-weight:500">→</span><span>Customer preference shifting decisively to digital self-service for common account requests</span></div>
+  </div>
+</div>`;}
+function buildColTrends(){return `
+<p style="font-size:11px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Industry trends — Collateral Management</p>
+<div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:8px;padding:12px;margin-bottom:8px">
+  <p style="font-size:11px;font-weight:500;color:var(--text-primary);margin-bottom:8px">Automated Valuation Model (AVM) adoption trajectory on home equity products</p>
+  <div style="display:flex;flex-direction:column;gap:5px">
+    <div style="display:flex;align-items:center;gap:8px;font-size:10px">
+      <span style="width:36px;color:var(--text-muted);text-align:right">2019</span>
+      <div style="flex:1;background:#e1e0d9;border-radius:3px;height:14px;overflow:hidden"><div style="width:23%;height:14px;background:#e1e0d9;border:1px solid #c3c2b7;border-radius:3px;display:flex;align-items:center;padding-left:4px;color:var(--text-muted);font-size:9px">~23%</div></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;font-size:10px">
+      <span style="width:36px;color:var(--text-muted);text-align:right">2024</span>
+      <div style="flex:1;background:#e1e0d9;border-radius:3px;height:14px;overflow:hidden"><div style="width:47%;height:14px;background:#2a78d6;border-radius:3px;display:flex;align-items:center;justify-content:flex-end;padding-right:4px;color:#fff;font-size:9px">47%</div></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;font-size:10px">
+      <span style="width:36px;color:var(--text-muted);text-align:right">2026</span>
+      <div style="flex:1;background:#e1e0d9;border-radius:3px;height:14px;overflow:hidden"><div style="width:51%;height:14px;background:#1baf7a;border-radius:3px;display:flex;align-items:center;justify-content:flex-end;padding-right:4px;color:#fff;font-size:9px">&gt;50%</div></div>
+    </div>
+  </div>
+</div>
+<div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:8px;padding:10px">
+  <p style="font-size:10.5px;color:var(--text-secondary)"><strong style="color:var(--text-primary)">CFPB AVM quality-control standards</strong> effective October 2025 — lenders must validate AVM outputs are accurate and free of demographic bias. Hybrid valuation strategy emerging: AVM for standard collateral, physical inspection reserved for unique properties or thin markets.</p>
+</div>`;}
+function buildMonTrends(){return `
+<p style="font-size:11px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Industry trends — Monetary Operations</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:8px;padding:12px;text-align:center">
+    <div style="font-size:22px;font-weight:500;color:#eb6834;line-height:1">$480B</div>
+    <div style="font-size:10px;color:var(--text-secondary);margin-top:3px">processed per quarter on RTP — 128M transactions reaching ~90% of U.S. demand deposit accounts</div>
+  </div>
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:8px;padding:12px;text-align:center">
+    <div style="font-size:22px;font-weight:500;color:#e34948;line-height:1">Pre-settlement</div>
+    <div style="font-size:10px;color:var(--text-secondary);margin-top:3px">fraud monitoring shifting from post-transaction review to AI scoring before settlement — near-instant finality leaves no reversal window</div>
+  </div>
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:8px;padding:12px;text-align:center">
+    <div style="font-size:22px;font-weight:500;color:#6250d6;line-height:1">24/7</div>
+    <div style="font-size:10px;color:var(--text-secondary);margin-top:3px">customer & business expectation for payment availability — pushing ops away from batch settlement windows</div>
+  </div>
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:8px;padding:12px;text-align:center">
+    <div style="font-size:22px;font-weight:500;color:#1baf7a;line-height:1">STP</div>
+    <div style="font-size:10px;color:var(--text-secondary);margin-top:3px">Straight-through processing for low-risk, high-volume payment types — reducing manual exception handling lag</div>
+  </div>
+</div>
+<div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:8px;padding:12px">
+  <p style="font-size:11px;font-weight:500;color:var(--text-primary);margin-bottom:6px">Fraud monitoring evolution</p>
+  <div style="display:flex;align-items:center;gap:4px;font-size:10px">
+    <div style="background:#e1e0d9;border-radius:4px;padding:5px 8px;color:var(--text-secondary)">Post-transaction review</div>
+    <div style="color:var(--text-muted)">→</div>
+    <div style="background:#F7C1C1;border-radius:4px;padding:5px 8px;color:#791F1F">Real-time scoring</div>
+    <div style="color:var(--text-muted)">→</div>
+    <div style="background:#e34948;border-radius:4px;padding:5px 8px;color:#fff">Pre-settlement AI across all rails</div>
+  </div>
+  <p style="font-size:10px;color:var(--text-secondary);margin-top:6px">Reconciling multiple payment rails involves duplicative manual steps — unified dashboards auto-reconciling across ACH, wire, RTP are becoming the baseline operating standard.</p>
+</div>`;}
+function buildDITOTrends(){return `
+<p style="font-size:11px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Industry trends — Recovery / Default / Investor / Transfer</p>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px">
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:8px;padding:12px;text-align:center">
+    <div style="font-size:20px;font-weight:500;color:#e34948;line-height:1">4.4%</div>
+    <div style="font-size:9.5px;color:var(--text-secondary);margin-top:3px">of outstanding U.S. household debt in some stage of delinquency — highest since 2012, compressing recovery margins</div>
+  </div>
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:8px;padding:12px;text-align:center">
+    <div style="font-size:20px;font-weight:500;color:#2a78d6;line-height:1">~8%</div>
+    <div style="font-size:9.5px;color:var(--text-secondary);margin-top:3px">CAGR — mortgage servicing software market growing $5.6B (2025) → $7.65–8.2B (2030)</div>
+  </div>
+  <div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:8px;padding:12px;text-align:center">
+    <div style="font-size:20px;font-weight:500;color:#1baf7a;line-height:1">~45%</div>
+    <div style="font-size:9.5px;color:var(--text-secondary);margin-top:3px">error-rate reduction applying RPA/AI to manual-reconciliation-heavy investor reporting</div>
+  </div>
+</div>
+<div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:8px;padding:12px;margin-bottom:8px">
+  <p style="font-size:11px;font-weight:500;color:var(--text-primary);margin-bottom:6px">Recovery & collections evolution</p>
+  <div style="display:flex;align-items:center;gap:4px;font-size:10px;margin-bottom:8px">
+    <div style="background:#e1e0d9;border-radius:4px;padding:5px 8px;color:var(--text-secondary)">Static rules-based prioritization</div>
+    <div style="color:var(--text-muted)">→</div>
+    <div style="background:#B5D4F4;border-radius:4px;padding:5px 8px;color:#0C447C">Risk-scored segmentation</div>
+    <div style="color:var(--text-muted)">→</div>
+    <div style="background:#2a78d6;border-radius:4px;padding:5px 8px;color:#fff">Dynamic per-borrower strategy</div>
+  </div>
+  <p style="font-size:10.5px;color:var(--text-secondary);line-height:1.5;margin:0">As delinquencies surface earlier in the loan lifecycle, institutions engaging borrowers sooner — across the channels borrowers actually use, with self-service payment options — are seeing measurably higher recovery rates and fewer complaints than legacy phone-and-letter cadences.</p>
+</div>
+<div style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:8px;padding:10px">
+  <p style="font-size:10.5px;color:var(--text-secondary)"><strong style="color:var(--text-primary)">Servicing transfer risk:</strong> Rising transfer volumes increasing pressure for standardized, automated data packages — inconsistent handoffs historically create downstream errors. Regulatory emphasis on borrower protections during default, foreclosure, and transfer continues to intensify.</p>
+</div>`;}
+function buildTL(){
+  return `<button class="back-btn" id="backBtnTL" style="margin-bottom:14px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>Back to map</button>
+  <h2 style="margin-bottom:4px">CGI's Thought Leadership</h2>
+  <p style="font-size:11px;color:var(--text-muted);margin-bottom:14px">CGI's point of view across the core Retail Bank Operations functions</p>
+
+  <!-- ① Lending Servicing -->
+  <div class="tl-section">
+    <div class="tl-sh tl-red-h">CGI's POV on Lending Servicing</div>
+    <div class="tl-sb tl-red-b">
+      <div style="border-left:3px solid #C8102E;padding-left:10px;margin-bottom:10px">
+        <p style="font-size:12px;font-weight:500;color:var(--text-primary);line-height:1.5">"Loan servicing modernisation fails when it's treated as a platform migration. CGI treats it as a workflow problem first — the platform follows the process, not the other way around."</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:5px;font-size:11px">
+        <div style="display:flex;gap:8px"><span style="color:#C8102E;font-weight:500;flex-shrink:0">What we see</span><span style="color:var(--text-secondary)">Servicers investing in new platforms but migrating broken processes into them. Trailing document exceptions, lien release delays, and escrow errors persist because the workflow logic wasn't fixed before the migration.</span></div>
+        <div style="display:flex;gap:8px"><span style="color:#C8102E;font-weight:500;flex-shrink:0">What CGI does</span><span style="color:var(--text-secondary)">We design the end-state process before selecting or configuring the tool. 3,500+ exception scenarios mapped. Phased ETL migrations that move books of business without disrupting borrower or investor relationships.</span></div>
+        <div style="display:flex;gap:8px"><span style="color:#C8102E;font-weight:500;flex-shrink:0">What good looks like</span><span style="color:var(--text-secondary)">100% county recording SLA compliance. Zero missed investor reporting deadlines. Lien release automated from MSP payoff feed with no manual intervention. 40% cycle-time reduction on e-recording.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ② Lending Account Services -->
+  <div class="tl-section">
+    <div class="tl-sh tl-purple-h">CGI's POV on Lending Account Services</div>
+    <div class="tl-sb tl-purple-b">
+      <div style="border-left:3px solid #5B2D8E;padding-left:10px;margin-bottom:10px">
+        <p style="font-size:12px;font-weight:500;color:var(--text-primary);line-height:1.5">"Account maintenance is the function most ripe for straight-through processing — and the one most banks still run entirely on human judgment. CGI closes that gap systematically."</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:5px;font-size:11px">
+        <div style="display:flex;gap:8px"><span style="color:#5B2D8E;font-weight:500;flex-shrink:0">What we see</span><span style="color:var(--text-secondary)">Address changes, payment plan updates, and lien releases routed to agents when rules-based automation could handle 80% of them without human touch. Boarding defects from origination creating a downstream maintenance backlog.</span></div>
+        <div style="display:flex;gap:8px"><span style="color:#5B2D8E;font-weight:500;flex-shrink:0">What CGI does</span><span style="color:var(--text-secondary)">We map each maintenance request type by complexity, risk, and frequency — then automate the high-volume, low-risk tier first. Boarding validation catches defects at source rather than letting them surface as servicing failures.</span></div>
+        <div style="display:flex;gap:8px"><span style="color:#5B2D8E;font-weight:500;flex-shrink:0">What good looks like</span><span style="color:var(--text-secondary)">Only genuine exceptions reach an agent. Digital self-service handles the routine tier. 79% time savings and 69% productivity gains from intelligent automation applied to the right request types.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ③ Collateral Management -->
+  <div class="tl-section">
+    <div class="tl-sh tl-red-h">CGI's POV on Collateral Management</div>
+    <div class="tl-sb tl-red-b">
+      <div style="border-left:3px solid #C8102E;padding-left:10px;margin-bottom:10px">
+        <p style="font-size:12px;font-weight:500;color:var(--text-primary);line-height:1.5">"The debate about AVMs is the wrong debate. The real question is whether the collateral data feeding the model is trustworthy — and for most servicers, it isn't yet."</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:5px;font-size:11px">
+        <div style="display:flex;gap:8px"><span style="color:#C8102E;font-weight:500;flex-shrink:0">What we see</span><span style="color:var(--text-secondary)">Banks adopting AVMs for valuation speed, but the underlying collateral data — lien status, insurance, property condition — is still managed manually and inconsistently across systems.</span></div>
+        <div style="display:flex;gap:8px"><span style="color:#C8102E;font-weight:500;flex-shrink:0">What CGI does</span><span style="color:var(--text-secondary)">We build the data foundation first: centralized collateral repositories, automated monitoring for insurance lapses and valuation triggers, OCR-assisted title and lien research. Then the AVM has something reliable to work with.</span></div>
+        <div style="display:flex;gap:8px"><span style="color:#C8102E;font-weight:500;flex-shrink:0">What good looks like</span><span style="color:var(--text-secondary)">Real-time collateral visibility across risk and portfolio teams. Hybrid valuation strategy — AVM for standard cases, human judgment retained for complex or thin-market properties. CFPB quality-control standards met by design, not audit response.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ④ Adjustments -->
+  <div class="tl-section">
+    <div class="tl-sh tl-purple-h">CGI's POV on Adjustments</div>
+    <div class="tl-sb tl-purple-b">
+      <div style="border-left:3px solid #5B2D8E;padding-left:10px;margin-bottom:10px">
+        <p style="font-size:12px;font-weight:500;color:var(--text-primary);line-height:1.5">"High adjustment volumes are a symptom, not the problem. CGI traces them back upstream — and often finds that fixing one origination defect eliminates thousands of downstream corrections."</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:5px;font-size:11px">
+        <div style="display:flex;gap:8px"><span style="color:#5B2D8E;font-weight:500;flex-shrink:0">What we see</span><span style="color:var(--text-secondary)">Teams processing adjustments efficiently but never asking why the volume is high. The adjustment queue is a lagging indicator of upstream posting errors, channel mismatches, and system gaps that haven't been addressed.</span></div>
+        <div style="display:flex;gap:8px"><span style="color:#5B2D8E;font-weight:500;flex-shrink:0">What CGI does</span><span style="color:var(--text-secondary)">Root-cause tagging on every adjustment type. Business Rules Engines replacing tribal-knowledge routing. Intelligent automation handling the high-volume, low-complexity tier — freeing investigators for genuine exceptions.</span></div>
+        <div style="display:flex;gap:8px"><span style="color:#5B2D8E;font-weight:500;flex-shrink:0">What good looks like</span><span style="color:var(--text-secondary)">Adjustment volume declining over time as upstream defects are eliminated. 45% error reduction from automation. Defensible, documented decision logic that satisfies regulators and auditors without manual sign-off chains.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ⑤ Monetary Operations -->
+  <div class="tl-section">
+    <div class="tl-sh tl-purple-h">CGI's POV on Monetary Operations</div>
+    <div class="tl-sb tl-purple-b">
+      <div style="border-left:3px solid #5B2D8E;padding-left:10px;margin-bottom:10px">
+        <p style="font-size:12px;font-weight:500;color:var(--text-primary);line-height:1.5">"Banks have connected the real-time rails. Almost none have rebuilt the exception and fraud workflows to match. That gap is where operational risk lives right now."</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:5px;font-size:11px">
+        <div style="display:flex;gap:8px"><span style="color:#5B2D8E;font-weight:500;flex-shrink:0">What we see</span><span style="color:var(--text-secondary)">Instant payment rails live, but exception queues still running on batch logic. Fraud review designed for a world where you could reverse a transaction — now there's no reversal window and the same manual process remains.</span></div>
+        <div style="display:flex;gap:8px"><span style="color:#5B2D8E;font-weight:500;flex-shrink:0">What CGI does</span><span style="color:var(--text-secondary)">We redesign the exception and fraud workflow for finality — pre-settlement AI scoring, straight-through processing for low-risk payment types, and unified dashboards reconciling across all rails simultaneously.</span></div>
+        <div style="display:flex;gap:8px"><span style="color:#5B2D8E;font-weight:500;flex-shrink:0">What good looks like</span><span style="color:var(--text-secondary)">Exception handling that runs at the speed of the rail. Fraud monitoring that scores before settlement, not after. Multi-rail reconciliation automated — no manual ticking between ACH, wire, RTP, and FedNow.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ⑥ Day 1/Day 2 -->
+  <div class="tl-section">
+    <div class="tl-sh tl-blue-h">CGI's POV on Day 1/Day 2 Operations</div>
+    <div class="tl-sb tl-blue-b">
+      <div style="border-left:3px solid #1A5C8C;padding-left:10px;margin-bottom:10px">
+        <p style="font-size:12px;font-weight:500;color:var(--text-primary);line-height:1.5">"The overnight batch window was designed for a world that no longer exists. CGI helps banks stop optimising the batch and start eliminating the dependency on it."</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:5px;font-size:11px">
+        <div style="display:flex;gap:8px"><span style="color:#1A5C8C;font-weight:500;flex-shrink:0">What we see</span><span style="color:var(--text-secondary)">Banks spending effort making the overnight batch faster — shaving minutes off a process that customers increasingly expect to not exist at all. The root constraint is the batch model, not its execution speed.</span></div>
+        <div style="display:flex;gap:8px"><span style="color:#1A5C8C;font-weight:500;flex-shrink:0">What CGI does</span><span style="color:var(--text-secondary)">Predictive batch monitoring that flags anomalies before failures cascade. Self-healing scripts for known exception types. Phased migration toward continuous processing — identifying which workloads can leave the batch first without destabilising downstream systems.</span></div>
+        <div style="display:flex;gap:8px"><span style="color:#1A5C8C;font-weight:500;flex-shrink:0">What good looks like</span><span style="color:var(--text-secondary)">Fewer manual interventions overnight. Exception triage automated by risk tier. A clear roadmap from batch-dependent to event-driven architecture — executed incrementally without big-bang risk.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ⑦ DITO -->
+  <div class="tl-section">
+    <div class="tl-sh tl-red-h">CGI's POV on Recovery/Default/Investor/Transfer</div>
+    <div class="tl-sb tl-red-b">
+      <div style="border-left:3px solid #C8102E;padding-left:10px;margin-bottom:10px">
+        <p style="font-size:12px;font-weight:500;color:var(--text-primary);line-height:1.5">"Default management and investor reporting are treated as separate problems. CGI sees them as the same data problem — and solves both by fixing the data once."</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:5px;font-size:11px">
+        <div style="display:flex;gap:8px"><span style="color:#C8102E;font-weight:500;flex-shrink:0">What we see</span><span style="color:var(--text-secondary)">Recovery teams using static prioritisation rules while investor reporting teams manually reconcile the same loan data in parallel. Two teams, two workflows, same underlying information — neither trusted by the other.</span></div>
+        <div style="display:flex;gap:8px"><span style="color:#C8102E;font-weight:500;flex-shrink:0">What CGI does</span><span style="color:var(--text-secondary)">Single-source data model for default and investor data. Predictive analytics for recovery prioritisation — contact strategy personalised by borrower, not by delinquency bucket. Standardised, automated data packages that make servicing transfers clean rather than crisis-driven.</span></div>
+        <div style="display:flex;gap:8px"><span style="color:#C8102E;font-weight:500;flex-shrink:0">What good looks like</span><span style="color:var(--text-secondary)">Investor reporting generated automatically — zero missed deadlines. Recovery strategies that adapt dynamically as borrower circumstances change. Servicing transfers that arrive complete, validated, and ready to board — not a remediation project.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ⑧ Reconcilement -->
+  <div class="tl-section">
+    <div class="tl-sh tl-blue-h">CGI's POV on Branch/Central Reconcilement</div>
+    <div class="tl-sb tl-blue-b">
+      <div style="border-left:3px solid #1A5C8C;padding-left:10px;margin-bottom:10px">
+        <p style="font-size:12px;font-weight:500;color:var(--text-primary);line-height:1.5">"Reconcilement automation fails when the match rules are in people's heads. CGI codifies the logic first — then the machine can match what the expert used to match manually."</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:5px;font-size:11px">
+        <div style="display:flex;gap:8px"><span style="color:#1A5C8C;font-weight:500;flex-shrink:0">What we see</span><span style="color:var(--text-secondary)">Reconcilement teams where the most experienced person holds all the matching logic in memory. When that person leaves, the break rate climbs. Automation is deployed before the rules are documented — and it fails.</span></div>
+        <div style="display:flex;gap:8px"><span style="color:#1A5C8C;font-weight:500;flex-shrink:0">What CGI does</span><span style="color:var(--text-secondary)">Knowledge extraction before automation. We document match rules, break escalation paths, and aged-item handling with the existing team — then encode them into the matching engine. The machine inherits the expertise, not the person.</span></div>
+        <div style="display:flex;gap:8px"><span style="color:#1A5C8C;font-weight:500;flex-shrink:0">What good looks like</span><span style="color:var(--text-secondary)">85–90% auto-match on day one, reaching 97–99% within 6 months as rules mature. Month-end close time cut by more than half. Anomaly detection surfacing likely breaks before month-end, not during audit.</span></div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function show(key){
+  const d=DATA[key];if(!d)return;
+  // Clear previous state
+  document.querySelectorAll('.hex-g').forEach(g=>{g.classList.remove('active','dimmed');});
+  tlRing.classList.remove('active');
+  // Set active + dim others
+  if(key==='thoughtleadership'){
+    tlRing.classList.add('active');
+    document.querySelectorAll('.hex-g').forEach(g=>g.classList.add('dimmed'));
+  } else {
+    const el=document.getElementById('hex-'+key);
+    if(el){el.classList.add('active');el.parentNode.appendChild(el);}
+    document.querySelectorAll('.hex-g:not(.active)').forEach(g=>g.classList.add('dimmed'));
+  }
+  activeKey=key;stage.classList.add('open');
+  if(key==='thoughtleadership'){
+    detailInner.innerHTML=buildTL();
+    document.getElementById('backBtnTL').onclick=reset;
+    return;
+  }
+  dTitle.textContent=d.name;dOverview.textContent=d.overview;
+  fillList(dRole,d.role);fillList(dProcess,d.process);fillList(dAuto,d.auto);fillList(dTrends,d.trends);
+  secProcess.style.display=(d.process&&d.process.length)?'':'none';
+  secAuto.style.display=(d.auto&&d.auto.length)?'':'none';
+  document.getElementById('secTrends').style.display=(d.trends&&d.trends.length)?'':'none';
+  const trendBuilders={
+    lendingservicing:()=>buildLSTrends(),
+    adjustments:()=>buildAdjTrends(),
+    reconcilement:()=>buildRecTrends(),
+    dayops:()=>buildDayTrends(),
+    lendingaccounts:()=>buildLATrends(),
+    collateral:()=>buildColTrends(),
+    monetary:()=>buildMonTrends(),
+    dito:()=>buildDITOTrends(),
+  };
+  if(trendBuilders[key]){
+    const secEl=document.getElementById('secTrends');
+    secEl.style.display='';
+    const hdr='<div class="sec-head" style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;margin-bottom:8px;color:#8C5F17"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l6-6 4 4 8-9"/></svg>Industry trends</div>';
+    secEl.innerHTML=hdr+trendBuilders[key]();
+    if(key==='lendingservicing')setTimeout(initLSChart,80);
+    if(key==='dayops')setTimeout(initDayChart,80);
+  }
+  const processBuilders={
+    lendingservicing:()=>buildLSProcess(),
+    lendingaccounts:()=>buildLAProcess(),
+    collateral:()=>buildColProcess(),
+    adjustments:()=>buildAdjProcess(),
+    monetary:()=>buildMonProcess(),
+    dayops:()=>buildDayProcess(),
+    dito:()=>buildDITOProcess(),
+    reconcilement:()=>buildRecProcess(),
+  };
+  if(processBuilders[key]){
+    const hdrP='<div class="sec-head"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="12" r="3"/><path d="M9 7l6 4M9 17l6-4"/></svg>Opportunities for Process Optimization</div>';
+    secProcess.innerHTML=hdrP+processBuilders[key]();
+    secProcess.style.display='';
+  }
+  const autoBuilders={
+    lendingservicing:()=>buildLSAuto(),
+    lendingaccounts:()=>buildLAAuto(),
+    collateral:()=>buildColAuto(),
+    adjustments:()=>buildAdjAuto(),
+    dayops:()=>buildDayAuto(),
+    dito:()=>buildDITOAuto(),
+    reconcilement:()=>buildRecAuto(),
+  };
+  if(autoBuilders[key]){
+    const hdrA='<div class="sec-head"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/></svg>How and Where Automation Can Help</div>';
+    secAuto.innerHTML=hdrA+autoBuilders[key]();
+    secAuto.style.display='';
+  }
+  detailInner.scrollTop=0;
+}
+function reset(){
+  stage.classList.remove('open');
+  document.querySelectorAll('.hex-g').forEach(g=>{g.classList.remove('active','dimmed');});
+  tlRing.classList.remove('active');
+  activeKey=null;
+  // If TL replaced the detailInner, reload to restore it
+  if(!document.getElementById('detailTitle')){location.reload();}
+}
+
+// Inner hexes — wire up clicks
+document.querySelectorAll('.hex-g').forEach(g=>{
+  const key=g.id.replace('hex-','');
+  if(!DATA[key])return;
+  g.setAttribute('tabindex','0');g.setAttribute('role','button');
+  g.addEventListener('click',e=>{e.stopPropagation();activeKey===key?reset():show(key);});
+  g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();show(key);}});
+});
+
+// TL ring — click on the ring itself (not inner block polygon)
+tlRing.addEventListener('click',e=>{
+  e.stopPropagation();
+  // Only trigger if click landed on outer ring, not blocked inner polygon
+  const target=e.target;
+  if(target.style&&target.style.cursor==='default')return; // inner blocker polygon
+  activeKey==='thoughtleadership'?reset():show('thoughtleadership');
+});
+
+backBtn.addEventListener('click',reset);
+document.addEventListener('keydown',e=>{if(e.key==='Escape')reset();});
+document.addEventListener('click',e=>{
+  if(!activeKey)return;
+  if(document.getElementById('combWrap').contains(e.target))return;
+  if(document.getElementById('detail').contains(e.target))return;
+  reset();
+});
+</script>
+
+
+</body></html>

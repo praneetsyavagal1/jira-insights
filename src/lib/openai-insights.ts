@@ -7,6 +7,7 @@ import OpenAI from "openai";
 import { z } from "zod";
 
 import { buildDeterministicInsights } from "@/lib/flow-velocity";
+import { openAiInsightsEnabled } from "@/lib/openai-config";
 import type {
   FlowVelocityEvidence,
   GeneratedInsights,
@@ -134,6 +135,13 @@ export async function generateInsights(
   const fallback = buildDeterministicInsights(evidence);
   const apiKey = process.env.OPENAI_API_KEY?.trim();
   const model = process.env.OPENAI_MODEL?.trim() || "gpt-5.6-sol";
+
+  if (!openAiInsightsEnabled()) {
+    return {
+      ...fallback,
+      fallbackReason: "OpenAI insights are disabled by configuration.",
+    };
+  }
 
   if (!apiKey) {
     return {

@@ -10,8 +10,8 @@ A read-only Next.js proof of concept that turns live Jira delivery data into gro
 - Resolves Story Points, Sprint, Epic Link, Parent Link, and AI Tool custom fields by display name rather than hard-coded IDs.
 - Compares DASH-8 with DASH-5 and DASH-14 with DASH-4 using story points and active cycle time.
 - Rolls child delivery, AI usage, and open critical work into the current Epic view.
-- Sends normalized evidence to the OpenAI Responses API when configured.
-- Uses deterministic grounded insights when no OpenAI key is present or model output fails validation.
+- Supports prompt-governed OpenAI narratives for Flow Velocity, Defect Cost Avoidance, Unplanned Work Reduction, and Demand vs Capacity.
+- Uses curated executive content by default and falls back to it whenever OpenAI is disabled or unavailable.
 - Never writes to Jira.
 
 ## Run locally
@@ -30,11 +30,14 @@ The existing `access-token.txt` file is supported for local development and is i
 To enable generated narrative insights, configure:
 
 ```text
+OPENAI_INSIGHTS_ENABLED=true
 OPENAI_API_KEY=your-key
 OPENAI_MODEL=gpt-5.6-sol
 ```
 
-Without those values, the dashboard remains fully usable and labels its narrative source as deterministic analysis. The OpenAI integration follows the [Responses API](https://platform.openai.com/docs/api-reference/responses) pattern with schema-constrained output.
+`OPENAI_INSIGHTS_ENABLED` is opt-in and defaults to `false`. When disabled, no OpenAI request is created and the executive dashboard uses curated content. When enabled, clicking an analyzed metric sends its normalized Jira evidence and scenario prompt to the OpenAI Responses API. Missing credentials, API failures, quota errors, invalid schema output, and unsupported Jira keys all fall back to curated content.
+
+The separate live Flow Velocity diagnostic page uses deterministic rules as its fallback. All OpenAI calls use schema-constrained output and keep credentials on the server.
 
 ## Commands
 

@@ -536,3 +536,121 @@ export async function loadFlowVelocityEvidence(): Promise<FlowVelocityEvidence> 
     warnings,
   };
 }
+
+export type ExecutiveScenarioId = "cost" | "unplanned" | "demand";
+
+function fieldIdByName(fields: JiraField[], ...names: string[]): string | null {
+  const expected = new Set(names.map((name) => name.trim().toLowerCase()));
+  return fields.find((field) => expected.has(field.name.trim().toLowerCase()))?.id ?? null;
+}
+
+function namedValues(value: unknown): string[] {
+  if (!Array.isArray(value)) return [];
+  return value
+    .map((item) => normalizeDisplayValue(item))
+    .filter((item): item is string => Boolean(item));
+}
+
+function descriptionText(value: unknown): string | null {
+  if (typeof value === "string") return value.trim() || null;
+  if (!value) return null;
+  try {
+    return JSON.stringify(value).slice(0, 4_000);
+  } catch {
+    return null;
+  }
+}
+
+function issueLinkEvidence(value: unknown): Array<{
+  relationship: string;
+  issueKey: string;
+}> {
+  if (!Array.isArray(value)) return [];
+  return value.flatMap((link) => {
+    if (!link || typeof link !== "object") return [];
+    const record = link as Record<string, unknown>;
+    const type = (record.type ?? {}) as Record<string, unknown>;
+    const outward = (record.outwardIssue ?? {}) as Record<string, unknown>;
+    const inward = (record.inwardIssue ?? {}) as Record<string, unknown>;
+    const issueKey = normalizeDisplayValue(outward.key ?? inward.key);
+    if (!issueKey) return [];
+    const relationship = normalizeDisplayValue(
+      outward.key ? type.outward : type.inward,
+    ) ?? "linked to";
+    return [{ relationship, issueKey }];
+  });
+}
+
+/**
+ * Loads the compact Jira evidence needed by the three executive scenarios that
+ * do not use sprint-report evidence. Financial assumptions remain separate and
+ * are added by the agent orchestrator.
+ */
+export async function loadExecutiveScenarioEvidence(
+  scenario: ExecutiveScenarioId,
+): Promise<Record<string, unknown>> {
+  const config = await getConfig();
+  const fields = await jiraGet<JiraField[]>(config, "/rest/api/2/field");
+  const storyPointsId = fieldIdByName(fields, "Story Points", "Story point estimate");
+  const aiToolId = fieldIdByName(fields, "AI Tool");
+  const epicLinkId = fieldIdByName(fields, "Epic Link", "Parent Link");
+  const businessValueId = fieldIdByName(fields, "Business Value");
+  const date1Id = fieldIdByName(fields, "Date 1");
+  const requested = [
+    "summary",
+    "description",
+    "issuetype",
+    "status",
+    "priority",
+    "fixVersions",
+    "versions",
+    "issuelinks",
+    storyPointsId,
+    aiToolId,
+    epicLinkId,
+    businessValueId,
+    date1Id,
+  ].filter((field): field is string => Boolean(field));
+
+  const page = await jiraGet<SearchResponse>(config, "/rest/api/2/search", {
+    jql: `project = ${config.projectKey} ORDER BY key ASC`,
+    startAt: 0,
+    maxResults: 100,
+    fields: Array.from(new Set(requested)).join(","),
+  });
+
+  const requiredKeys: Record<Exclude<ExecutiveScenarioId, "demand">, Set<string>> = {
+    cost: new Set(["DASH-15", "DASH-17", "DASH-18", "DASH-19"]),
+    unplanned: new Set(["DASH-20", "DASH-21"]),
+  };
+  const selected = page.issues.filter((issue) => {
+    if (scenario === "demand") {
+      return issue.key === "DASH-2" || normalizeEpicKey(customValue(issue, epicLinkId)) === "DASH-2";
+    }
+    return requiredKeys[scenario].has(issue.key);
+  });
+
+  return {
+    generatedAt: new Date().toISOString(),
+    projectKey: config.projectKey,
+    boardId: config.boardId,
+    scenario,
+    issues: selected.map((issue) => ({
+      key: issue.key,
+      summary: issue.fields.summary ?? "Untitled issue",
+      issueType: issue.fields.issuetype?.name ?? "Unknown",
+      status: issue.fields.status?.name ?? "Unknown",
+      priority: issue.fields.priority?.name ?? null,
+      storyPoints: toNumber(customValue(issue, storyPointsId)),
+      aiTool: normalizeDisplayValue(customValue(issue, aiToolId)),
+      epicKey: normalizeEpicKey(customValue(issue, epicLinkId)),
+      businessValue: toNumber(customValue(issue, businessValueId)),
+      date1: normalizeDisplayValue(customValue(issue, date1Id)),
+      fixVersions: namedValues(issue.fields.fixVersions),
+      affectsVersions: namedValues(issue.fields.versions),
+      description: descriptionText(issue.fields.description),
+      links: issueLinkEvidence(issue.fields.issuelinks),
+      url: `${config.baseUrl}/browse/${issue.key}`,
+    })),
+  };
+}
