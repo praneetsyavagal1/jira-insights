@@ -23,12 +23,13 @@ function read(env: Env, name: string): string | undefined {
 }
 
 /**
- * Normalize a Foundry resource endpoint to the /openai/v1/ base URL. Accepts
- * the bare resource host or one that already carries the suffix; a missing
- * path segment otherwise only surfaces as a 404 from the service.
+ * Normalize a Foundry endpoint to the resource-level /openai/v1/ base URL.
+ * Accepts the bare resource host, one that already carries the suffix, or a
+ * project endpoint (.../api/projects/<name>). Deployments belong to the
+ * resource, and the project route rejects Responses API calls with a 403.
  */
 export function azureV1BaseUrl(endpoint: string): string {
-  let base = endpoint.trim().replace(/\/+$/, "");
+  let base = endpoint.trim().replace(/\/+$/, "").replace(/\/api\/projects\/.*$/, "");
   if (!base.endsWith("/openai/v1")) base = `${base}/openai/v1`;
   return `${base}/`;
 }

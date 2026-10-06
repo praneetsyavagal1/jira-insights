@@ -45,7 +45,7 @@ AZURE_OPENAI_ENDPOINT=https://<resource>.services.ai.azure.com
 AZURE_OPENAI_DEPLOYMENT=<deployment-name>
 ```
 
-Setting `AZURE_OPENAI_ENDPOINT` selects Azure automatically; `OPENAI_PROVIDER=openai|azure` forces a choice. Requests go to the Foundry `/openai/v1/` route (appended to the endpoint if missing) with a bearer token for `AZURE_OPENAI_SCOPE`, which defaults to `https://ai.azure.com/.default`.
+Setting `AZURE_OPENAI_ENDPOINT` selects Azure automatically; `OPENAI_PROVIDER=openai|azure` forces a choice. Requests go to the resource-level Foundry `/openai/v1/` route. It is appended to the endpoint if missing, and a project endpoint (`.../api/projects/<name>`) is mapped to its resource, because the project route rejects Responses API calls. Requests carry a bearer token for `AZURE_OPENAI_SCOPE`, which defaults to `https://ai.azure.com/.default`.
 
 There is no API key. Tokens come from `DefaultAzureCredential`, so any standard Microsoft Entra sign-in works. The identity needs a data-plane role such as **Cognitive Services OpenAI User** on the Foundry resource.
 

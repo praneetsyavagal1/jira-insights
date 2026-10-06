@@ -59,27 +59,27 @@ const narrativeJsonSchema = {
     "caveat",
   ],
   properties: {
-    executiveFinding: { type: "string" },
-    calculation: { type: "string" },
+    executiveFinding: { type: "string", description: "At most 900 characters." },
+    calculation: { type: "string", description: "At most 500 characters." },
     evidence: {
       type: "array",
       minItems: 2,
       maxItems: 8,
-      items: { type: "string" },
+      items: { type: "string", description: "At most 500 characters." },
     },
     interpretation: {
       type: "array",
       minItems: 2,
       maxItems: 6,
-      items: { type: "string" },
+      items: { type: "string", description: "At most 600 characters." },
     },
     actions: {
       type: "array",
       minItems: 3,
       maxItems: 6,
-      items: { type: "string" },
+      items: { type: "string", description: "At most 700 characters." },
     },
-    caveat: { type: "string" },
+    caveat: { type: "string", description: "At most 600 characters." },
   },
 } as const;
 

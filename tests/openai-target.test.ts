@@ -14,6 +14,12 @@ describe("azureV1BaseUrl", () => {
     );
   });
 
+  it("maps a project endpoint to its resource", () => {
+    expect(
+      azureV1BaseUrl("https://example.services.ai.azure.com/api/projects/my-project"),
+    ).toBe("https://example.services.ai.azure.com/openai/v1/");
+  });
+
   it("keeps an endpoint that already carries the v1 route", () => {
     expect(azureV1BaseUrl("https://example.openai.azure.com/openai/v1/")).toBe(
       "https://example.openai.azure.com/openai/v1/",

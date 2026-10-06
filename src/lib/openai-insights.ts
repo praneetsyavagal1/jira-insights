@@ -39,8 +39,8 @@ const responseJsonSchema = {
   additionalProperties: false,
   required: ["headline", "summary", "insights"],
   properties: {
-    headline: { type: "string" },
-    summary: { type: "string" },
+    headline: { type: "string", description: "At most 180 characters." },
+    summary: { type: "string", description: "At most 700 characters." },
     insights: {
       type: "array",
       minItems: 3,
@@ -60,16 +60,16 @@ const responseJsonSchema = {
           "issueKeys",
         ],
         properties: {
-          id: { type: "string" },
-          title: { type: "string" },
-          finding: { type: "string" },
+          id: { type: "string", description: "At most 80 characters." },
+          title: { type: "string", description: "At most 180 characters." },
+          finding: { type: "string", description: "At most 700 characters." },
           evidence: {
             type: "array",
             minItems: 1,
             maxItems: 6,
-            items: { type: "string" },
+            items: { type: "string", description: "At most 300 characters." },
           },
-          significance: { type: "string" },
+          significance: { type: "string", description: "At most 500 characters." },
           confidence: {
             type: "string",
             enum: ["high", "medium", "low"],
@@ -78,7 +78,7 @@ const responseJsonSchema = {
             type: "string",
             enum: ["positive", "risk", "observation"],
           },
-          caveat: { type: ["string", "null"] },
+          caveat: { type: ["string", "null"], description: "At most 400 characters." },
           issueKeys: {
             type: "array",
             maxItems: 12,
