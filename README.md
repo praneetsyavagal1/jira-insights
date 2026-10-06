@@ -35,7 +35,30 @@ OPENAI_API_KEY=your-key
 OPENAI_MODEL=gpt-5.6-sol
 ```
 
-`OPENAI_INSIGHTS_ENABLED` is opt-in and defaults to `false`. When disabled, no OpenAI request is created and the executive dashboard uses curated content. When enabled, clicking an analyzed metric sends its normalized Jira evidence and scenario prompt to the OpenAI Responses API. Missing credentials, API failures, quota errors, invalid schema output, and unsupported Jira keys all fall back to curated content.
+### Azure AI Foundry with Microsoft Entra ID
+
+To use a model deployed in Azure AI Foundry instead of an OpenAI API key, configure:
+
+```text
+OPENAI_INSIGHTS_ENABLED=true
+AZURE_OPENAI_ENDPOINT=https://<resource>.services.ai.azure.com
+AZURE_OPENAI_DEPLOYMENT=<deployment-name>
+```
+
+Setting `AZURE_OPENAI_ENDPOINT` selects Azure automatically; `OPENAI_PROVIDER=openai|azure` forces a choice. Requests go to the Foundry `/openai/v1/` route (appended to the endpoint if missing) with a bearer token for `AZURE_OPENAI_SCOPE`, which defaults to `https://ai.azure.com/.default`.
+
+There is no API key. Tokens come from `DefaultAzureCredential`, so any standard Microsoft Entra sign-in works. The identity needs a data-plane role such as **Cognitive Services OpenAI User** on the Foundry resource.
+
+| Where it runs | How it signs in |
+| --- | --- |
+| Windows workstation | The signed-in Windows account, silently, through the account broker. No `az login` needed. |
+| macOS / Linux workstation | `az login`, `Connect-AzAccount`, `azd auth login` or the VS Code Azure sign-in. |
+| Container or CI | A service principal: `AZURE_TENANT_ID`, `AZURE_CLIENT_ID`, `AZURE_CLIENT_SECRET` (or workload identity). |
+| Hosted in Azure | Managed identity, picked up automatically. |
+
+The account broker is best-effort: if its native runtime cannot load, the app logs a warning and uses the rest of the chain. Set `AZURE_USE_BROKER=false` to skip it, and `AZURE_TOKEN_CREDENTIALS=prod` in deployed environments to limit the chain to service principal, workload and managed identity.
+
+`OPENAI_INSIGHTS_ENABLED` is opt-in and defaults to `false`. When disabled, no OpenAI request is created and the executive dashboard uses curated content. When enabled, clicking an analyzed metric sends its normalized Jira evidence and scenario prompt to the Responses API of the configured provider. Missing credentials, API failures, quota errors, invalid schema output, and unsupported Jira keys all fall back to curated content.
 
 The separate live Flow Velocity diagnostic page uses deterministic rules as its fallback. All OpenAI calls use schema-constrained output and keep credentials on the server.
 

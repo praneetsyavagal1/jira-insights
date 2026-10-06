@@ -11,6 +11,8 @@
     "test:watch": "vitest"
   },
   "dependencies": {
+    "@azure/identity": "^4.13.3",
+    "@azure/identity-broker": "^1.4.2",
     "next": "^15.5.2",
     "openai": "^5.19.1",
     "react": "^19.1.1",

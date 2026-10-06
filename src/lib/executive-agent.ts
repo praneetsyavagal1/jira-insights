@@ -3,10 +3,10 @@ import "server-only";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 
-import OpenAI from "openai";
 import { z } from "zod";
 
-import { openAiInsightsEnabled } from "@/lib/openai-config";
+import { createOpenAiConnection, openAiInsightsEnabled } from "@/lib/openai-config";
+import { redactSecrets } from "@/lib/openai-target";
 
 export type ExecutiveAgentScenario = "velocity" | "cost" | "unplanned" | "demand";
 
@@ -129,21 +129,20 @@ export async function generateExecutiveNarrative(
     };
   }
 
-  const apiKey = process.env.OPENAI_API_KEY?.trim();
-  const model = process.env.OPENAI_MODEL?.trim() || "gpt-5.6-sol";
-  if (!apiKey) {
+  const connection = createOpenAiConnection();
+  if (!connection.ok) {
     return {
       source: "curated",
       model: null,
       narrative: null,
-      fallbackReason: "OPENAI_API_KEY is not configured in the running server.",
+      fallbackReason: connection.error,
     };
   }
+  const { client, model } = connection;
 
   try {
     const prompt = await loadScenarioPrompt(scenario);
     const instructions = `${prompt}\n\n## Runtime output contract\nReturn only the structured JSON requested by the API schema. Base every factual claim on the supplied Jira evidence. Clearly label supplied assumptions and modeled calculations. Provide decision-ready executive actions.`;
-    const client = new OpenAI({ apiKey });
     const response = await client.responses.create({
       model,
       instructions,
@@ -166,9 +165,7 @@ export async function generateExecutiveNarrative(
     return { source: "openai", model, narrative };
   } catch (error) {
     const rawMessage = error instanceof Error ? error.message : "Unknown OpenAI error.";
-    const safeMessage = rawMessage
-      .replace(/sk-[A-Za-z0-9_-]+/g, "[redacted]")
-      .slice(0, 240);
+    const safeMessage = redactSecrets(rawMessage);
     console.error(`[OpenAI executive insight] ${scenario}/${model} failed: ${safeMessage}`);
     return {
       source: "curated",
