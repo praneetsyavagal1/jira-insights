@@ -3,11 +3,11 @@ import "server-only";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 
-import OpenAI from "openai";
 import { z } from "zod";
 
 import { buildDeterministicInsights } from "@/lib/flow-velocity";
-import { openAiInsightsEnabled } from "@/lib/openai-config";
+import { createOpenAiConnection, openAiInsightsEnabled } from "@/lib/openai-config";
+import { redactSecrets } from "@/lib/openai-target";
 import type {
   FlowVelocityEvidence,
   GeneratedInsights,
@@ -39,8 +39,8 @@ const responseJsonSchema = {
   additionalProperties: false,
   required: ["headline", "summary", "insights"],
   properties: {
-    headline: { type: "string" },
-    summary: { type: "string" },
+    headline: { type: "string", description: "At most 180 characters." },
+    summary: { type: "string", description: "At most 700 characters." },
     insights: {
       type: "array",
       minItems: 3,
@@ -60,16 +60,16 @@ const responseJsonSchema = {
           "issueKeys",
         ],
         properties: {
-          id: { type: "string" },
-          title: { type: "string" },
-          finding: { type: "string" },
+          id: { type: "string", description: "At most 80 characters." },
+          title: { type: "string", description: "At most 180 characters." },
+          finding: { type: "string", description: "At most 700 characters." },
           evidence: {
             type: "array",
             minItems: 1,
             maxItems: 6,
-            items: { type: "string" },
+            items: { type: "string", description: "At most 300 characters." },
           },
-          significance: { type: "string" },
+          significance: { type: "string", description: "At most 500 characters." },
           confidence: {
             type: "string",
             enum: ["high", "medium", "low"],
@@ -78,7 +78,7 @@ const responseJsonSchema = {
             type: "string",
             enum: ["positive", "risk", "observation"],
           },
-          caveat: { type: ["string", "null"] },
+          caveat: { type: ["string", "null"], description: "At most 400 characters." },
           issueKeys: {
             type: "array",
             maxItems: 12,
@@ -133,8 +133,6 @@ export async function generateInsights(
   evidence: FlowVelocityEvidence,
 ): Promise<GeneratedInsights> {
   const fallback = buildDeterministicInsights(evidence);
-  const apiKey = process.env.OPENAI_API_KEY?.trim();
-  const model = process.env.OPENAI_MODEL?.trim() || "gpt-5.6-sol";
 
   if (!openAiInsightsEnabled()) {
     return {
@@ -143,15 +141,16 @@ export async function generateInsights(
     };
   }
 
-  if (!apiKey) {
+  const connection = createOpenAiConnection();
+  if (!connection.ok) {
     return {
       ...fallback,
-      fallbackReason: "OPENAI_API_KEY is not configured in the running server.",
+      fallbackReason: connection.error,
     };
   }
+  const { client, model } = connection;
 
   try {
-    const client = new OpenAI({ apiKey });
     const prompt = await loadPrompt();
     const response = await client.responses.create({
       model,
@@ -175,9 +174,7 @@ export async function generateInsights(
     };
   } catch (error) {
     const rawMessage = error instanceof Error ? error.message : "Unknown OpenAI error.";
-    const safeMessage = rawMessage
-      .replace(/sk-[A-Za-z0-9_-]+/g, "[redacted]")
-      .slice(0, 240);
+    const safeMessage = redactSecrets(rawMessage);
     console.error(`[OpenAI] ${model} request failed: ${safeMessage}`);
     return {
       ...fallback,
